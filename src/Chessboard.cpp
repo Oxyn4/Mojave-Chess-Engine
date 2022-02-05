@@ -29,24 +29,12 @@ uint64_t Chessboard::ClassicalGenerateRookMoves(int square, int side) {
     // bits that block the ray both friendly and enemy
 
     uint64_t NorthBlockers = NorthBlockerMask & WhiteBlackBitBoard;
-
-    PrintBitboard(NorthBlockers);
     
     // if there is no blockers then just use the ray
-    
     if (NorthBlockers != 0) {
-
         // get the fist blockers index
-
         int Northlsb = BitscanMSB(NorthBlockers);
-
-        std::cout << "lsb: " << Northlsb << "\n";
-        
-        // 
-
         uint64_t NorthRayBitboard = NorthBlockerMask & ~RaysArray[Northlsb][North];
-
-        PrintBitboard(NorthBlockerMask & ~RaysArray[Northlsb][North]);
         
         NorthBitboard = NorthRayBitboard & ~SideBitboardArray[side];
     } else {
@@ -541,11 +529,6 @@ std::vector<Move> Chessboard::GetAllMoves(int side)
         }
 
         while (PieceTypeBitboardArray[BoardIterator] != 0) {
-
-            std::cout << "Board: " << BoardIterator << "\n";
-
-            std::cout << "Function index: " << FuncIndex << "\n";
-            std::cout << "Piece Color: " << PieceColor << "\n";
             
             int BoardLSB = BitScanLSB(PieceTypeBitboardArray[BoardIterator]);
 

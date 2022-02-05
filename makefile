@@ -4,7 +4,7 @@ SOURCE = src/*.cpp
 engine: 
 	@echo "\nBuilding Mojave engine version: $(version) \n"
 
-	g++ -march=native -std=c++20 -lstdc++ -pthread -O3 $(SOURCE) -flto -o bin/Mojave
+	g++ -march=native -std=c++20 -lstdc++ -O3 $(SOURCE) -flto -o bin/Mojave
 
 	@echo "\nTo run this binary: make run or ./bin/Mojave"
 
