@@ -417,6 +417,20 @@ void Chessboard::ParseFEN(std::string FEN) {
     PieceTypeBitboardArray[WhiteKnight] = WhiteKnightBitBoard;
     PieceTypeBitboardArray[WhiteRook] = WhiteRookBitBoard;
 
+    BlackBitboardArry[0] = BlackPawnBitBoard;
+    BlackBitboardArry[1] = BlackBishopBitBoard;
+    BlackBitboardArry[2] = BlackKingBitBoard;
+    BlackBitboardArry[3] = BlackQueenBitBoard;
+    BlackBitboardArry[4] = BlackKnightBitBoard;
+    BlackBitboardArry[5] = BlackRookBitBoard;
+
+    WhiteBitboardArry[0] = WhitePawnBitBoard;
+    WhiteBitboardArry[1] = WhiteBishopBitBoard;
+    WhiteBitboardArry[2] = WhiteKingBitBoard;
+    WhiteBitboardArry[3] = WhiteQueenBitBoard;
+    WhiteBitboardArry[4] = WhiteKnightBitBoard;
+    WhiteBitboardArry[5] = WhiteRookBitBoard;
+
     SideBitboardArray[white] = WhiteBitBoard;
     SideBitboardArray[black] = BlackBitBoard;
 
@@ -457,6 +471,20 @@ int Chessboard::MakeMove(int Origin, int Destination, int Side, int PieceType)
     PieceTypeBitboardArray[WhiteKnight] = WhiteKnightBitBoard;
     PieceTypeBitboardArray[WhiteRook] = WhiteRookBitBoard;
 
+    BlackBitboardArry[0] = BlackPawnBitBoard;
+    BlackBitboardArry[1] = BlackBishopBitBoard;
+    BlackBitboardArry[2] = BlackKingBitBoard;
+    BlackBitboardArry[3] = BlackQueenBitBoard;
+    BlackBitboardArry[4] = BlackKnightBitBoard;
+    BlackBitboardArry[5] = BlackRookBitBoard;
+
+    WhiteBitboardArry[0] = WhitePawnBitBoard;
+    WhiteBitboardArry[1] = WhiteBishopBitBoard;
+    WhiteBitboardArry[2] = WhiteKingBitBoard;
+    WhiteBitboardArry[3] = WhiteQueenBitBoard;
+    WhiteBitboardArry[4] = WhiteKnightBitBoard;
+    WhiteBitboardArry[5] = WhiteRookBitBoard;
+
     SideBitboardArray[white] = WhiteBitBoard;
     SideBitboardArray[black] = BlackBitBoard;        
 
@@ -488,6 +516,20 @@ int Chessboard::UnmakeMove(int Index)
     PieceTypeBitboardArray[WhiteQueen] = WhiteQueenBitBoard;
     PieceTypeBitboardArray[WhiteKnight] = WhiteKnightBitBoard;
     PieceTypeBitboardArray[WhiteRook] = WhiteRookBitBoard;
+
+    BlackBitboardArry[0] = BlackPawnBitBoard;
+    BlackBitboardArry[1] = BlackBishopBitBoard;
+    BlackBitboardArry[2] = BlackKingBitBoard;
+    BlackBitboardArry[3] = BlackQueenBitBoard;
+    BlackBitboardArry[4] = BlackKnightBitBoard;
+    BlackBitboardArry[5] = BlackRookBitBoard;
+
+    WhiteBitboardArry[0] = WhitePawnBitBoard;
+    WhiteBitboardArry[1] = WhiteBishopBitBoard;
+    WhiteBitboardArry[2] = WhiteKingBitBoard;
+    WhiteBitboardArry[3] = WhiteQueenBitBoard;
+    WhiteBitboardArry[4] = WhiteKnightBitBoard;
+    WhiteBitboardArry[5] = WhiteRookBitBoard;
 
     SideBitboardArray[white] = WhiteBitBoard;
     SideBitboardArray[black] = BlackBitBoard;
@@ -528,30 +570,32 @@ std::vector<Move> Chessboard::GetAllMoves(int side)
 
         }
 
-        while (PieceTypeBitboardArray[BoardIterator] != 0) {
-            
-            int BoardLSB = BitScanLSB(PieceTypeBitboardArray[BoardIterator]);
+        if (PieceColor == side) {
+            while (PieceTypeBitboardArray[BoardIterator] != 0) {
 
-            //PrintBitboard(PieceTypeBitboardArray[BoardIterator]);
-            
-            //std::cout << BoardLSB << "\n";
+                int BoardLSB = BitScanLSB(PieceTypeBitboardArray[BoardIterator]);
 
-            uint64_t MovesBitboard = (this->*MoveCalculatingFunctions[FuncIndex])(BoardLSB, PieceColor);
+                //PrintBitboard(PieceTypeBitboardArray[BoardIterator]);
 
-            while (MovesBitboard != 0) {
+                //std::cout << BoardLSB << "\n";
 
-                int MovesBitboardLSB = BitScanLSB(MovesBitboard);
+                uint64_t MovesBitboard = (this->*MoveCalculatingFunctions[FuncIndex])(BoardLSB, PieceColor);
 
-                Move NewMove(BoardLSB, MovesBitboardLSB, PieceColor, FuncIndex);
+                while (MovesBitboard != 0) {
 
-                LegalMoveVector.push_back(NewMove);
+                    int MovesBitboardLSB = BitScanLSB(MovesBitboard);
 
-                MovesBitboard &= MovesBitboard - 1;   
-            }
+                    Move NewMove(BoardLSB, MovesBitboardLSB, PieceColor, FuncIndex);
 
-            PieceTypeBitboardArray[BoardIterator] &= PieceTypeBitboardArray[BoardIterator] - 1;    
+                    LegalMoveVector.push_back(NewMove);
 
-        }        
+                    MovesBitboard &= MovesBitboard - 1;   
+                }
+
+                PieceTypeBitboardArray[BoardIterator] &= PieceTypeBitboardArray[BoardIterator] - 1;    
+
+            }        
+        }
     }
     
     
@@ -594,9 +638,9 @@ Chessboard::Chessboard(std::string FEN)
     */
 
    
-    std::vector<Move> LegalMoves = GetAllMoves(white);   
+    //std::vector<Move> LegalMoves = GetAllMoves(white);   
 
-    /*
+    /*    
     for (int LegalMovesIndex = 0; LegalMovesIndex < LegalMoves.size(); LegalMovesIndex++)
     {
         std::cout << "Move: " << LegalMovesIndex + 1 << "\n\n";

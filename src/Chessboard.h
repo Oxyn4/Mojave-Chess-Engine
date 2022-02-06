@@ -43,6 +43,8 @@ class Chessboard {
         // bitboard 1s represent a black Queen
         uint64_t BlackQueenBitBoard = 0ULL;
 
+        uint64_t BlackBitboardArry[6] = {BlackPawnBitBoard, BlackBishopBitBoard, BlackKingBitBoard, BlackQueenBitBoard, BlackKnightBitBoard, BlackRookBitBoard};
+
     // * Specific white bit boards
 
         // bitboard 1s represent a white king
@@ -62,6 +64,8 @@ class Chessboard {
 
         // bitboard 1s represent a white Queen
         uint64_t WhiteQueenBitBoard = 0ULL;
+
+        uint64_t WhiteBitboardArry[6] = {WhitePawnBitBoard, WhiteBishopBitBoard, WhiteKingBitBoard, WhiteQueenBitBoard, WhiteKnightBitBoard, WhiteRookBitBoard};
 
         uint64_t CastleRightsBitboard[2][2] = {{WhiteQueenCastleBitboard, WhiteKingCastleBitboard},{BlackQueenCastleBitboard, BlackKingCastleBitboard}};
 

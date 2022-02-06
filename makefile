@@ -6,18 +6,14 @@ engine:
 
 	g++ -march=native -std=c++20 -lstdc++ -O3 $(SOURCE) -flto -o bin/Mojave
 
-	@echo "\nTo run this binary: make run or ./bin/Mojave"
-
-	@echo "Running Build: \n"
-
-	make run
+	@echo "\nTo run this binary: make run or ./bin/mojave"
 
 engine-without-flags:
 	@echo "\nBuilding Mojave engine version: $(version) \n"
 	
 	g++ $(SOURCE) -o bin/Mojave
 	
-	@echo "\nTo run this binary: make run or ./bin/Mojave"
+	@echo "\nTo run this binary: make run or ./bin/mojave"
 	
 	@echo "Running Build: \n"
 	
