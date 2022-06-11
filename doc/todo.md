@@ -22,4 +22,3 @@ features that need to be implemented:
 ## Bug fixes
 
 current issues and bugs that need to be fixed
-

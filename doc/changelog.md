@@ -13,5 +13,15 @@ Hello world! the Mojave engine is now in a usable state and i feel comfortable r
 
 - NEW: Can generate leaping piece moves (Queen, Rook. Bishop) 
 - NEW: Fixed FEN parsing algorithm
-- NEW: Built algorith for getting moves off a chessboard object
+- NEW: Built algorithm for getting moves off a chessboard object
 - NEW: Reworked Bitscan functions
+
+## Mojave engine (1.2.0) 27.02.22  - Oxyn
+
+Reworked project structure removed:
+- UCI.h
+- Eval.h
+- Search.h
+
+added them as member functions to chessboard class as i noticed many of these relied on a 
+chessboard object anyway so these member functions can directly access class variables.

@@ -1,5 +1,7 @@
 version = 1.0.0
 SOURCE = src/*.cpp
+GUISOURCE = mojave-gui/src/*.cpp
+GUIFLAGS = -L/usr/include/SDL2 -lm -lSDL2
 
 engine: 
 	@echo "\nBuilding Mojave engine version: $(version) \n"
@@ -19,11 +21,10 @@ engine-without-flags:
 	
 	make run
 
-
 run:
 	@echo "\n Running the compiled binary:"
 
-	./bin/Mojave
+	clear; make engine; ./bin/Mojave
 
 	@echo "\n"
 

@@ -2,12 +2,8 @@
 
     this file contains some definititions for concepts relating to chess
 
-    for example:
-
-        instead of using "1" or "0" to refer to "white" or "black"
-        we can use "white" or "black" and the sides enum will convert it
-    
-    this concept is the same for the other definititions
+    Translates Human understanding of board concepts for example rank and file
+    to computers interpreation of internal board representation in this case bitboards
 
 */
 
@@ -15,14 +11,29 @@
 
 #include <iostream>
 
-const int64_t FILE_H = 9259542123273814144ULL;
-const int64_t FILE_A = 72340172838076673ULL;
-const int64_t FILE_B = 144680345676153346ULL;
-const int64_t FILE_G = 4629771061636907072ULL;
+const uint64_t FILE_H = 9259542123273814144ULL;
+const uint64_t FILE_A = 72340172838076673ULL;
+const uint64_t FILE_B = 144680345676153346ULL;
+const uint64_t FILE_F = 2314885530818453536ULL;
+const uint64_t FILE_E = 1157442765409226768ULL;
+const uint64_t FILE_D = 578721382704613384ULL;
+const uint64_t FILE_C = 289360691352306692ULL;
+const uint64_t FILE_G = 4629771061636907072ULL;
+
+//const uint64_t *FileIsolatorArray[8] = {&FILE_A, &FILE_B, &FILE_C, &FILE_D, &FILE_E, &FILE_F, &FILE_G, &FILE_H};
+
+
 const uint64_t RANK_2 = 0xFF000000000000;
 const uint64_t RANK_7 = 0xFF00;
 const uint64_t RANK_8 = 0xFF;
 const uint64_t RANK_1 = 0xFF00000000000000;
+const uint64_t RANK_6 = 0xFF0000;
+const uint64_t RANK_3 = 0xFF0000000000;
+const uint64_t RANK_5 = 0xFF000000;
+const uint64_t RANK_4 = 0xFF00000000;
+
+//const uint64_t *RankIsolatorArray[8] = {&RANK_1, &RANK_2, &RANK_3, &RANK_4, &RANK_5, &RANK_6, &RANK_7, &RANK_8};
+
 const uint64_t WhiteQueenCastleBitboard = 0xE00000000000000;
 const uint64_t WhiteKingCastleBitboard = 0x6000000000000000;
 const uint64_t BlackKingCastleBitboard = 0xE;
@@ -46,6 +57,7 @@ typedef struct Move{
     int Destination;
     int Side;
     int PieceType;
+    std::string AlgerbraicNotation;
 
     Move(int OriginValue, int DestinationValue, int SideValue, int PieceTypeValue) : Origin(OriginValue), Destination(DestinationValue), Side(SideValue), PieceType(PieceTypeValue)
     {
@@ -53,7 +65,14 @@ typedef struct Move{
         Destination = DestinationValue;
         Side = SideValue;
         PieceType = PieceTypeValue;  
+    
+        CreateAlgerbraicNotation();
     }
+
+    Move(std::string AlgerbraicNotation);
+
+    private:
+        void CreateAlgerbraicNotation();
 } Move;
 
 
@@ -73,3 +92,7 @@ enum Rays {
     North, Northeast, East, Southeast,
     South, Southwest, West, Northwest
 };
+
+
+Move LongAlgerbraicNotationToMojaveFormat(std::string LongAlgerbraicNotation);
+std::string MojaveFormatToLongAlgerbraiNotation(Move MojaveFormat);

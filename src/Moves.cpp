@@ -17,10 +17,11 @@ int BitboardPieceOffsets[12][8] = {{-9,-7}, {9,7,-9,-7}, {8, -8, 9, -9, -7, 7, 1
 int BitboardPieceSpecialOffsets[12][5] = {{-16}, {0}, {2,-2}, {0}, {0}, {2,-3}, {16}, {0}, {2, -2}, {0}, {0}, {-3, 2}};
 int OffboardPieceOffsets[12][8] = {{-9,-11}, {-9,9,-11,11}, {-1,1,-9,9,-11,11,10,-10}, {-1,1,-9,9,-11,11,10,-10}, {19, 21, -8, 8, -19, -21, 12, -12}, {-1,1,-10, 10}, {9,11}, {-9,9,-11,11}, {-1,1,-9,9,-11,11,10,-10}, {-1,1,-9,9,-11,11,10,-10}, {19, 21, -8, 8, -19, -21, 12, -12}, {-1,1,-10, 10}};
 int OffboardPieceSpecialOffsets[12][5] = {{-20}, {0}, {2,-2}, {0}, {0}, {2,-3}, {20}, {0}, {2, -2}, {0}, {0}, {-3, 2}};
-          
 
 // precomputate a bitboard for each square which highlights where a knight can move
 void PrecomputateKnightMoves() {
+
+    #define KNIGHT_MOVES_INITIALIZED 
 
     auto FuncStartPoint = std::chrono::high_resolution_clock::now();
 
@@ -96,6 +97,8 @@ void PrecomputateKnightMoves() {
 
 void PrecomputateKingMoves() {
 
+    #define KING_MOVES_INITIALIZED
+
     auto FuncStartPoint = std::chrono::high_resolution_clock::now();
 
     std::cout << "Calculating legal knight moves for each square" << "\n";
@@ -145,6 +148,8 @@ void PrecomputateKingMoves() {
 }
 
 void PrecomputatePawnAttacks() {
+
+    #define PAWN_ATTACKS_INITIALIZED
 
     auto FuncStartPoint = std::chrono::high_resolution_clock::now();
     
@@ -196,6 +201,8 @@ void PrecomputatePawnAttacks() {
 }
 
 void PrecomputatePawnMoves() {
+
+    #define PAWN_MOVES_INITIALIZED
 
     std::cout << "Calculating all legal pawn moves for each square" << "\n";
 
@@ -252,6 +259,8 @@ void PrecomputatePawnMoves() {
 // for each square it generates every possible combination of blockers
 void GenerateRaysArray() {
     
+    #define RAYS_ARRAY_INITIALIZED
+
     std::cout << "Calculating all RaysArray for each direction for each square" << "\n";
 
     auto FuncStartPoint = std::chrono::high_resolution_clock::now();
@@ -433,6 +442,11 @@ void GenerateRaysArray() {
 
 */
 void MoveGenerationInit() {
+    
+    std::cout << "Starting Precomputating Move dats\n\n";
+
+
+    auto FuncStartPoint = std::chrono::high_resolution_clock::now();
 
     GenerateRaysArray();
 
@@ -440,5 +454,14 @@ void MoveGenerationInit() {
     PrecomputatePawnMoves();
     PrecomputatePawnAttacks();
     PrecomputateKingMoves();
+
+    #define MOVE_FUNCTIONS_INITIALIZED 
+
+    auto StoppingPoint = std::chrono::high_resolution_clock::now();
+
+    auto Duration = std::chrono::duration_cast<std::chrono::microseconds>(StoppingPoint - FuncStartPoint);
+
+    std::cout << "Finished Calculating Precomputated data boards in: " << Duration.count()  << " microseconds"  << "\n\n";
+
 
 }

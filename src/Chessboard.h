@@ -9,20 +9,20 @@
 // create a chessboard object
 // represented by bitboards objects
 class Chessboard {
-    public:
+    private:
     // * Non specific bit boards
         // bit board 1s represent a piece of either colour
         uint64_t WhiteBlackBitBoard = 0ULL;
 
-        // bit board 1s represent a white peice
+        // bit board 1s represent a white piece
         uint64_t WhiteBitBoard = 0ULL;
 
-        // bit bosrd 1s represent a black piece
+        // bit bors 1s represent a black piece
         uint64_t BlackBitBoard = 0ULL;
 
     // * side bitboard array
 
-        uint64_t SideBitboardArray[2] = {WhiteBitBoard, BlackBitBoard};
+        uint64_t *SideBitboardArray[2] = {&WhiteBitBoard, &BlackBitBoard};
     
     // * Specific Black bit boards 
         // bitboard 1s represent a black king
@@ -43,7 +43,7 @@ class Chessboard {
         // bitboard 1s represent a black Queen
         uint64_t BlackQueenBitBoard = 0ULL;
 
-        uint64_t BlackBitboardArry[6] = {BlackPawnBitBoard, BlackBishopBitBoard, BlackKingBitBoard, BlackQueenBitBoard, BlackKnightBitBoard, BlackRookBitBoard};
+        uint64_t *BlackBitboardArry[6] = {&BlackPawnBitBoard, &BlackBishopBitBoard, &BlackKingBitBoard, &BlackQueenBitBoard, &BlackKnightBitBoard, &BlackRookBitBoard};
 
     // * Specific white bit boards
 
@@ -65,24 +65,24 @@ class Chessboard {
         // bitboard 1s represent a white Queen
         uint64_t WhiteQueenBitBoard = 0ULL;
 
-        uint64_t WhiteBitboardArry[6] = {WhitePawnBitBoard, WhiteBishopBitBoard, WhiteKingBitBoard, WhiteQueenBitBoard, WhiteKnightBitBoard, WhiteRookBitBoard};
+        uint64_t *WhiteBitboardArry[6] = {&WhitePawnBitBoard, &WhiteBishopBitBoard, &WhiteKingBitBoard, &WhiteQueenBitBoard, &WhiteKnightBitBoard, &WhiteRookBitBoard};
 
         uint64_t CastleRightsBitboard[2][2] = {{WhiteQueenCastleBitboard, WhiteKingCastleBitboard},{BlackQueenCastleBitboard, BlackKingCastleBitboard}};
 
-    // * array of peice bitboards
+    // * array of piece bitboards
 
         // this allows us to get a bitboard by using PieceType Enum
 
         /* Example
 
-            PeiceTypeBitboardArray[WhitePawn].Addbit(e4);
+            PieceTypeBitboardArray[WhitePawn].Addbit(e4);
 
             notice how due to the enum we can use human readable text and not remember the numbers assigned to 
             each square or piece type!
 
         */
 
-        uint64_t PieceTypeBitboardArray[12] = {BlackPawnBitBoard, BlackBishopBitBoard, BlackKingBitBoard, BlackQueenBitBoard, BlackKnightBitBoard, BlackRookBitBoard, WhitePawnBitBoard, WhiteBishopBitBoard, WhiteKingBitBoard, WhiteQueenBitBoard, WhiteKnightBitBoard, WhiteRookBitBoard};
+        uint64_t *PieceTypeBitboardArray[12] = {&BlackPawnBitBoard, &BlackBishopBitBoard, &BlackKingBitBoard, &BlackQueenBitBoard, &BlackKnightBitBoard, &BlackRookBitBoard, &WhitePawnBitBoard, &WhiteBishopBitBoard, &WhiteKingBitBoard, &WhiteQueenBitBoard, &WhiteKnightBitBoard, &WhiteRookBitBoard};
 
     // * offsets for calculating where pieces can capture
 
@@ -110,7 +110,8 @@ class Chessboard {
 
         // side to move
         // this will be modified when the constructer calls the parse FEN function
-        int SideToMove = white;
+        //true is white
+        bool SideToMove = white;
 
         // castling rights
         // these will be modified when the constructer calls the parse FEN function
@@ -121,6 +122,7 @@ class Chessboard {
 
         int CastleRightsArray[2][2] = {{WhiteQueenCastleRights, WhiteKingCastleRights}, {BlackQueenCastleRights, BlackKingCastleRights}};
         
+    public:
         uint64_t GetKingMoves(int square, int side);
         uint64_t GetKnightMoves(int square, int side);
         uint64_t GetPawnMoves(int square, int side);
@@ -131,16 +133,26 @@ class Chessboard {
 
         uint64_t (Chessboard::Chessboard::*MoveCalculatingFunctions[6]) (int square, int side) {&Chessboard::GetPawnMoves, &Chessboard::ClassicalGenerateBishopMoves, &Chessboard::GetKingMoves, &Chessboard::ClassicalGenerateQueenMoves, &Chessboard::GetKnightMoves, &Chessboard::ClassicalGenerateRookMoves};
 
-        int MakeMove(int Origin, int Destination, int Side, int PieceType);
-        int UnmakeMove(int Index);
+        int DoMove(Move MoveToDo);
+        int UndoLastMove(Move MoveForRemoval);
 
-        std::vector<Move> GetAllMoves(int Side);
+        std::vector<Move> GetAllSidesMoves(int Side);
+        std::vector<Move> GetAllMoves();
 
         // FEN handling
-
         void ParseFEN(std::string FEN);
 
-        //class constucter        
-        
+        //class constructer        
         Chessboard(std::string FEN);
+
+        // EVAL functions
+        int EvaluateMobility();
+        int EvaluateMaterial();
+        int Evaluate();
+
+        //SEARCH functions
+        int SearchNegaMax(int depth);
+        Move SearchRandom();
+
+
 };

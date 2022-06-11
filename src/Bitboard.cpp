@@ -3,40 +3,27 @@
 #include <vector>
 #include <stdio.h>
 
-const int index64[64] = {
-    0,  1, 48,  2, 57, 49, 28,  3,
-   61, 58, 50, 42, 38, 29, 17,  4,
-   62, 55, 59, 36, 53, 51, 43, 22,
-   45, 39, 33, 30, 24, 18, 12,  5,
-   63, 47, 56, 27, 60, 41, 37, 16,
-   54, 35, 52, 21, 44, 32, 23, 11,
-   46, 26, 40, 15, 34, 20, 31, 10,
-   25, 14, 19,  9, 13,  8,  7,  6
-};
+/*
 
-static const int lookup67[67+1] = {
-      64,  0,  1, 39,  2, 15, 40, 23,
-       3, 12, 16, 59, 41, 19, 24, 54,
-       4, -1, 13, 10, 17, 62, 60, 28,
-      42, 30, 20, 51, 25, 44, 55, 47,
-       5, 32, -1, 38, 14, 22, 11, 58,
-      18, 53, 63,  9, 61, 27, 29, 50,
-      43, 46, 31, 37, 21, 57, 52,  8,
-      26, 49, 45, 36, 56,  7, 48, 35,
-       6, 34, 33, -1 };
+    This file contains many useful functions that abstract binary operations
 
-void AddBit(uint64_t Board, int Square) {
+*/
 
-    Board |= (1ULL << Square) ? Board ^= (1ULL << Square) : 0;            
+void AddBit(uint64_t *Board, int Square) {
+
+    *Board |= (1ULL << Square) ? *Board ^= (1ULL << Square) : 0;            
 
 }
 
-void DelBit(uint64_t Board, int Square) {
-    Board ^= (1ULL << Square);
+void DelBit(uint64_t *Board, int Square) {
+    *Board ^= (1ULL << Square);
+
+    //*Board &= ~((1 << Square));
 }
 
-int GetBit(uint64_t Board, int Square) {
-    int BitStatus = (Board & ( 1 << Square )) >> Square;
+int GetBit(uint64_t *Board, int Square) {
+    //int BitStatus = (*Board & ( 1 << Square )) >> Square;
+    int BitStatus = ((*Board>>Square) & 1);
     return BitStatus;             
 }
 
@@ -53,14 +40,14 @@ bool IsEmpty(uint64_t Board) {
 // when bitboard is empty return the counter
 int PopulationCount(uint64_t Board) {
     int Count = 0;
-    while (Board) {
+    while (Board != 0) {
         Count++;     
-        Board &= Board - 1;           
+    Board &= Board - 1;           
     }
     return Count;
 }
 
-// display an ascii art version of a biboard object
+// display an ascii art version of a bitboard object
 void PrintBitboard(uint64_t Board) {
     for (int rank = 0; rank < 8; rank++) {
         for (int file = 0; file < 8; file++) {
@@ -148,29 +135,17 @@ uint64_t FlipHorizontal(uint64_t Board) {
 }
 
 //lsb
-int BitScanLSB(uint64_t Board) {
-    return  ((__builtin_ffsll(Board)  - 1));
+int BitScanLSB(uint64_t *Board) {
+    return  ((__builtin_ffsll(*Board)  - 1));
 }
 
 //msb
-int BitscanMSB(uint64_t Board) {
-    return (63 - __builtin_clzll(Board));
+int BitscanMSB(uint64_t *Board) {
+    return (63 - __builtin_clzll(*Board));
 }
 
-std::vector<int> GetAllBits(uint64_t Board) {
-    
-    std::vector<int> BitVector;
 
-    while (Board != 0)
-    {
-        int LSBIndex = BitScanLSB(Board);
-
-        BitVector.push_back(LSBIndex);
-
-        Board &= Board - 1;
-    }
-
-    return BitVector;
-    
+int NotSide(int side) 
+{
+    return side ? 0 : 1;
 }
-
