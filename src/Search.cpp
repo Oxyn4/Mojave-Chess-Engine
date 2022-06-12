@@ -46,7 +46,7 @@ Move Chessboard::SearchRandom()
 {
     int RandomChoice;
 
-    std::vector<Move> AllMoves = GetAllSidesMoves(SideToMove);
+    std::vector<Move> AllMoves = GetAllSidesMoves(!SideToMove);
 
     srand(time(0));
 

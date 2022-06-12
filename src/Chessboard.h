@@ -9,11 +9,12 @@
 // create a chessboard object
 // represented by bitboards objects
 class Chessboard {
-    private:
-    // * Non specific bit boards
+    public:
+        // * Non specific bit boards
         // bit board 1s represent a piece of either colour
         uint64_t WhiteBlackBitBoard = 0ULL;
 
+    private:
         // bit board 1s represent a white piece
         uint64_t WhiteBitBoard = 0ULL;
 

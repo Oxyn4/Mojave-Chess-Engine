@@ -5,11 +5,13 @@
 */
 
 #include <iostream>
+#include <memory>
 #include <sstream>
 #include <string>
 #include <vector>
 #include <bits/stdc++.h>
 
+#include "Bitboard.h"
 #include "BoardConcepts.h"
 #include "Chessboard.h"
 #include "Interface.h"
@@ -22,9 +24,10 @@ std::vector<std::string> CommandHistory;
 // games the engine is currently running
 std::vector<Chessboard> GameList;
 
+std::vector<std::string> TokenVector;
+
 void ParseInterfaceCommand(std::string Command) {
 
-    std::vector<std::string> TokenVector;
 
     std::string Token;
 
@@ -37,77 +40,56 @@ void ParseInterfaceCommand(std::string Command) {
         TokenVector.push_back(Token);
     }
 
-    for (int TokenVectorPosition; TokenVectorPosition < TokenVector.size(); TokenVectorPosition++) 
+    std::cout << TokenVector.size() << "\n";
+
+    if (TokenVector[0] == "uci" || TokenVector[0] == "uci\n") 
     {
-        if (TokenVector[TokenVectorPosition] == "uci" || TokenVector[TokenVectorPosition] == "uci\n") {
-            std::cout << "id name Mojave\n";
-            std::cout << "id author Jacob Evans\n";
-            std::cout << "uciok\n";   
-        }    
+        std::cout << "id name Mojave\n";
+        std::cout << "id author Jacob Evans\n";
+        std::cout << "uciok\n";   
+    }    
 
-        if (TokenVector[TokenVectorPosition] == "isready\n" || TokenVector[TokenVectorPosition] == "isready") 
-        {
-            std::cout << "readyok\n";
-        }
+    if (TokenVector[0] == "isready\n" || TokenVector[0] == "isready") 
+    {
+        std::cout << "readyok\n";
+    }
 
-        // uci position command
-        /*if (TokenVector[TokenVectorPosition] == "position")
-        {
-            // position <FEN> <Move1> <Move2> etc
+    if (TokenVector[0] == "position")
+    {
+            /*
+            std::unique_ptr<Chessboard> Board;
 
-            // startpos is a valid token a variable for starting fen
-            if (TokenVector[TokenVectorPosition + 1] == "startpos") 
-            {
-                GameList.emplace_back("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-            } else {
-                GameList.emplace_back(TokenVector[TokenVectorPosition+1]);
+            if (TokenVector[TokenVectorPosition+1] != "startpos") 
+            {    
+                Board.reset(new Chessboard(TokenVector[TokenVectorPosition+1]));
             }
-
-            // if there are any tokens after the FEN
-            // loop over them and apply them to the board 
-            
-            if (TokenVectorPosition+2 <= TokenVector.size())
+            else 
             {
-                for (int MovesMade=TokenVectorPosition+2; MovesMade < TokenVector.size(); MovesMade++) 
-                {
-                    // convert move from LongAlgerbraicNotation to a format mojave functions can understand
-                    Move AppliedMove = LongAlgerbraicNotationToMojaveFormat(TokenVector[MovesMade]);        
-                
-                    GameList[0].DoMove(AppliedMove);
-                }
+                Board.reset(new Chessboard("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"));
             }
-            
+            */
+    }
 
-            if (TokenVector[TokenVectorPosition+2] == "moves") 
-            {
-                for (int MovesMade=TokenVectorPosition+2; MovesMade < TokenVector.size(); MovesMade++) 
-                {
-                    //ove AppliedMove = LongAlgerbraicNotationToMojaveFormat(TokenVector[MovesMade]);
+    if (TokenVector[0] == "go") 
+    {
 
-                   //ameList[0].DoMove(AppliedMove);
-                }    
-            }
-       */
+            //Move Bestmove = Board->SearchRandom();
 
-        if (TokenVector[TokenVectorPosition] == "go") 
-        {
-            Chessboard Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-
-            Move Bestmove = Board.SearchRandom();
-
-            std::cout << "bestmove " << Bestmove.AlgerbraicNotation << "\n";
-        }
+            //std::cout << "bestmove " << Bestmove.AlgerbraicNotation << "\n";
+    }
     
     // TODO: add rest of UCI commands
     
-    }
+    
 
     // clear the vector ready for next command
     TokenVector.clear();
 }
 
-void InterfaceLoop() {    
-    while (communicationstatus == 1) {
+void InterfaceLoop() 
+{    
+    while (communicationstatus == 1) 
+    {
         std::string Command;
         std::cin >> Command;
 
