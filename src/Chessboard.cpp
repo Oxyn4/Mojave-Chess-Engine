@@ -14,7 +14,8 @@
 uint64_t Chessboard::ClassicalGenerateRookMoves(int square, int side) {
   //    std::cout << "Getting all rook moves for square: " << square << "\n";
   //  auto FuncStartPoint = std::chrono::high_resolution_clock::now();
-    
+
+
     uint64_t NorthBitboard;
     uint64_t EastBitboard;
     uint64_t WestBitboard;
@@ -154,7 +155,10 @@ uint64_t Chessboard::ClassicalGenerateQueenMoves(int square, int side) {
 
 
 uint64_t Chessboard::GetKingMoves(int square, int side) {
+    
     uint64_t KingMask = KingMoves[square];
+    
+
     uint64_t KingBitboard = KingMask & ~*SideBitboardArray[side];
     
 
