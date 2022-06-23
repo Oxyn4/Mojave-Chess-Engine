@@ -9,12 +9,11 @@
 // create a chessboard object
 // represented by bitboards objects
 class Chessboard {
-    public:
-        // * Non specific bit boards
+    private:
+    // * Non specific bit boards
         // bit board 1s represent a piece of either colour
         uint64_t WhiteBlackBitBoard = 0ULL;
 
-    private:
         // bit board 1s represent a white piece
         uint64_t WhiteBitBoard = 0ULL;
 
@@ -155,5 +154,5 @@ class Chessboard {
         int SearchNegaMax(int depth);
         Move SearchRandom();
 
-
+        void PrintChesssboard();
 };

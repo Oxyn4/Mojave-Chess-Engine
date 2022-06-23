@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 void InterfaceLoop();
-void ParseInterfaceCommand(std::string Command);
+void ParseInterfaceCommand(std::vector<std::string>& TokenVector);

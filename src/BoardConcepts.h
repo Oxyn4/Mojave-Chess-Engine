@@ -11,6 +11,9 @@
 
 #include <iostream>
 
+extern std::string PieceAsciiSymbols[12];
+extern std::string SqaureMappingArray[64];
+
 const uint64_t FILE_H = 9259542123273814144ULL;
 const uint64_t FILE_A = 72340172838076673ULL;
 const uint64_t FILE_B = 144680345676153346ULL;
@@ -51,6 +54,7 @@ enum Pieces {
     WhitePawn, WhiteBishop, WhiteKing, WhiteQueen, WhiteKnight, WhiteRook
 };
 
+
 // this struct contains a moves data
 typedef struct Move{
     int Origin;
@@ -70,6 +74,8 @@ typedef struct Move{
     }
 
     Move(std::string AlgerbraicNotation);
+
+    void PrintMove();
 
     private:
         void CreateAlgerbraicNotation();

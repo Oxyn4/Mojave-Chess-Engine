@@ -12,7 +12,7 @@
 #include <stdio.h>
 
 uint64_t Chessboard::ClassicalGenerateRookMoves(int square, int side) {
-//    std::cout << "Getting all rook moves for square: " << square << "\n";
+  //    std::cout << "Getting all rook moves for square: " << square << "\n";
   //  auto FuncStartPoint = std::chrono::high_resolution_clock::now();
     
     uint64_t NorthBitboard;
@@ -411,7 +411,11 @@ void Chessboard::ParseFEN(std::string FEN) {
 int Chessboard::DoMove(Move MoveToDo) 
 {
 
-    SideToMove ^= SideToMove;
+    //std::cout << " Side To Move: " << SideToMove << "\n";
+
+    SideToMove = !SideToMove;
+
+    //std::cout << "Side to move: " << SideToMove << "\n";
 
     Moves.push_back(MoveToDo);
 
@@ -609,6 +613,45 @@ std::vector<Move> Chessboard::GetAllMoves()
     return LegalMoveVector;
 }
 
+void Chessboard::PrintChesssboard()
+{
+    for (int RankIterator=0; RankIterator < 8; RankIterator++) 
+    {
+        for (int FileIterator=0; FileIterator < 8; FileIterator++) 
+        {
+            int Sqaure = RankIterator * 8 + FileIterator;
+
+            int OneOrZero = ((WhiteBlackBitBoard & (1ULL << Sqaure)) ? 1 : 0);
+
+            if (FileIterator == 0) 
+            {
+                std::cout << 8 - RankIterator << " | "; 
+            }
+
+            if (OneOrZero == 1) 
+            {
+                for (int PieceTypeBitboardArrayIterator=0; PieceTypeBitboardArrayIterator < 12; PieceTypeBitboardArrayIterator++) 
+                {
+  
+                    int IsPieceThisType = ((*PieceTypeBitboardArray[PieceTypeBitboardArrayIterator] & (1ULL << Sqaure)) ? 1 : 0);
+                
+                    if (IsPieceThisType == 1) 
+                    {
+                        std::cout << PieceAsciiSymbols[PieceTypeBitboardArrayIterator] << " ";
+                    } 
+                }
+            }
+            else 
+            {
+                std::cout << ". ";
+            }
+        }
+        std::cout << "\n";
+    }
+    std::cout << "    ---------------" << "\n";
+    std::cout << "    a b c d e f g h" << "\n";
+}
+
 // constructor for this class 
 // sets up the board by parsing fen given during object creation
 Chessboard::Chessboard(std::string FEN) 
@@ -616,58 +659,4 @@ Chessboard::Chessboard(std::string FEN)
 
     ParseFEN(FEN);
 
-    //PrintBitboard(ClassicalGenerateRookMoves(63, white));
-
-    /*  
-    
-    for (int PieceTypeBoard = 0; PieceTypeBoard < 12; PieceTypeBoard++)
-    {
-        std::cout << "board: " << PieceTypeBoard << "\n";
-
-        PrintBitboard(PieceTypeBitboardArray[PieceTypeBoard]);
-
-        while (PieceTypeBitboardArray[PieceTypeBoard] != 0) 
-        {
-            std::cout << "piece on square: " << BitScanLSB(PieceTypeBitboardArray[PieceTypeBoard]) + 1 << "\n";
-
-            PieceTypeBitboardArray[PieceTypeBoard] &= PieceTypeBitboardArray[PieceTypeBoard] - 1;   
-        }
-    }
-    */
-
-   /*
-    std::vector<Move> LegalMoves = GetAllMoves(white);   
-
-    
-    for (int LegalMovesIndex = 0; LegalMovesIndex < LegalMoves.size(); LegalMovesIndex++)
-    {
-        std::cout << "Move: " << LegalMovesIndex + 1 << "\n\n";
-        std::cout << "    Origin: " << LegalMoves[LegalMovesIndex].Origin<< "\n";
-
-        uint64_t OriginBitboard = 0ULL;
-
-        OriginBitboard |= (1ULL << LegalMoves[LegalMovesIndex].Origin) ? OriginBitboard ^= (1ULL << LegalMoves[LegalMovesIndex].Origin) : 0;
-
-        PrintBitboard(OriginBitboard);
-
-        std::cout << "    Desination: " << LegalMoves[LegalMovesIndex].Destination << "\n";
-
-        uint64_t DestinationBitboard = 0ULL;
-
-        DestinationBitboard |= (1ULL << LegalMoves[LegalMovesIndex].Destination) ? DestinationBitboard ^= (1ULL << LegalMoves[LegalMovesIndex].Destination) : 0;
-
-        PrintBitboard(DestinationBitboard);
-
-        std::cout << "    Side " << LegalMoves[LegalMovesIndex].Side << "\n";
-        std::cout << "    PieceType: " << LegalMoves[LegalMovesIndex].PieceType << "\n\n";    
-
-    }
-    */
-
-    //PrintBitboard(ClassicalGenerateRookMoves(e4, white)); 
-
-    //std::cout << "In total: " << LegalMoves.size() << " Moves available In this position for Both sides" << "\n\n";  
-
-    //PrintBitboard(GetPawnMoves(b2, white));
-    
 }

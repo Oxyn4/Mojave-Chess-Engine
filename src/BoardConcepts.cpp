@@ -16,6 +16,8 @@ int GetFileOfSquareNumber(int SqaureNumber)
 }
 
 
+std::string PieceAsciiSymbols[12] = {"♟","♝","♚","♛","♞","♜","♙","♗","♔","♕","♘","♖"};
+
 // allows convertion of rank notation a-h to numbers mojave can use
 std::map<char, int> FileNotationConversion = {{'a', 0},{'b', 1},{'c', 2},{'d', 3},{'e', 4},{'f', 5},{'g', 6},{'h', 7}};
 
@@ -73,4 +75,99 @@ void Move::CreateAlgerbraicNotation()
     AlgerbraicNotation = orginNotation + DestinationNotation;
 
     //std::cout << AlgerbraicNotation << "\n";
+}
+
+void Move::PrintMove() 
+{
+
+    std::cout << "\nMove: " << AlgerbraicNotation << "\n\n"; 
+
+    for (int PiecePosition=0; PiecePosition < 2; PiecePosition++)
+    {
+        for (int SquareMappingConversionIterator=0; SquareMappingConversionIterator < 64; SquareMappingConversionIterator++) 
+        {
+            int Square;    
+        
+            if (PiecePosition == 0)
+            {
+                Square = Origin; 
+            } 
+            else 
+            {
+                Square = Destination;
+            }
+
+            if (Square == SquareMappingConversionIterator) 
+            {
+                if (PiecePosition == 0) 
+                {
+                    std::cout << "    Origin:\n";
+                    std::cout << "        Origin: " << SqaureMappingArray[SquareMappingConversionIterator] << "\n";
+                    std::cout << "        Mojave Square Notation: " << Square << " \n\n";
+                } 
+                else
+                {
+                    std::cout << "    Destination:\n";
+                    std::cout << "        Destination: " << SqaureMappingArray[SquareMappingConversionIterator] << "\n";
+                    std::cout << "        Mojave Sqaure Notation: " << Square << " \n\n";
+                } 
+            }
+        }
+    }
+
+    std::cout << "    PieceType:\n";
+
+    switch (PieceType) {
+        case 0:
+            std::cout << "        PieceType: Black Pawn" << "\n";
+            std::cout << "        Mojave Notation: " << PieceType << "\n"; 
+            break;
+        case 1:
+            std::cout << "        PieceType: Black Bishop" << "\n"; 
+            std::cout << "        Mojave Noation: " << PieceType << "\n"; 
+            break;
+        case 2:
+            std::cout << "        PieceType: Black King" << "\n";
+            std::cout << "        Mojave Notation: " << PieceType << "\n";
+            break;
+        case 3:
+            std::cout << "        PieceType: Black Queen" << "\n"; 
+            std::cout << "        Mojave Notation: " << PieceType << "\n";
+            break;
+        case 4:
+            std::cout << "        PieceType: Black Knight" << "\n"; 
+            std::cout << "        Mojave Notation: " << PieceType << "\n";
+            break;
+        case 5:
+            std::cout << "        PieceType: Black Rook" << "\n";
+            std::cout << "        Mojave Notation: " << PieceType << "\n";
+            break;
+        case 6:
+            std::cout << "        PieceType: White Pawn"  << "\n";
+            std::cout << "        Mojave Notation: " << PieceType << "\n";
+            break;
+        case 7:
+            std::cout << "        PieceType: White Bishop" << "\n";
+            std::cout << "        Mojave Notation: " << PieceType << "\n";
+            
+            break;
+        case 8:
+            std::cout << "        PieceType: White King" << "\n";
+            std::cout << "        Mojave Notation: " << PieceType << "\n";
+            break;
+        case 9:
+            std::cout << "        PieceType: White Queen" << "\n"; 
+            std::cout << "        Mojave Notation: " << PieceType << "\n";
+            break;
+        case 10:
+            std::cout << "        PieceType: White Knight" << "\n";
+            std::cout << "        Mojave Notation: " << PieceType << "\n";
+            break;
+        case 11:
+            std::cout << "        PieceType: White Rook" << "\n"; 
+            std::cout << "        Mojave Notation: " << PieceType << "\n"; 
+            
+            break;
+    }
+    std::cout << "\n\n";    
 }

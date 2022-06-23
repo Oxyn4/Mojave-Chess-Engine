@@ -21,80 +21,87 @@ int communicationstatus = 1;
 // list of commands sent from GUI
 std::vector<std::string> CommandHistory;
 
-// games the engine is currently running
-std::vector<Chessboard> GameList;
+int IsPositionInited = 0;
 
-std::vector<std::string> TokenVector;
+std::unique_ptr<Chessboard> Board;
 
-void ParseInterfaceCommand(std::string Command) {
-
-
-    std::string Token;
-
-    // converts string to sstream
-    std::istringstream TokenStream(Command);
-
-    // loop through words found in a string
-    // load into a vector
-    while (TokenStream >> Token) {
-        TokenVector.push_back(Token);
-    }
-
-    std::cout << TokenVector.size() << "\n";
-
-    if (TokenVector[0] == "uci" || TokenVector[0] == "uci\n") 
+void ParseInterfaceCommand(std::vector<std::string>& TokenVector) 
+{
+    for (int TokenVectorIterator=0; TokenVectorIterator < TokenVector.size(); TokenVectorIterator++) 
     {
-        std::cout << "id name Mojave\n";
-        std::cout << "id author Jacob Evans\n";
-        std::cout << "uciok\n";   
-    }    
+        if (TokenVector[TokenVectorIterator] == "uci" || TokenVector[TokenVectorIterator] == "uci\n") 
+        {
+            std::cout << "id name Mojave\n";
+            std::cout << "id author Jacob Evans\n";
+            std::cout << "uciok\n";   
+        }   
+        
+        if (TokenVector[TokenVectorIterator] == "isready\n" || TokenVector[TokenVectorIterator] == "isready")
+        {
+            std::cout << "readyok\n";
+        }
 
-    if (TokenVector[0] == "isready\n" || TokenVector[0] == "isready") 
-    {
-        std::cout << "readyok\n";
-    }
+        if (TokenVector[TokenVectorIterator] == "position")
+        {
 
-    if (TokenVector[0] == "position")
-    {
-            /*
-            std::unique_ptr<Chessboard> Board;
-
-            if (TokenVector[TokenVectorPosition+1] != "startpos") 
-            {    
-                Board.reset(new Chessboard(TokenVector[TokenVectorPosition+1]));
-            }
-            else 
+            if (TokenVector[TokenVectorIterator+1] == "startpos") 
             {
                 Board.reset(new Chessboard("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"));
+            } 
+            else 
+            {
+                Board.reset(new Chessboard(TokenVector[TokenVectorIterator+1]));
+            }       
+
+            if (TokenVector[TokenVectorIterator+2] == "moves") 
+            {
+                for (int MovesMadeIterator=(TokenVectorIterator+3); MovesMadeIterator < TokenVector.size(); MovesMadeIterator++) 
+                {
+                    Move MoveMade(TokenVector[MovesMadeIterator]);
+
+                    Board->DoMove(MoveMade);        
+                }
+                Board->PrintChesssboard();
             }
-            */
+        }
+
+        if (TokenVector[TokenVectorIterator] == "go") 
+        {
+            Move Bestmove = Board->SearchRandom();
+
+            Board->PrintChesssboard();
+
+            Board->DoMove(Bestmove);
+
+            Board->PrintChesssboard();
+
+            std::cout << "bestmove " << Bestmove.AlgerbraicNotation << "\n";
+        }
     }
-
-    if (TokenVector[0] == "go") 
-    {
-
-            //Move Bestmove = Board->SearchRandom();
-
-            //std::cout << "bestmove " << Bestmove.AlgerbraicNotation << "\n";
-    }
-    
-    // TODO: add rest of UCI commands
-    
-    
-
-    // clear the vector ready for next command
-    TokenVector.clear();
 }
 
+
 void InterfaceLoop() 
-{    
+{   
     while (communicationstatus == 1) 
     {
-        std::string Command;
-        std::cin >> Command;
+        char UCI_Command[50];
 
-        ParseInterfaceCommand(Command);
+        std::cin.getline(UCI_Command, 50);
 
-        CommandHistory.push_back(Command);
-    }    
+        std::string UCI_CommandString = UCI_Command;
+
+        std::vector<std::string> TokenVector;
+
+        std::istringstream CommandStringStream(UCI_CommandString);
+
+        std::string Token;
+
+        while (CommandStringStream >> Token)
+        {
+            TokenVector.push_back(Token);
+        }
+    
+        ParseInterfaceCommand(TokenVector);
+    }
 }
