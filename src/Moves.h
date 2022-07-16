@@ -1,5 +1,16 @@
 #pragma once
 
+
+// stdc++ headers
+#include <iostream>
+#include <chrono>
+
+
+// project local headers
+#include "Chessboard.h"
+#include "BoardConcepts.h"
+#include "Bitboard.h"
+
 extern uint64_t KnightMoves[64];
 extern uint64_t KingMoves[64];
 extern uint64_t PawnAttacks[2][64];

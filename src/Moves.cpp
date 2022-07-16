@@ -1,11 +1,6 @@
 
-#include <iostream>
-#include <chrono>
-
-#include "Bitboard.h"
+// definition file
 #include "Moves.h"
-#include "Chessboard.h"
-#include "BoardConcepts.h"
 
 uint64_t KnightMoves[64];
 uint64_t KingMoves[64];

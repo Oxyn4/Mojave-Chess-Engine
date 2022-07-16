@@ -1,10 +1,17 @@
 #pragma once
 
-#include <vector>
 #include <string>
+#include <cstring>
+#include <iostream>
+#include <chrono>
+#include <vector>
+#include <thread>
 
 #include "Bitboard.h"
 #include "BoardConcepts.h"
+#include "Moves.h"
+#include "BoardConcepts.h"
+#include "Bitboard.h"
 
 // create a chessboard object
 // represented by bitboards objects

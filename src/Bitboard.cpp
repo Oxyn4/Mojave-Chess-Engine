@@ -1,7 +1,4 @@
 #include "Bitboard.h"
-#include <iostream>
-#include <vector>
-#include <stdio.h>
 
 /*
 

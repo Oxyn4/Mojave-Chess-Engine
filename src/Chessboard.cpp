@@ -1,15 +1,6 @@
 
-#include "BoardConcepts.h"
-#include "Bitboard.h"
 #include "Chessboard.h"
-#include "Moves.h"
 
-#include <cstring>
-#include <iostream>
-#include <chrono>
-#include <vector>
-#include <thread>
-#include <stdio.h>
 
 uint64_t Chessboard::ClassicalGenerateRookMoves(int square, int side) {
   //    std::cout << "Getting all rook moves for square: " << square << "\n";
