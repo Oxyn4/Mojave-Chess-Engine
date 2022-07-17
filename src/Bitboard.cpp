@@ -54,8 +54,6 @@ void PrintBitboard(uint64_t Board) {
 
     #endif
 
-
-
     for (int rank = 0; rank < 8; rank++) {
         for (int file = 0; file < 8; file++) {
             // formula for converting row and colum to index 
@@ -80,6 +78,10 @@ void PrintBitboard(uint64_t Board) {
 
 void PrintBitboard_Raw(uint64_t Board) 
 {
+    #ifndef DEBUG
+        return;
+    #endif
+
     std::cout << std::endl;
     for (int BitIteraotr = 0; BitIteraotr < 64; BitIteraotr++)
     {
@@ -91,6 +93,10 @@ void PrintBitboard_Raw(uint64_t Board)
 
 void PrintBitboard_Table(uint64_t Board) 
 {
+    #ifndef DEBUG
+        return;
+    #endif
+    
     std::cout << std::endl;
     std::cout << " | e8 | e7 |" << "\n";
 

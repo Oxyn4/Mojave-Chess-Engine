@@ -3,9 +3,11 @@
 
 
 uint64_t Chessboard::ClassicalGenerateRookMoves(int square, int side) {
-  //    std::cout << "Getting all rook moves for square: " << square << "\n";
-  //  auto FuncStartPoint = std::chrono::high_resolution_clock::now();
-
+  
+    #ifdef DEBUG
+      std::cout << "Getting all rook moves for square: " << square << "\n";
+      auto FuncStartPoint = std::chrono::high_resolution_clock::now();
+    #endif
 
     uint64_t NorthBitboard;
     uint64_t EastBitboard;
@@ -66,17 +68,24 @@ uint64_t Chessboard::ClassicalGenerateRookMoves(int square, int side) {
         WestBitboard = WestBlockerMask & ~*SideBitboardArray[side];
     }
     uint64_t FinalBitboard = SouthBitboard | WestBitboard | EastBitboard | NorthBitboard;
-    //auto StoppingPoint = std::chrono::high_resolution_clock::now();
-    //auto Duration = std::chrono::duration_cast<std::chrono::microseconds>(StoppingPoint - FuncStartPoint);
-    //std::cout << "Finished getting moves for a Rook on square: " << square << " in: " << Duration.count()  << " microseconds"  << "\n\n";
-    //PrintBitboard(FinalBitboard); 
+    
+    #ifdef DEBUG
+        auto StoppingPoint = std::chrono::high_resolution_clock::now();
+        auto Duration = std::chrono::duration_cast<std::chrono::microseconds>(StoppingPoint - FuncStartPoint);
+        std::cout << "Finished getting moves for a Rook on square: " << square << " in: " << Duration.count()  << " microseconds"  << "\n\n";
+        PrintBitboard(FinalBitboard); 
+    #endif
+    
     return FinalBitboard;
 }
 
 uint64_t Chessboard::ClassicalGenerateBishopMoves(int Square, int side) {
-    //std::cout << "Getting all moves for a bishop on square: " << Square << "\n";
-    //auto FuncStartPoint = std::chrono::high_resolution_clock::now();
-    
+   
+    #ifdef DEBUG
+       std::cout << "Getting all moves for a bishop on square: " << Square << "\n";
+       auto FuncStartPoint = std::chrono::high_resolution_clock::now();
+    #endif
+
     uint64_t NorthwestBitboard;
     uint64_t SouthwestBitboard;
     uint64_t NortheastBitboard;
@@ -124,28 +133,44 @@ uint64_t Chessboard::ClassicalGenerateBishopMoves(int Square, int side) {
         SouthwestBitboard = SouthwestBlockerMask & ~*SideBitboardArray[side];
     }
     uint64_t FinalBitboard = SoutheastBitboard | SouthwestBitboard | NortheastBitboard | NorthwestBitboard;
-    //PrintBitboard(FinalBitboard); 
-    //PrintBitboard(~RaysArray[Southeastmsb][Southeast]);
-    //auto StoppingPoint = std::chrono::high_resolution_clock::now();
-    //auto Duration = std::chrono::duration_cast<std::chrono::microseconds>(StoppingPoint - FuncStartPoint);
-    //std::cout << "Finished getting moves for a Bishop on square: " << Square << " in: " << Duration.count()  << " microseconds"  << "\n\n";
+    
+    #ifdef DEBUG
+        PrintBitboard(FinalBitboard); 
+        PrintBitboard(~RaysArray[Southeastmsb][Southeast]);
+        auto StoppingPoint = std::chrono::high_resolution_clock::now();
+        auto Duration = std::chrono::duration_cast<std::chrono::microseconds>(StoppingPoint - FuncStartPoint);
+        std::cout << "Finished getting moves for a Bishop on square: " << Square << " in: " << Duration.count()  << " microseconds"  << "\n\n";
+    #endif
+
     return FinalBitboard;
 }
 
 uint64_t Chessboard::ClassicalGenerateQueenMoves(int square, int side) {
-    //std::cout << "Getting all moves for a queen on square: " << square << "\n\n";
-    //auto FuncStartPoint = std::chrono::high_resolution_clock::now();
+    
+    #ifdef DEBUG
+        std::cout << "Getting all moves for a queen on square: " << square << "\n\n";
+        auto FuncStartPoint = std::chrono::high_resolution_clock::now();
+    #endif
+
     uint64_t Rookpattern = ClassicalGenerateRookMoves(square, side);
     uint64_t Bishoppattern = ClassicalGenerateBishopMoves(square, side);
     uint64_t Queenpattern = Bishoppattern | Rookpattern;
-    //auto StoppingPoint = std::chrono::high_resolution_clock::now();
-    //auto Duration = std::chrono::duration_cast<std::chrono::microseconds>(StoppingPoint - FuncStartPoint);
-    //std::cout << "Finished getting moves for a Queen on square: " << square << " in: " << Duration.count()  << " microseconds"  << "\n\n";
+    
+    #ifdef DEBUG
+        auto StoppingPoint = std::chrono::high_resolution_clock::now();
+        auto Duration = std::chrono::duration_cast<std::chrono::microseconds>(StoppingPoint - FuncStartPoint);
+        std::cout << "Finished getting moves for a Queen on square: " << square << " in: " << Duration.count()  << " microseconds"  << "\n\n";
+    #endif  
+  
     return Queenpattern;
 }
 
 
 uint64_t Chessboard::GetKingMoves(int square, int side) {
+    
+    #ifdef DEBUG
+      std::cout << "Getting King moves\n";
+    #endif
     
     uint64_t KingMask = KingMoves[square];
     
@@ -158,7 +183,9 @@ uint64_t Chessboard::GetKingMoves(int square, int side) {
 
 uint64_t Chessboard::GetKnightMoves(int square, int side) {
 
-    //std::cout << "Getting Knight moves\n";
+    #ifdef DEBUG
+      std::cout << "Getting Knight moves\n";
+    #endif
 
     uint64_t PotentialKnightMoves = KnightMoves[square];
 
