@@ -18,9 +18,11 @@ void PrecomputateKnightMoves() {
 
     #define KNIGHT_MOVES_INITIALIZED 
 
-    auto FuncStartPoint = std::chrono::high_resolution_clock::now();
+    #ifdef DEBUG
+        auto FuncStartPoint = std::chrono::high_resolution_clock::now();
 
-    std::cout << "Calculating legal knight moves for each square " << "\n";
+        std::cout << "Calculating legal knight moves for each square " << "\n";
+    #endif
 
     // special offsets only applicable when
     // piece on a specific file
@@ -82,21 +84,25 @@ void PrecomputateKnightMoves() {
         //PrintBitboard(KnightBitboard);
     }
 
-    auto StoppingPoint = std::chrono::high_resolution_clock::now();
+    #ifdef DEBUG
+        auto StoppingPoint = std::chrono::high_resolution_clock::now();
 
-    auto Duration = std::chrono::duration_cast<std::chrono::microseconds>(StoppingPoint - FuncStartPoint);
+        auto Duration = std::chrono::duration_cast<std::chrono::microseconds>(StoppingPoint - FuncStartPoint);
 
-    std::cout << "Finished Calculating Knight moves in: " << Duration.count() << " microseconds" << "\n";
-    std::cout << "\n";
+        std::cout << "Finished Calculating Knight moves in: " << Duration.count() << " microseconds" << "\n";
+        std::cout << "\n";
+    #endif
 }
 
 void PrecomputateKingMoves() {
 
     #define KING_MOVES_INITIALIZED
 
-    auto FuncStartPoint = std::chrono::high_resolution_clock::now();
+    #ifdef DEBUG
+        auto FuncStartPoint = std::chrono::high_resolution_clock::now();
 
-    std::cout << "Calculating legal knight moves for each square" << "\n";
+        std::cout << "Calculating legal knight moves for each square" << "\n";
+    #endif
 
     int FILE_A_OFFSETS[5] = {8,-8,-7,9,1};
     int FILE_H_OFFSETS[5] = {-1,8,-8,7,-9};
@@ -134,21 +140,25 @@ void PrecomputateKingMoves() {
         KingMoves[KingCurrentSquare] = KingBitboard;
     }
 
-    auto StoppingPoint = std::chrono::high_resolution_clock::now();
+    #ifdef DEBUG
+        auto StoppingPoint = std::chrono::high_resolution_clock::now();
 
-    auto Duration = std::chrono::duration_cast<std::chrono::microseconds>(StoppingPoint - FuncStartPoint);
+        auto Duration = std::chrono::duration_cast<std::chrono::microseconds>(StoppingPoint - FuncStartPoint);
 
-    std::cout << "Finished Calculating King moves in: " << Duration.count() << " microseconds"  << "\n";
-    std::cout << "\n";
+        std::cout << "Finished Calculating King moves in: " << Duration.count() << " microseconds"  << "\n";
+        std::cout << "\n";
+    #endif 
 }
 
 void PrecomputatePawnAttacks() {
 
     #define PAWN_ATTACKS_INITIALIZED
 
-    auto FuncStartPoint = std::chrono::high_resolution_clock::now();
+    #ifdef DEBUG
+        auto FuncStartPoint = std::chrono::high_resolution_clock::now();
     
-    std::cout << "Calculating legal pawn moves for each square" << "\n";
+        std::cout << "Calculating legal pawn moves for each square" << "\n";
+    #endif
 
     int FILE_OFFSETS[2][2] = {{-7, -9}, {9, 7}};
     int OFFSETS[2][2] {{-7,-9},{9,7}};
@@ -187,23 +197,27 @@ void PrecomputatePawnAttacks() {
         }  
     }
 
-    auto StoppingPoint = std::chrono::high_resolution_clock::now();
+    #ifdef DEBUG
+        auto StoppingPoint = std::chrono::high_resolution_clock::now();
 
-    auto Duration = std::chrono::duration_cast<std::chrono::microseconds>(StoppingPoint - FuncStartPoint);
+        auto Duration = std::chrono::duration_cast<std::chrono::microseconds>(StoppingPoint - FuncStartPoint);
 
-    std::cout << "Finished Calculating Pawn Attacks in: " << Duration.count()  << " microseconds"  << "\n";
-    std::cout << "\n";
+        std::cout << "Finished Calculating Pawn Attacks in: " << Duration.count()  << " microseconds"  << "\n";
+        std::cout << "\n";
+    #endif
 }
 
 void PrecomputatePawnMoves() {
 
     #define PAWN_MOVES_INITIALIZED
 
-    std::cout << "Calculating all legal pawn moves for each square" << "\n";
+
+    #ifdef DEBUG
+        std::cout << "Calculating all legal pawn moves for each square" << "\n";
+        auto FuncStartPoint = std::chrono::high_resolution_clock::now();
+    #endif
 
     int OFFSETS[2][2] = {{-8, -16}, {8, 16}}; 
-
-    auto FuncStartPoint = std::chrono::high_resolution_clock::now();
 
     for (int SideIndex = 0; SideIndex < 2; SideIndex++)
     {
@@ -242,12 +256,13 @@ void PrecomputatePawnMoves() {
         
     }
     
-    auto StoppingPoint = std::chrono::high_resolution_clock::now();
+    #ifdef DEBUG
+        auto StoppingPoint = std::chrono::high_resolution_clock::now();
 
-    auto Duration = std::chrono::duration_cast<std::chrono::microseconds>(StoppingPoint - FuncStartPoint);
+        auto Duration = std::chrono::duration_cast<std::chrono::microseconds>(StoppingPoint - FuncStartPoint);
 
-    std::cout << "Finished Calculating Pawn Moves in: " << Duration.count()  << " microseconds"  << "\n\n";
-
+        std::cout << "Finished Calculating Pawn Moves in: " << Duration.count()  << " microseconds"  << "\n\n";
+    #endif
 }
 
 // This function fills up a rook move array
@@ -256,9 +271,11 @@ void GenerateRaysArray() {
     
     #define RAYS_ARRAY_INITIALIZED
 
-    std::cout << "Calculating all RaysArray for each direction for each square" << "\n";
+    #ifdef DEBUG
+        std::cout << "Calculating all RaysArray for each direction for each square" << "\n";
 
-    auto FuncStartPoint = std::chrono::high_resolution_clock::now();
+        auto FuncStartPoint = std::chrono::high_resolution_clock::now();
+    #endif
 
     int RAY_OFFSETS[8] = {-8, -7, 1, 9, 8, 7, -1, -9};
 
@@ -422,13 +439,13 @@ void GenerateRaysArray() {
         RaysArray[SquareIndex][Northwest] = NorthwestBitboard;
     }
     
+    #ifdef DEBUG
+        auto StoppingPoint = std::chrono::high_resolution_clock::now();
 
-    auto StoppingPoint = std::chrono::high_resolution_clock::now();
+        auto Duration = std::chrono::duration_cast<std::chrono::microseconds>(StoppingPoint - FuncStartPoint);
 
-    auto Duration = std::chrono::duration_cast<std::chrono::microseconds>(StoppingPoint - FuncStartPoint);
-
-    std::cout << "Finished Calculating RaysArray boards in: " << Duration.count()  << " microseconds"  << "\n\n";
-
+        std::cout << "Finished Calculating RaysArray boards in: " << Duration.count()  << " microseconds"  << "\n\n";
+    #endif
 }
 
 /*
@@ -438,10 +455,11 @@ void GenerateRaysArray() {
 */
 void MoveGenerationInit() {
     
-    std::cout << "Starting Precomputating Move dats\n\n";
+    #ifdef DEBUG
+        std::cout << "Starting Precomputating Move dats\n\n";
 
-
-    auto FuncStartPoint = std::chrono::high_resolution_clock::now();
+        auto FuncStartPoint = std::chrono::high_resolution_clock::now();
+    #endif
 
     GenerateRaysArray();
 
@@ -452,11 +470,12 @@ void MoveGenerationInit() {
 
     #define MOVE_FUNCTIONS_INITIALIZED 
 
-    auto StoppingPoint = std::chrono::high_resolution_clock::now();
+    #ifdef DEBUG
+        auto StoppingPoint = std::chrono::high_resolution_clock::now();
 
-    auto Duration = std::chrono::duration_cast<std::chrono::microseconds>(StoppingPoint - FuncStartPoint);
+        auto Duration = std::chrono::duration_cast<std::chrono::microseconds>(StoppingPoint - FuncStartPoint);
 
-    std::cout << "Finished Calculating Precomputated data boards in: " << Duration.count()  << " microseconds"  << "\n\n";
-
+        std::cout << "Finished Calculating Precomputated data boards in: " << Duration.count()  << " microseconds"  << "\n\n";
+    #endif
 
 }

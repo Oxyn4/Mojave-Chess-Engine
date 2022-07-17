@@ -5,12 +5,6 @@
 #include "Bitboard.hpp"
 #include "Interface.hpp"
 
-#include <unistd.h>
-#include <errno.h>
-#include <sys/types.h>
-#include <thread>
-
-
 /*
     welcome to the entry point for mojave chess engine
 
