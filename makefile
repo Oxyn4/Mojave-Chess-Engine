@@ -6,7 +6,7 @@ GUIFLAGS = -L/usr/include/SDL2 -lm -lSDL2
 engine: 
 	@echo "\nBuilding Mojave engine version: $(version) \n"
 
-	g++ -march=native -std=c++20 -lstdc++ -O3 $(SOURCE) -flto -o bin/Mojave
+	g++ -D DEBUG -march=native -std=c++20 -lstdc++ -O3 $(SOURCE) -flto -o bin/Mojave
 
 	@echo "\nTo run this binary: make run or ./bin/mojave"
 

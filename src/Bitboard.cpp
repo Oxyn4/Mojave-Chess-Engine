@@ -46,6 +46,16 @@ int PopulationCount(uint64_t Board) {
 
 // display an ascii art version of a bitboard object
 void PrintBitboard(uint64_t Board) {
+    
+    // if debug mode isnt enabled dont print bitboard
+    #ifndef DEBUG 
+
+        return; 
+
+    #endif
+
+
+
     for (int rank = 0; rank < 8; rank++) {
         for (int file = 0; file < 8; file++) {
             // formula for converting row and colum to index 
