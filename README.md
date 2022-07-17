@@ -19,10 +19,6 @@ Mojave uses make for compilation, simply run:
 
 this will build a binary under the bin directory.
 
-you can also build Mojave without optimization flags:
-
-``` make engine-without-flags ```
-
 ## Usage
 
 To functionaly use mojave you will need another piece of software called a Chess GUI.

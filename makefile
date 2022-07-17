@@ -15,17 +15,6 @@ engine:
 
 	@echo "\nTo run this binary: make run or ./bin/mojave"
 
-engine-without-flags:
-	@echo "\nBuilding Mojave engine version: $(version) \n"
-	
-	g++ $(SOURCE) -o bin/Mojave
-	
-	@echo "\nTo run this binary: make run or ./bin/mojave"
-	
-	@echo "Running Build: \n"
-	
-	make run
-
 run:
 	@echo "\n Running the compiled binary:"
 
