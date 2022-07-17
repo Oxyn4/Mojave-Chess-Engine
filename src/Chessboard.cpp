@@ -1,5 +1,5 @@
 
-#include "Chessboard.h"
+#include "Chessboard.hpp"
 
 
 uint64_t Chessboard::ClassicalGenerateRookMoves(int square, int side) {

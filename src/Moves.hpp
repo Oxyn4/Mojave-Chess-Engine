@@ -7,9 +7,9 @@
 
 
 // project local headers
-#include "Chessboard.h"
-#include "BoardConcepts.h"
-#include "Bitboard.h"
+#include "Chessboard.hpp"
+#include "BoardConcepts.hpp"
+#include "Bitboard.hpp"
 
 extern uint64_t KnightMoves[64];
 extern uint64_t KingMoves[64];

@@ -1,6 +1,6 @@
-#include "BoardConcepts.h"
-#include "Chessboard.h"
-#include "Bitboard.h"
+#include "BoardConcepts.hpp"
+#include "Chessboard.hpp"
+#include "Bitboard.hpp"
 
 #include <vector> 
 #include <random>

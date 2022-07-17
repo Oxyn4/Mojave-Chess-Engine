@@ -1,4 +1,4 @@
-#include "Bitboard.h"
+#include "Bitboard.hpp"
 
 /*
 

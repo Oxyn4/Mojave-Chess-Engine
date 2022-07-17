@@ -7,11 +7,11 @@
 #include <vector>
 #include <thread>
 
-#include "Bitboard.h"
-#include "BoardConcepts.h"
-#include "Moves.h"
-#include "BoardConcepts.h"
-#include "Bitboard.h"
+#include "Bitboard.hpp"
+#include "BoardConcepts.hpp"
+#include "Moves.hpp"
+#include "BoardConcepts.hpp"
+#include "Bitboard.hpp"
 
 // create a chessboard object
 // represented by bitboards objects

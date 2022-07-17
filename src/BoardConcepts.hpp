@@ -10,6 +10,8 @@
 #pragma once
 
 #include <iostream>
+#include <map>
+#include <cmath>
 
 extern std::string PieceAsciiSymbols[12];
 extern std::string SqaureMappingArray[64];

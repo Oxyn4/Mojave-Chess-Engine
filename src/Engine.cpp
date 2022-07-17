@@ -1,9 +1,9 @@
 
-#include "Chessboard.h"
-#include "BoardConcepts.h"
-#include "Moves.h"
-#include "Bitboard.h"
-#include "Interface.h"
+#include "Chessboard.hpp"
+#include "BoardConcepts.hpp"
+#include "Moves.hpp"
+#include "Bitboard.hpp"
+#include "Interface.hpp"
 
 #include <unistd.h>
 #include <errno.h>

@@ -11,10 +11,10 @@
 #include <vector>
 #include <bits/stdc++.h>
 
-#include "Bitboard.h"
-#include "BoardConcepts.h"
-#include "Chessboard.h"
-#include "Interface.h"
+#include "Bitboard.hpp"
+#include "BoardConcepts.hpp"
+#include "Chessboard.hpp"
+#include "Interface.hpp"
 
 int communicationstatus = 1;
 

@@ -1,4 +1,4 @@
-#include "Chessboard.h"
+#include "Chessboard.hpp"
 
 int Chessboard::EvaluateMobility() 
 {

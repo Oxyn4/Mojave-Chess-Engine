@@ -1,6 +1,6 @@
 
 // definition file
-#include "Moves.h"
+#include "Moves.hpp"
 
 uint64_t KnightMoves[64];
 uint64_t KingMoves[64];

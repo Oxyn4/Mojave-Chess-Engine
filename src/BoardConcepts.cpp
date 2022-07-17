@@ -1,9 +1,6 @@
 
-#include "BoardConcepts.h"
-#include "Chessboard.h"
+#include "BoardConcepts.hpp"
 
-#include <map>
-#include <cmath>
 
 int GetRankOfSquareNumber(int SqaureNumber) 
 {
