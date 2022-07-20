@@ -1,3 +1,9 @@
+/*
+    this file contains Data structures and values that help convert human chess concepts
+    like ranks files and sqyaure notations (a1,h8) to name a few to computer readable formats
+    like numbers etc
+*/
+
 
 #include "BoardConcepts.hpp"
 

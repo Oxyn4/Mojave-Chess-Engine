@@ -1,3 +1,16 @@
+/*
+    the centeral class of mojave engine a chessbaord class is in charge of:
+
+    ~ storing, managing, tracking the internel state of the bitboards
+    ~ generating moves using those bitboards and move data calculated in move.cpp
+    ~ evaluating the board position mapping a score to a position 
+    ~ searching the available moves using generation functions and evaluation functions to choose an optimal move
+
+    this class is the largest part of the program so the implementation is divised between several files
+
+
+*/
+
 
 #include "Chessboard.hpp"
 
@@ -135,8 +148,6 @@ uint64_t Chessboard::ClassicalGenerateBishopMoves(int Square, int side) {
     uint64_t FinalBitboard = SoutheastBitboard | SouthwestBitboard | NortheastBitboard | NorthwestBitboard;
     
     #ifdef DEBUG
-        PrintBitboard(FinalBitboard); 
-        PrintBitboard(~RaysArray[Southeastmsb][Southeast]);
         auto StoppingPoint = std::chrono::high_resolution_clock::now();
         auto Duration = std::chrono::duration_cast<std::chrono::microseconds>(StoppingPoint - FuncStartPoint);
         std::cout << "Finished getting moves for a Bishop on square: " << Square << " in: " << Duration.count()  << " microseconds"  << "\n\n";
@@ -241,12 +252,15 @@ void Chessboard::ParseFEN(std::string FEN) {
     for (int FENPosition = 0; FENPosition < FEN.length(); FENPosition++) {
         if (CurrentSquare != 64) {
 
-            //std::cout << "\nSwitching for: " << CharArrayOfFenString[FENPosition] << "\n\n";
+            #ifdef DEBUG
+                std::cout << "\nSwitching for: " << CharArrayOfFenString[FENPosition] << "\n\n";
+            #endif
 
             switch (CharArrayOfFenString[FENPosition]) {
                case 'r':
-
-                   //std::cout << "black rook found on square: " << CurrentSquare << "\n";
+                    #ifdef DEBUG
+                        std::cout << "black rook found on square: " << CurrentSquare << "\n";
+                    #endif
 
                    WhiteBlackBitBoard |= (1ULL << CurrentSquare) ? WhiteBlackBitBoard ^= (1ULL << CurrentSquare) : 0;
                    BlackRookBitBoard |= (1ULL << CurrentSquare) ? BlackRookBitBoard ^= (1ULL << CurrentSquare) : 0;
@@ -256,8 +270,9 @@ void Chessboard::ParseFEN(std::string FEN) {
 
                    break;
                case 'n':
-
-                   //std::cout << "Black Knight found on square: " << CurrentSquare << "\n";
+                   #ifdef DEBUG
+                        std::cout << "Black Knight found on square: " << CurrentSquare << "\n";
+                   #endif
 
                    WhiteBlackBitBoard |= (1ULL << CurrentSquare) ? WhiteBlackBitBoard ^= (1ULL << CurrentSquare) : 0;
                    BlackKnightBitBoard |= (1ULL << CurrentSquare) ? BlackKnightBitBoard ^= (1ULL << CurrentSquare) : 0;
@@ -267,8 +282,9 @@ void Chessboard::ParseFEN(std::string FEN) {
 
                    break;
                case 'b':
-
-                   //std::cout << "black Bishop found on square: " << CurrentSquare << "\n";
+                    #ifdef DEBUG
+                        std::cout << "black Bishop found on square: " << CurrentSquare << "\n";
+                    #endif
 
                    WhiteBlackBitBoard |= (1ULL << CurrentSquare) ? WhiteBlackBitBoard ^= (1ULL << CurrentSquare) : 0;
                    BlackBishopBitBoard |= (1ULL << CurrentSquare) ? BlackBishopBitBoard ^= (1ULL << CurrentSquare) : 0;
@@ -279,7 +295,9 @@ void Chessboard::ParseFEN(std::string FEN) {
                    break;
                case 'q':
 
-                   //std::cout << "Black Knight queen on square: " << CurrentSquare << "\n";
+                    #ifdef DEBUG
+                        std::cout << "Black Knight queen on square: " << CurrentSquare << "\n";
+                    #endif
 
                    WhiteBlackBitBoard |= (1ULL << CurrentSquare) ? WhiteBlackBitBoard ^= (1ULL << CurrentSquare) : 0;
                    BlackQueenBitBoard |= (1ULL << CurrentSquare) ? BlackQueenBitBoard ^= (1ULL << CurrentSquare) : 0;
@@ -290,7 +308,9 @@ void Chessboard::ParseFEN(std::string FEN) {
                    break;
                case 'k':
 
-                   //std::cout << "black rook found on square: " << CurrentSquare << "\n";
+                    #ifdef DEBUG
+                        std::cout << "black rook found on square: " << CurrentSquare << "\n";
+                    #endif
 
                    WhiteBlackBitBoard |= (1ULL << CurrentSquare) ? WhiteBlackBitBoard ^= (1ULL << CurrentSquare) : 0;
                    BlackKingBitBoard |= (1ULL << CurrentSquare) ? BlackKingBitBoard ^= (1ULL << CurrentSquare) : 0;
@@ -427,7 +447,9 @@ void Chessboard::ParseFEN(std::string FEN) {
             }
         }
     }
-    //std::cout << "\n" << "Parsing: " << FEN << " Complete" << "\n\n";
+    #ifdef DEBUG    
+        std::cout << "\n" << "Parsing: " << FEN << " Complete" << "\n\n";
+    #endif
 }
 
 int Chessboard::DoMove(Move MoveToDo) 

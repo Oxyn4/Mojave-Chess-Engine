@@ -7,7 +7,6 @@
 
 
 // project local headers
-#include "Chessboard.hpp"
 #include "BoardConcepts.hpp"
 #include "Bitboard.hpp"
 

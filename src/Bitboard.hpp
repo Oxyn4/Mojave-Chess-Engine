@@ -5,6 +5,7 @@
 #include <vector>
 #include <stdio.h>
 
+typedef uint64_t Bitboard;
 
 // create a bitboard
 // see: https://www.chessprogramming.org/Bitboards

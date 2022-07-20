@@ -1,7 +1,8 @@
 /*
 
-    contains code for interfacing with the engine via GUI
+    contains code for interfacing with the engine via a user interface
 
+    manages one or more chessboard objectes
 */
 
 #include <iostream>

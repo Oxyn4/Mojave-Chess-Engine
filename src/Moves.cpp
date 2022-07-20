@@ -1,7 +1,15 @@
+/*
+    This files contains functions that generate arrays used in calculating legal chess moves
+
+    
+*/
 
 // definition file
 #include "Moves.hpp"
 
+
+// these arrays are used by the functions in chessboard.cpp (chessboard class)
+// to generate moves
 uint64_t KnightMoves[64];
 uint64_t KingMoves[64];
 uint64_t PawnAttacks[2][64];
@@ -455,20 +463,25 @@ void GenerateRaysArray() {
 */
 void MoveGenerationInit() {
     
+    static int Initiliazed = 0;
+    
+    if (Initiliazed) {return;}
+
     #ifdef DEBUG
-        std::cout << "Starting Precomputating Move dats\n\n";
+        std::cout << "Starting Precomputating Move data\n\n";
 
         auto FuncStartPoint = std::chrono::high_resolution_clock::now();
     #endif
 
     GenerateRaysArray();
-
     PrecomputateKnightMoves();
     PrecomputatePawnMoves();
     PrecomputatePawnAttacks();
     PrecomputateKingMoves();
 
     #define MOVE_FUNCTIONS_INITIALIZED 
+
+    Initiliazed = 1;
 
     #ifdef DEBUG
         auto StoppingPoint = std::chrono::high_resolution_clock::now();

@@ -1,10 +1,12 @@
 #include "Bitboard.hpp"
+#include <cstdint>
 
 /*
 
     This file contains many useful functions that abstract binary operations
 
 */
+
 
 void AddBit(uint64_t *Board, int Square) {
 

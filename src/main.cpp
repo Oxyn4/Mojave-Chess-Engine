@@ -1,8 +1,4 @@
 
-#include "Chessboard.hpp"
-#include "BoardConcepts.hpp"
-#include "Moves.hpp"
-#include "Bitboard.hpp"
 #include "Interface.hpp"
 
 /*
@@ -13,8 +9,6 @@
 
 
 int main() {
-
-    MoveGenerationInit();
 
     InterfaceLoop();
 
