@@ -50,11 +50,11 @@ int PopulationCount(uint64_t Board) {
 void PrintBitboard(uint64_t Board) {
     
     // if debug mode isnt enabled dont print bitboard
-    #ifndef DEBUG 
+    //#ifndef DEBUG 
 
-        return; 
+        //return; 
 
-    #endif
+    //#endif
 
     for (int rank = 0; rank < 8; rank++) {
         for (int file = 0; file < 8; file++) {

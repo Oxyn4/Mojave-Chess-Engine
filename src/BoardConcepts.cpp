@@ -83,9 +83,9 @@ void Move::CreateAlgerbraicNotation()
 void Move::PrintMove() 
 {
     // if the 
-    #ifndef DEBUG
-        return;
-    #endif
+    //#ifndef DEBUG
+        //return;
+    //#endif
 
 
     std::cout << "\nMove: " << AlgerbraicNotation << "\n\n"; 
