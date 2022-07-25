@@ -6,9 +6,19 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -D DEBUG")
+option(BUILD_TESTS "Build the Mojave tests" OFF)
+option(BUID_BENCHMARK "Build the Mojave benchmarks" OFF)
+option(DEBUG "The engine provides debugging info" OFF)
 
- project(Mojave VERSION 1.0)
+enable_testing()
+
+project(Mojave VERSION 1.0)
+
+if (DEBUG)
+    set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -wall -DDEBUG -g")
+else()
+    set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -OFast")
+endif()
 
 add_executable(mojave src/main.cpp src/Bitboard.cpp src/Search.cpp src/BoardConcepts.cpp src/Moves.cpp src/Chessboard.cpp src/Evaluation.cpp src/Interface.cpp)
 
@@ -16,20 +26,39 @@ add_library(bitboard STATIC src/Bitboard.cpp)
 
 add_library(boardconcepts STATIC src/BoardConcepts.cpp)
 
-find_library(GTEST gtest)
+add_library(moves STATIC src/Moves.cpp)
 
-if (GTEST)
+target_link_libraries(moves bitboard)
+target_link_libraries(moves boardconcepts)
 
-    include(GoogleTest)
+if (BUILD_BENCHMARK)
+    add_executable(benchmark tests/benchmark/main.cpp tests/benchmark/moves_benchmark.cpp)
 
-    add_executable(bitboard_test tests/bitboard_test.cpp)
-    target_link_libraries(bitboard_test gtest)
-    target_link_libraries(bitboard_test bitboard)
-    target_link_libraries(bitboard_test boardconcepts)
-
-    add_executable(boardconcepts_test tests/boardconcepts_test.cpp)
-    target_link_libraries(boardconcepts_test gtest)
-    target_link_libraries(boardconcepts_test boardconcepts)
+    target_link_libraries(benchmark bitboard)
+    target_link_libraries(benchmark boardconcepts)
+    target_link_libraries(benchmark moves)
 
 endif()
 
+if (BUILD_TESTS)
+    find_library(GTEST gtest)
+
+    if (GTEST)
+
+        include(GoogleTest)
+
+        add_executable(tests tests/unit_tests/main.cpp tests/unit_tests/bitboard_test.cpp tests/unit_tests/boardconcepts_test.cpp tests/unit_tests/moves_test.cpp)
+        
+        target_link_libraries(tests gtest)
+        
+        target_link_libraries(tests bitboard)
+        target_link_libraries(tests boardconcepts)
+        target_link_libraries(tests moves)
+
+        gtest_discover_tests(tests)
+    
+    else()
+        message(FATAL_ERROR "cannot find google test library")
+
+    endif()
+endif()

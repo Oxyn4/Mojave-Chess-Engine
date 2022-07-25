@@ -67,11 +67,6 @@ typedef struct Move{
 
     Move(int OriginValue, int DestinationValue, int SideValue, int PieceTypeValue) : Origin(OriginValue), Destination(DestinationValue), Side(SideValue), PieceType(PieceTypeValue)
     {
-        Origin = OriginValue;
-        Destination = DestinationValue;
-        Side = SideValue;
-        PieceType = PieceTypeValue;  
-    
         CreateAlgerbraicNotation();
     }
 
@@ -101,6 +96,3 @@ enum Rays {
     South, Southwest, West, Northwest
 };
 
-
-Move LongAlgerbraicNotationToMojaveFormat(std::string LongAlgerbraicNotation);
-std::string MojaveFormatToLongAlgerbraiNotation(Move MojaveFormat);

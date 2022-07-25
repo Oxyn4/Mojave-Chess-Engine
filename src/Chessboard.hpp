@@ -151,6 +151,7 @@ class Chessboard {
 
         //class constructer        
         Chessboard(std::string FEN);
+        Chessboard();
 
         // EVAL functions
         int EvaluateMobility();

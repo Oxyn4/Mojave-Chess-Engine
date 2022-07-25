@@ -2,9 +2,9 @@
 
 #include <gtest/gtest.h>
 
-#include "../src/Bitboard.hpp"
+#include "../../src/Bitboard.hpp"
 
-#include "../src/BoardConcepts.hpp"
+#include "../../src/BoardConcepts.hpp"
 
 // test the getbit function 
 TEST(bitboard, getbit) 
@@ -45,11 +45,3 @@ TEST(bitboard, delbit)
     EXPECT_EQ(DelBitTestBitboard, 0x0);
 
 }
-
-int main(int argc, char* argv[]) 
-{
-    testing::InitGoogleTest(&argc, argv);
-
-    return RUN_ALL_TESTS();
-}
-

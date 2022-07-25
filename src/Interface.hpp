@@ -4,4 +4,4 @@
 #include <vector>
 
 void InterfaceLoop();
-void ParseInterfaceCommand(std::vector<std::string>& TokenVector);
+void ParseUCICommand(std::vector<std::string> TokenVector);

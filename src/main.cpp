@@ -1,5 +1,6 @@
 
 #include "Interface.hpp"
+#include "Moves.hpp"
 
 /*
     welcome to the entry point for mojave chess engine
@@ -9,6 +10,8 @@
 
 
 int main() {
+
+    MoveGenerationInit();
 
     InterfaceLoop();
 

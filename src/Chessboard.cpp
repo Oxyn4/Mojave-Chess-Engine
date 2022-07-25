@@ -704,3 +704,7 @@ Chessboard::Chessboard(std::string FEN)
     ParseFEN(FEN);
 
 }
+
+Chessboard::Chessboard() {
+
+}

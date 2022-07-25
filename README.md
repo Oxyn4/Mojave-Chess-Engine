@@ -13,11 +13,80 @@ into the project can be found in the docs folder.
 
 ## Compilation 
 
-Mojave uses make for compilation, simply run:
+### Compiling main binary
 
-``` make engine ```
+Mojave uses cmake to generate a makefile which can then be used to build Mojave.
 
-this will build a binary under the bin directory.
+The main binary has no dependancies other than the c++ standard library.
+
+However, Mojave does have tests which are dependant [on googletest](https://github.com/google/googletest)
+
+To compile the Mojave binary:
+
+```sh
+    mkdir build
+    cd build 
+    cmake ..
+    make
+```
+This will build a **mojave** binary under bin/
+
+you can also enable DEBUG mode which useful for debugging.
+
+It outputs extra information as well as enables -g flag for gdb.
+
+To enable compile like:
+
+```sh 
+    mkdir build
+    cd build
+    cmake .. -DDEBUG=ON
+    make
+```
+
+### Compiling tests
+
+Mojave has tests written with google's [googletest](https://github.com/google/googletest) framework.
+
+This library must be installed to compile Mojaves tests.
+
+To compile and run these tests:
+
+```sh
+    mkdir build
+    cd build
+    cmake .. -DBUILD_TESTS=ON
+    make
+```
+
+This will compile the tests.
+
+Then to run these tests:
+
+```sh
+    ctest
+```
+
+### Compiling Benchmark
+
+Mojave has a benchmark written with [hayai](https://github.com/nickbruun/hayai) library.
+
+To build mojave benchmark you must have this library installed.
+
+To build the benchmark:
+
+```sh
+    mkdir build
+    cd build
+    cmake .. -DBUILD_BENCHMARK=ON
+    make
+```
+
+Then run the benchmark binary under bin/.
+
+```sh
+    ./bin/mojave
+```
 
 ## Usage
 

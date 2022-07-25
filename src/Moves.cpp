@@ -11,9 +11,17 @@
 // these arrays are used by the functions in chessboard.cpp (chessboard class)
 // to generate moves
 uint64_t KnightMoves[64];
+
+
 uint64_t KingMoves[64];
+
+
 uint64_t PawnAttacks[2][64];
+
+
 uint64_t PawnMoves[2][64];
+
+
 uint64_t RaysArray[64][8];
 
 int BitboardPieceOffsets[12][8] = {{-9,-7}, {9,7,-9,-7}, {8, -8, 9, -9, -7, 7, 1, -1}, {-1,1,-8,8,9,-7,7,-9}, {-17, -15, -6, 6, 10, -10, 17, 15}, {-1,1,8,-8}, {9,7}, {9,7,-9,-7}, {8, -8, 9, -9, -7, 7, 1, -1}, {-1,1,-8,8,9,-7,7,-9}, {-17, -15, -6, 6, 10, -10, 17, 15}, {-1,1,8,-8}};
@@ -102,6 +110,11 @@ void PrecomputateKnightMoves() {
     #endif
 }
 
+/*
+
+    Fill in the king moves Array.
+
+*/
 void PrecomputateKingMoves() {
 
     #define KING_MOVES_INITIALIZED
