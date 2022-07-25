@@ -7,7 +7,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 option(BUILD_TESTS "Build the Mojave tests" OFF)
-option(BUID_BENCHMARK "Build the Mojave benchmarks" OFF)
+option(BUILD_BENCHMARK "Build the Mojave benchmarks" OFF)
 option(DEBUG "The engine provides debugging info" OFF)
 
 enable_testing()
@@ -15,9 +15,9 @@ enable_testing()
 project(Mojave VERSION 1.0)
 
 if (DEBUG)
-    set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -wall -DDEBUG -g")
+    set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wall -DDEBUG -g")
 else()
-    set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -OFast")
+    set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Ofast")
 endif()
 
 add_executable(mojave src/main.cpp src/Bitboard.cpp src/Search.cpp src/BoardConcepts.cpp src/Moves.cpp src/Chessboard.cpp src/Evaluation.cpp src/Interface.cpp)
@@ -27,6 +27,8 @@ add_library(bitboard STATIC src/Bitboard.cpp)
 add_library(boardconcepts STATIC src/BoardConcepts.cpp)
 
 add_library(moves STATIC src/Moves.cpp)
+
+add_library(chessboard STATIC src/Chessboard.cpp src/Search.cpp src/Evaluation.cpp)
 
 target_link_libraries(moves bitboard)
 target_link_libraries(moves boardconcepts)

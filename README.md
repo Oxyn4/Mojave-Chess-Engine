@@ -2,8 +2,9 @@
 ## Welcome
 This is a chess engine written by me Oxyn in c++. It is a combination of many chess programming techniques.
 
-Note: Currently, this software is linux exclusive as it relies on Gnu c compiler inbuilt funcitons, this is because linux
-this is because linux is my devolopment enviroment eventually ill port it to windows.
+Note: Currently, this software is linux exclusive as it relies on Gnu c compiler inbuilt funcitons.
+
+This is because linux is my devolopment enviroment eventually i will port it to windows.
 
 The majority of useful doucmentation including a changelog and a todo list for features to be implemented 
 into the project can be found in the docs folder.
@@ -13,80 +14,37 @@ into the project can be found in the docs folder.
 
 ## Compilation 
 
-### Compiling main binary
-
 Mojave uses cmake to generate a makefile which can then be used to build Mojave.
 
 The main binary has no dependancies other than the c++ standard library.
 
-However, Mojave does have tests which are dependant [on googletest](https://github.com/google/googletest)
+However, Mojave does have tests which are dependant on [googletest](https://github.com/google/googletest) a unit testing framework
+
+and a benchmark dependant on [hayai](https://github.com/nickbruun/hayai) a benchmarking library
+
+These are optional and **do not** need to be compilied unless desired.
 
 To compile the Mojave binary:
 
 ```sh
     mkdir build
     cd build 
-    cmake ..
-    make
-```
-This will build a **mojave** binary under bin/
-
-you can also enable DEBUG mode which useful for debugging.
-
-It outputs extra information as well as enables -g flag for gdb.
-
-To enable compile like:
-
-```sh 
-    mkdir build
-    cd build
-    cmake .. -DDEBUG=ON
+    cmake .. -DDEBUG=<OFF | ON> -DBUILD_TESTS=<OFF | ON> -BUILD_BENCHMARK=<OFF | ON>
     make
 ```
 
-### Compiling tests
+This will build the binaries under /build/bin
 
-Mojave has tests written with google's [googletest](https://github.com/google/googletest) framework.
+These binaries includes:
 
-This library must be installed to compile Mojaves tests.
+- **mojave**, this is the mojave chess engine program 
+- **tests** this runs all the tests and returns results
+- **benchmark** shows preformance of some preformance critical functions in source code
 
-To compile and run these tests:
+The **tests** and **benchmark** will not be built unless the cmake flags are set **ON**
 
-```sh
-    mkdir build
-    cd build
-    cmake .. -DBUILD_TESTS=ON
-    make
-```
+The debug option enables debugging mode on the **mojave** binary this makes debugging easier.
 
-This will compile the tests.
-
-Then to run these tests:
-
-```sh
-    ctest
-```
-
-### Compiling Benchmark
-
-Mojave has a benchmark written with [hayai](https://github.com/nickbruun/hayai) library.
-
-To build mojave benchmark you must have this library installed.
-
-To build the benchmark:
-
-```sh
-    mkdir build
-    cd build
-    cmake .. -DBUILD_BENCHMARK=ON
-    make
-```
-
-Then run the benchmark binary under bin/.
-
-```sh
-    ./bin/mojave
-```
 
 ## Usage
 
