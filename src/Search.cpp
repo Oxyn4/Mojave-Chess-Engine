@@ -24,7 +24,7 @@ int Chessboard::SearchNegaMax(int Depth)
 
         int Eval = -SearchNegaMax(Depth-1);
 
-        UndoLastMove(AllMoves[AllMovesiterator]);
+        UndoLastMove();
 
         if (Eval > MaxEval) 
         {

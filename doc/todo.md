@@ -18,6 +18,7 @@ features that need to be implemented:
 - [X] Rook Move generation
 - [X] Algorithm to generate entire boards moves
 - [ ] [Universal chess interface](https://www.chessprogramming.org/UCI)
+- [X] [Zobrist hashing](https://www.chessprogramming.org/Zobrist_Hashing)
 
 ## Bug fixes
 

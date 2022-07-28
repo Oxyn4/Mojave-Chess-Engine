@@ -18,8 +18,50 @@ int GetFileOfSquareNumber(int SqaureNumber)
     return SqaureNumber % 8 == 0 ? 8 : SqaureNumber % 8;
 }
 
+void PrintPiecetype(int PieceType) 
+{
+    switch (PieceType) {
+        case 0:
+            std::cout << "PieceType: Black Pawn" << "\n";
+            break;
+        case 1:
+            std::cout << "PieceType: Black Bishop" << "\n"; 
+            break;
+        case 2:
+            std::cout << "PieceType: Black King" << "\n";
+            break;
+        case 3:
+            std::cout << "PieceType: Black Queen" << "\n"; 
+            break;
+        case 4:
+            std::cout << "PieceType: Black Knight" << "\n"; 
+            break;
+        case 5:
+            std::cout << "PieceType: Black Rook" << "\n";
+            break;
+        case 6:
+            std::cout << "PieceType: White Pawn"  << "\n";
+            break;
+        case 7:
+            std::cout << "PieceType: White Bishop" << "\n";
+            
+            break;
+        case 8:
+            std::cout << "PieceType: White King" << "\n";
+            break;
+        case 9:
+            std::cout << "PieceType: White Queen" << "\n"; 
+            break;
+        case 10:
+            std::cout << "PieceType: White Knight" << "\n";
+            break;
+        case 11:
+            std::cout << "PieceType: White Rook" << "\n"; 
+            break;
+    }
+}
 
-std::string PieceAsciiSymbols[12] = {"♟","♝","♚","♛","♞","♜","♙","♗","♔","♕","♘","♖"};
+std::string PieceAsciiSymbols[12] = {"♙","♗","♔","♕","♘","♖","♟","♝","♚","♛","♞","♜",};
 
 // allows convertion of rank notation a-h to numbers mojave can use
 std::map<char, int> FileNotationConversion = {{'a', 0},{'b', 1},{'c', 2},{'d', 3},{'e', 4},{'f', 5},{'g', 6},{'h', 7}};

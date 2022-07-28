@@ -58,12 +58,14 @@ void ParseUCICommand(std::vector<std::string> TokenVector)
             {
                 for (int MovesMadeIterator=(TokenVectorIterator+3); MovesMadeIterator < TokenVector.size(); MovesMadeIterator++) 
                 {
-                    Move MoveMade(TokenVector[MovesMadeIterator]);
+                    Move NewMove = Board.CreateMoveFromAlgerbraicNotation(TokenVector[MovesMadeIterator]);
 
-                    Board.DoMove(MoveMade);        
-                }
+                    Board.PrintChesssboard();
+
+                    Board.DoMove(NewMove);
                 
-                Board.PrintChesssboard();
+                    Board.PrintChesssboard();
+                }
             }
         }
 
@@ -76,8 +78,6 @@ void ParseUCICommand(std::vector<std::string> TokenVector)
             Board.DoMove(Bestmove);
 
             Board.PrintChesssboard();
-
-            std::cout << "bestmove " << Bestmove.AlgerbraicNotation << "\n";
         }
     }
 }

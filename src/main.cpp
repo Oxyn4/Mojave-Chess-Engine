@@ -1,6 +1,10 @@
 
+#include "Bitboard.hpp"
+#include "BoardConcepts.hpp"
+#include "Chessboard.hpp"
 #include "Interface.hpp"
 #include "Moves.hpp"
+#include <vector>
 
 /*
     welcome to the entry point for mojave chess engine
@@ -13,7 +17,13 @@ int main() {
 
     MoveGenerationInit();
 
-    InterfaceLoop();
+    //InterfaceLoop();
+
+    Chessboard Board;
+
+    Board.ParseFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+
+    Board.PrintChesssboard();
 
     return EXIT_SUCCESS;    
 }

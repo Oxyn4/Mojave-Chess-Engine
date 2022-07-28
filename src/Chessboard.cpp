@@ -13,6 +13,10 @@
 
 
 #include "Chessboard.hpp"
+#include "Bitboard.hpp"
+#include "BoardConcepts.hpp"
+#include <cstdlib>
+#include <ctime>
 
 
 uint64_t Chessboard::ClassicalGenerateRookMoves(int square, int side) {
@@ -230,22 +234,7 @@ void Chessboard::ParseFEN(std::string FEN) {
 
     strcpy(CharArrayOfFenString, FEN.c_str());
 
-    // clear bitboards
-
-    BlackPawnBitBoard = 0ULL;
-    BlackBishopBitBoard = 0ULL;
-    BlackKingBitBoard = 0ULL;
-    BlackQueenBitBoard = 0ULL;
-    BlackKnightBitBoard = 0ULL;
-    BlackRookBitBoard = 0ULL;
-    WhitePawnBitBoard = 0ULL;
-    WhiteBishopBitBoard = 0ULL;
-    WhiteKingBitBoard = 0ULL;
-    WhiteQueenBitBoard = 0ULL;
-    WhiteKnightBitBoard = 0ULL;
-    WhiteRookBitBoard = 0ULL;
-    WhiteBitBoard = 0ULL;
-    BlackBitBoard = 0ULL;
+    ClearBoard();
 
     int CurrentSquare = 0;
 
@@ -262,9 +251,11 @@ void Chessboard::ParseFEN(std::string FEN) {
                         std::cout << "black rook found on square: " << CurrentSquare << "\n";
                     #endif
 
-                   WhiteBlackBitBoard |= (1ULL << CurrentSquare) ? WhiteBlackBitBoard ^= (1ULL << CurrentSquare) : 0;
-                   BlackRookBitBoard |= (1ULL << CurrentSquare) ? BlackRookBitBoard ^= (1ULL << CurrentSquare) : 0;
-                   BlackBitBoard |= (1ULL << CurrentSquare) ? BlackBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   //WhiteBlackBitBoard |= (1ULL << CurrentSquare) ? WhiteBlackBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   //BlackRookBitBoard |= (1ULL << CurrentSquare) ? BlackRookBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   //BlackBitBoard |= (1ULL << CurrentSquare) ? BlackBitBoard ^= (1ULL << CurrentSquare) : 0;
+    
+                   PutPiece(CurrentSquare, BlackRook);
 
                    CurrentSquare++;
 
@@ -274,9 +265,11 @@ void Chessboard::ParseFEN(std::string FEN) {
                         std::cout << "Black Knight found on square: " << CurrentSquare << "\n";
                    #endif
 
-                   WhiteBlackBitBoard |= (1ULL << CurrentSquare) ? WhiteBlackBitBoard ^= (1ULL << CurrentSquare) : 0;
-                   BlackKnightBitBoard |= (1ULL << CurrentSquare) ? BlackKnightBitBoard ^= (1ULL << CurrentSquare) : 0;
-                   BlackBitBoard |= (1ULL << CurrentSquare) ? BlackBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   //WhiteBlackBitBoard |= (1ULL << CurrentSquare) ? WhiteBlackBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   //BlackKnightBitBoard |= (1ULL << CurrentSquare) ? BlackKnightBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   //BlackBitBoard |= (1ULL << CurrentSquare) ? BlackBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   
+                   PutPiece(CurrentSquare, BlackKnight);
 
                    CurrentSquare++;
 
@@ -286,9 +279,11 @@ void Chessboard::ParseFEN(std::string FEN) {
                         std::cout << "black Bishop found on square: " << CurrentSquare << "\n";
                     #endif
 
-                   WhiteBlackBitBoard |= (1ULL << CurrentSquare) ? WhiteBlackBitBoard ^= (1ULL << CurrentSquare) : 0;
-                   BlackBishopBitBoard |= (1ULL << CurrentSquare) ? BlackBishopBitBoard ^= (1ULL << CurrentSquare) : 0;
-                   BlackBitBoard |= (1ULL << CurrentSquare) ? BlackBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   //WhiteBlackBitBoard |= (1ULL << CurrentSquare) ? WhiteBlackBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   //BlackBishopBitBoard |= (1ULL << CurrentSquare) ? BlackBishopBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   //BlackBitBoard |= (1ULL << CurrentSquare) ? BlackBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   
+                    PutPiece(CurrentSquare, BlackBishop);
 
                    CurrentSquare++;
 
@@ -299,9 +294,11 @@ void Chessboard::ParseFEN(std::string FEN) {
                         std::cout << "Black Knight queen on square: " << CurrentSquare << "\n";
                     #endif
 
-                   WhiteBlackBitBoard |= (1ULL << CurrentSquare) ? WhiteBlackBitBoard ^= (1ULL << CurrentSquare) : 0;
-                   BlackQueenBitBoard |= (1ULL << CurrentSquare) ? BlackQueenBitBoard ^= (1ULL << CurrentSquare) : 0;
-                   BlackBitBoard |= (1ULL << CurrentSquare) ? BlackBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   //WhiteBlackBitBoard |= (1ULL << CurrentSquare) ? WhiteBlackBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   //BlackQueenBitBoard |= (1ULL << CurrentSquare) ? BlackQueenBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   //BlackBitBoard |= (1ULL << CurrentSquare) ? BlackBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   
+                   PutPiece(CurrentSquare, BlackQueen);
 
                    CurrentSquare++;
 
@@ -312,9 +309,11 @@ void Chessboard::ParseFEN(std::string FEN) {
                         std::cout << "black rook found on square: " << CurrentSquare << "\n";
                     #endif
 
-                   WhiteBlackBitBoard |= (1ULL << CurrentSquare) ? WhiteBlackBitBoard ^= (1ULL << CurrentSquare) : 0;
-                   BlackKingBitBoard |= (1ULL << CurrentSquare) ? BlackKingBitBoard ^= (1ULL << CurrentSquare) : 0;
-                   BlackBitBoard |= (1ULL << CurrentSquare) ? BlackBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   //WhiteBlackBitBoard |= (1ULL << CurrentSquare) ? WhiteBlackBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   //BlackKingBitBoard |= (1ULL << CurrentSquare) ? BlackKingBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   //BlackBitBoard |= (1ULL << CurrentSquare) ? BlackBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   
+                   PutPiece(CurrentSquare, BlackKing);
 
                    CurrentSquare++;
 
@@ -323,9 +322,11 @@ void Chessboard::ParseFEN(std::string FEN) {
 
                    //std::cout << "Black pawn found on square: " << CurrentSquare << "\n";
 
-                   WhiteBlackBitBoard |= (1ULL << CurrentSquare) ? WhiteBlackBitBoard ^= (1ULL << CurrentSquare) : 0;
-                   BlackPawnBitBoard |= (1ULL << CurrentSquare) ? BlackPawnBitBoard ^= (1ULL << CurrentSquare) : 0;
-                   BlackBitBoard |= (1ULL << CurrentSquare) ? BlackBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   //WhiteBlackBitBoard |= (1ULL << CurrentSquare) ? WhiteBlackBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   //BlackPawnBitBoard |= (1ULL << CurrentSquare) ? BlackPawnBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   //BlackBitBoard |= (1ULL << CurrentSquare) ? BlackBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   
+                   PutPiece(CurrentSquare, BlackPawn);
 
                    CurrentSquare++;
 
@@ -334,9 +335,10 @@ void Chessboard::ParseFEN(std::string FEN) {
 
                    //std::cout << "white rook found on square: " << CurrentSquare << "\n";
 
-                   WhiteBlackBitBoard |= (1ULL << CurrentSquare) ? WhiteBlackBitBoard ^= (1ULL << CurrentSquare) : 0;
-                   WhiteRookBitBoard |= (1ULL << CurrentSquare) ? WhiteRookBitBoard ^= (1ULL << CurrentSquare) : 0;
-                   WhiteBitBoard |= (1ULL << CurrentSquare) ? WhiteBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   //WhiteBlackBitBoard |= (1ULL << CurrentSquare) ? WhiteBlackBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   //WhiteRookBitBoard |= (1ULL << CurrentSquare) ? WhiteRookBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   //WhiteBitBoard |= (1ULL << CurrentSquare) ? WhiteBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   PutPiece(CurrentSquare, WhiteRook);
 
                    CurrentSquare++;
 
@@ -345,9 +347,12 @@ void Chessboard::ParseFEN(std::string FEN) {
 
                    //std::cout << "White Knight found on square: " << CurrentSquare << "\n";
 
-                   WhiteBlackBitBoard |= (1ULL << CurrentSquare) ? WhiteBlackBitBoard ^= (1ULL << CurrentSquare) : 0;
-                   WhiteKnightBitBoard |= (1ULL << CurrentSquare) ? WhiteKnightBitBoard ^= (1ULL << CurrentSquare) : 0;
-                   WhiteBitBoard |= (1ULL << CurrentSquare) ? WhiteBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   //WhiteBlackBitBoard |= (1ULL << CurrentSquare) ? WhiteBlackBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   //WhiteKnightBitBoard |= (1ULL << CurrentSquare) ? WhiteKnightBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   //WhiteBitBoard |= (1ULL << CurrentSquare) ? WhiteBitBoard ^= (1ULL << CurrentSquare) : 0;
+
+                   PutPiece(CurrentSquare, WhiteKnight);
+                    
 
                    CurrentSquare++;
 
@@ -356,9 +361,11 @@ void Chessboard::ParseFEN(std::string FEN) {
 
                    //std::cout << "White Bishop found on square: " << CurrentSquare << "\n";
 
-                   WhiteBlackBitBoard |= (1ULL << CurrentSquare) ? WhiteBlackBitBoard ^= (1ULL << CurrentSquare) : 0;
-                   WhiteBishopBitBoard |= (1ULL << CurrentSquare) ? WhiteBishopBitBoard ^= (1ULL << CurrentSquare) : 0;
-                   WhiteBitBoard |= (1ULL << CurrentSquare) ? WhiteBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   //WhiteBlackBitBoard |= (1ULL << CurrentSquare) ? WhiteBlackBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   //WhiteBishopBitBoard |= (1ULL << CurrentSquare) ? WhiteBishopBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   //WhiteBitBoard |= (1ULL << CurrentSquare) ? WhiteBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   
+                   PutPiece(CurrentSquare, WhiteBishop);
 
                    CurrentSquare++;
 
@@ -367,9 +374,11 @@ void Chessboard::ParseFEN(std::string FEN) {
 
                    //std::cout << "White Queen on square: " << CurrentSquare << "\n";
 
-                   WhiteBlackBitBoard |= (1ULL << CurrentSquare) ? WhiteBlackBitBoard ^= (1ULL << CurrentSquare) : 0;
-                   WhiteQueenBitBoard |= (1ULL << CurrentSquare) ? WhiteQueenBitBoard ^= (1ULL << CurrentSquare) : 0;
-                   WhiteBitBoard |= (1ULL << CurrentSquare) ? WhiteBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   //WhiteBlackBitBoard |= (1ULL << CurrentSquare) ? WhiteBlackBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   //WhiteQueenBitBoard |= (1ULL << CurrentSquare) ? WhiteQueenBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   //WhiteBitBoard |= (1ULL << CurrentSquare) ? WhiteBitBoard ^= (1ULL << CurrentSquare) : 0;
+    
+                   PutPiece(CurrentSquare, WhiteQueen);
 
                    CurrentSquare++;
 
@@ -378,9 +387,11 @@ void Chessboard::ParseFEN(std::string FEN) {
 
                    //std::cout << "White King found on square: " << CurrentSquare << "\n";
 
-                   WhiteBlackBitBoard |= (1ULL << CurrentSquare) ? WhiteBlackBitBoard ^= (1ULL << CurrentSquare) : 0;
-                   WhiteKingBitBoard |= (1ULL << CurrentSquare) ? WhiteKingBitBoard ^= (1ULL << CurrentSquare) : 0;
-                   WhiteBitBoard |= (1ULL << CurrentSquare) ? WhiteBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   //WhiteBlackBitBoard |= (1ULL << CurrentSquare) ? WhiteBlackBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   //WhiteKingBitBoard |= (1ULL << CurrentSquare) ? WhiteKingBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   //WhiteBitBoard |= (1ULL << CurrentSquare) ? WhiteBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   
+                   PutPiece(CurrentSquare, WhiteKing);
 
                    CurrentSquare++;
 
@@ -389,9 +400,11 @@ void Chessboard::ParseFEN(std::string FEN) {
 
                    //std::cout << "White pawn found on square: " << CurrentSquare << "\n";
 
-                   WhiteBlackBitBoard |= (1ULL << CurrentSquare) ? WhiteBlackBitBoard ^= (1ULL << CurrentSquare) : 0;
-                   WhitePawnBitBoard |= (1ULL << CurrentSquare) ? WhitePawnBitBoard ^= (1ULL << CurrentSquare) : 0;
-                   WhiteBitBoard |= (1ULL << CurrentSquare) ? WhiteBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   //WhiteBlackBitBoard |= (1ULL << CurrentSquare) ? WhiteBlackBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   //WhitePawnBitBoard |= (1ULL << CurrentSquare) ? WhitePawnBitBoard ^= (1ULL << CurrentSquare) : 0;
+                   //WhiteBitBoard |= (1ULL << CurrentSquare) ? WhiteBitBoard ^= (1ULL << CurrentSquare) : 0;
+
+                   PutPiece(CurrentSquare, WhitePawn);
 
                    CurrentSquare++;
 
@@ -452,6 +465,169 @@ void Chessboard::ParseFEN(std::string FEN) {
     #endif
 }
 
+/*
+    Create and return a move struct from an algerbrraic notation eg e2e4
+
+    To make this possible it MUST be done here with reference to a piece positions 
+*/
+Move Chessboard::CreateMoveFromAlgerbraicNotation(std::string AlgerbraicNotation) 
+{
+    std::string OriginAlgerbraicNotation = AlgerbraicNotation.substr(0, 2);
+    std::string DestinationAlgerbraicNotation = AlgerbraicNotation.substr(2, 4);
+
+    int Origin;
+    int Destination;
+    
+    int PieceType;
+    int Side;
+
+    for (int SquareMappingArrayIterator=0; SquareMappingArrayIterator < 64; SquareMappingArrayIterator++) 
+    {
+        if (SqaureMappingArray[SquareMappingArrayIterator] == OriginAlgerbraicNotation) 
+        {
+            Origin = SquareMappingArrayIterator;
+    
+            //std::cout << Origin << "\n";
+        }
+
+        if (SqaureMappingArray[SquareMappingArrayIterator] == DestinationAlgerbraicNotation)
+        {
+            Destination = SquareMappingArrayIterator;
+        
+            //std::cout << Destination << "\n";
+        }
+    }
+
+    for (int PieceTypeBitboardArrayIterator=0; PieceTypeBitboardArrayIterator < 12; PieceTypeBitboardArrayIterator++) 
+    {
+        int Bitstatus = GetBit(PieceTypeBitboardArray[PieceTypeBitboardArrayIterator], Origin);
+
+        if (Bitstatus == 1) 
+        {
+            PieceType = PieceTypeBitboardArrayIterator; 
+        }
+    }
+
+    if (PieceType < 5) 
+    {
+        Side = black;
+    } 
+    else 
+    {
+        Side = white;
+    }
+
+    Move FinalMove(Origin, Destination, Side, PieceType);
+
+    return FinalMove;
+}
+
+int Chessboard::GetPieceType(int Square) 
+{
+    for (int PieceTypeBitboardArrayIterator=0; PieceTypeBitboardArrayIterator < 12; PieceTypeBitboardArrayIterator++) 
+    {
+        if (GetBit(PieceTypeBitboardArray[PieceTypeBitboardArrayIterator], Square) == 1 )
+        {
+            return PieceTypeBitboardArrayIterator;
+        }
+    }
+    return -1;
+}
+
+/*
+    wipe bit from all the internal bitboards
+*/
+void Chessboard::WipePiece(int Square) 
+{
+    DelBit(&WhiteBlackBitBoard, Square);  
+
+    for (int WhiteBitboardIterator=0; WhiteBitboardIterator < 6; WhiteBitboardIterator++) 
+    {
+        DelBit(WhiteBitboardArry[WhiteBitboardIterator], Square);
+    }
+
+    for (int BlackBitboardIterator=0; BlackBitboardIterator < 6; BlackBitboardIterator++)
+    {
+       DelBit(BlackBitboardArry[BlackBitboardIterator], Square); 
+    }
+
+    for (int SideBoardIterator=0; SideBoardIterator < 2; SideBoardIterator++) 
+    {
+        DelBit(SideBitboardArray[SideBoardIterator], Square);
+    }
+}
+
+void Chessboard::PutPiece(int Square, int PieceType) 
+{
+    AddBit(&WhiteBlackBitBoard, Square);
+    AddBit(PieceTypeBitboardArray[PieceType], Square);
+    
+    int Side;
+
+    if (PieceType < 6) 
+    {
+        Side = black;
+    }
+    else 
+    {
+        Side = white;
+    }
+
+    AddBit(SideBitboardArray[Side], Square);
+
+}
+
+void Chessboard::ZobristInit() 
+{
+    static int ZobristInitialised = false;
+
+    if (ZobristInitialised==true) {return;}
+
+   srand(time(0)); 
+
+   ZobristBlackToMove = rand();
+
+    for (int ZobristCastleRightsIterator = 0; ZobristCastleRightsIterator < 4; ZobristCastleRightsIterator++) 
+    {
+        ZobristCastlingRights[ZobristCastleRightsIterator] = rand();
+    }
+
+    for (int ZobristEnPassantIterator=0; ZobristEnPassantIterator < 8; ZobristEnPassantIterator++)
+    {
+        ZobristEnPassant[ZobristEnPassantIterator] = rand();
+    }
+
+    for (int ZobristSquareValuesIterator=0; ZobristSquareValuesIterator < 64; ZobristSquareValuesIterator++)
+    {
+        for (int ZobristPiecesValuesIterator=0; ZobristPiecesValuesIterator < 12; ZobristPiecesValuesIterator++)
+        {
+            ZobristPieceSquareValues[ZobristSquareValuesIterator][ZobristPiecesValuesIterator] = rand();
+        }
+    }
+    
+    ZobristInitialised = true;
+}
+
+int Chessboard::ZobristHash() 
+{
+    int Hash=0;
+
+    if (SideToMove==black) 
+    {
+        Hash = Hash ^ ZobristBlackToMove;
+    }
+
+    for (int SquareIterator=0; SquareIterator < 64; SquareIterator++) 
+    {
+        int PieceType = GetPieceType(SquareIterator);
+
+        Hash = Hash ^ ZobristPieceSquareValues[SquareIterator][PieceType];
+
+    }
+
+    return Hash;
+}
+
 int Chessboard::DoMove(Move MoveToDo) 
 {
 
@@ -466,48 +642,37 @@ int Chessboard::DoMove(Move MoveToDo)
     int OriginBitstatus = GetBit(&WhiteBlackBitBoard, MoveToDo.Origin);
 
     if (OriginBitstatus == 1) {
-        DelBit(PieceTypeBitboardArray[MoveToDo.PieceType], MoveToDo.Origin);
-        DelBit(&WhiteBlackBitBoard, MoveToDo.Origin);
-        DelBit(SideBitboardArray[MoveToDo.Side], MoveToDo.Origin);
+        WipePiece(MoveToDo.Origin);    
     }
 
     int DestinationBitstatus = GetBit(&WhiteBlackBitBoard, MoveToDo.Destination);
 
     if (DestinationBitstatus == 1) {
-        DelBit(PieceTypeBitboardArray[MoveToDo.PieceType], MoveToDo.Destination);
-        DelBit(&WhiteBlackBitBoard, MoveToDo.Destination);
-        DelBit(SideBitboardArray[MoveToDo.Side], MoveToDo.Destination);
+        WipePiece(MoveToDo.Destination);
     }
 
-    AddBit(PieceTypeBitboardArray[MoveToDo.PieceType], MoveToDo.Destination);
-    AddBit(&WhiteBlackBitBoard, MoveToDo.Destination);
-    AddBit(SideBitboardArray[MoveToDo.Side], MoveToDo.Destination);
+    PutPiece(MoveToDo.Destination, MoveToDo.PieceType);
 
     return 1;
 }
 
-int Chessboard::UndoLastMove(Move MoveForRemoval) {
+int Chessboard::UndoLastMove() {
 
     SideToMove = !SideToMove;
 
-    Moves.pop_back();
+    Move MoveForRemoval = Moves[Moves.size()-1];
 
     if (GetBit(&WhiteBlackBitBoard, MoveForRemoval.Origin)) {
-        DelBit(PieceTypeBitboardArray[MoveForRemoval.PieceType], MoveForRemoval.Origin);
-        DelBit(&WhiteBlackBitBoard, MoveForRemoval.Origin);
-        DelBit(SideBitboardArray[MoveForRemoval.Side], MoveForRemoval.Origin);
+        WipePiece(MoveForRemoval.Origin);
     }
 
     if (GetBit(&WhiteBlackBitBoard, MoveForRemoval.Destination) == 1) {
-        DelBit(PieceTypeBitboardArray[MoveForRemoval.PieceType], MoveForRemoval.Destination);
-        DelBit(&WhiteBlackBitBoard, MoveForRemoval.Destination);
-        DelBit(SideBitboardArray[MoveForRemoval.Side], MoveForRemoval.Destination);
+        WipePiece(MoveForRemoval.Destination);
     }
 
-    AddBit(PieceTypeBitboardArray[MoveForRemoval.PieceType], MoveForRemoval.Origin);
-    AddBit(&WhiteBlackBitBoard, MoveForRemoval.Origin);
-    AddBit(SideBitboardArray[MoveForRemoval.Side], MoveForRemoval.Origin);
+    PutPiece(MoveForRemoval.Origin, MoveForRemoval.PieceType);
 
+    Moves.pop_back();
 
     return 1;
 
@@ -539,15 +704,19 @@ std::vector<Move> Chessboard::GetAllSidesMoves(int side)
             FuncIndex += BoardIterator;
             PieceColor = black;
 
-        } else {
+        } 
+        else 
+        {
 
             FuncIndex += (BoardIterator - 6);
             PieceColor = white;
 
         }
 
-        if (PieceColor == side) {
-            while (*PieceTypeBitboardArray[BoardIterator] != 0) {
+        if (PieceColor == side) 
+        {
+            while (*PieceTypeBitboardArray[BoardIterator] != 0) 
+            {
 
                 int BoardLSB = BitScanLSB(PieceTypeBitboardArray[BoardIterator]);
 
@@ -612,7 +781,9 @@ std::vector<Move> Chessboard::GetAllMoves()
             FuncIndex += BoardIterator;
             PieceColor = black;
 
-        } else {
+        } 
+        else 
+        {
 
             FuncIndex += (BoardIterator - 6);
             PieceColor = white;
@@ -696,6 +867,72 @@ void Chessboard::PrintChesssboard()
     std::cout << "    a b c d e f g h" << "\n";
 }
 
+void Chessboard::ShowMove(Move MoveToShow) 
+{
+    // these two arrays are mapped;
+
+    // squares that will have arrows on them to show the move
+    int SquaresThatWillHaveArrows[8];
+    
+    // the unicode arrow that will be printed
+    int TypeOfArrowOnSquare[8];
+
+    if (MoveToShow.PieceType == BlackPawn) 
+    {
+        if (MoveToShow.Destination - MoveToShow.Origin) 
+        {
+
+        }
+    }
+
+    for (int RankIterator=0; RankIterator < 8; RankIterator++) 
+    {
+        for (int FileIterator=0; FileIterator < 8; FileIterator++) 
+        {
+            int Sqaure = RankIterator * 8 + FileIterator;
+
+            int OneOrZero = ((WhiteBlackBitBoard & (1ULL << Sqaure)) ? 1 : 0);
+
+            if (FileIterator == 0) 
+            {
+                std::cout << 8 - RankIterator << " | "; 
+            }
+
+            if (OneOrZero == 1) 
+            {
+                 std::cout << PieceAsciiSymbols[MoveToShow.PieceType] << " ";
+            }
+            else 
+            {
+                std::cout << ". ";
+            }
+        }
+        std::cout << "\n";
+    }
+    std::cout << "    ---------------" << "\n";
+    std::cout << "    a b c d e f g h" << "\n";
+
+}
+
+void Chessboard::ClearBoard() 
+{
+    WhiteBlackBitBoard = 0ULL;
+    BlackRookBitBoard = 0ULL;
+    BlackPawnBitBoard = 0ULL;
+    BlackBishopBitBoard = 0ULL;
+    BlackKingBitBoard = 0ULL;
+    BlackQueenBitBoard = 0ULL;
+    BlackKnightBitBoard = 0ULL;
+    BlackRookBitBoard = 0ULL;
+    WhitePawnBitBoard = 0ULL;
+    WhiteBishopBitBoard = 0ULL;
+    WhiteKingBitBoard = 0ULL;
+    WhiteQueenBitBoard = 0ULL;
+    WhiteKnightBitBoard = 0ULL;
+    WhiteRookBitBoard = 0ULL;
+    WhiteBitBoard = 0ULL;
+}
+
 // constructor for this class 
 // sets up the board by parsing fen given during object creation
 Chessboard::Chessboard(std::string FEN) 
@@ -703,8 +940,10 @@ Chessboard::Chessboard(std::string FEN)
 
     ParseFEN(FEN);
 
+    ZobristInit();
 }
 
-Chessboard::Chessboard() {
-
+Chessboard::Chessboard() 
+{
+    ZobristInit();
 }

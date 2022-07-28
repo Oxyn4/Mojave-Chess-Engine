@@ -22,9 +22,19 @@ void DelBit(uint64_t *Board, int Square) {
 
 int GetBit(uint64_t *Board, int Square) {
     //int BitStatus = (*Board & ( 1 << Square )) >> Square;
-    int BitStatus = ((*Board>>Square) & 1);
-    return BitStatus;             
+    uint64_t Mask = 0x0;
+
+    AddBit(&Mask, Square);
+
+    if (IsEmpty(*Board & Mask) == false) 
+    {
+        return 1;
+    }
+
+    return 0;             
 }
+
+
 
 bool IsEmpty(uint64_t Board) {
     if (Board == 0) {
@@ -150,15 +160,28 @@ uint64_t FlipHorizontal(uint64_t Board) {
 }
 
 //lsb
-int BitScanLSB(uint64_t *Board) {
+int BitscanMSB(uint64_t *Board) {
     return  ((__builtin_ffsll(*Board)  - 1));
 }
 
 //msb
-int BitscanMSB(uint64_t *Board) {
+int BitScanLSB(uint64_t *Board) {
     return (63 - __builtin_clzll(*Board));
 }
 
+void ResetMSB(uint64_t *Board) 
+{
+    int PositionOfMSB = BitscanMSB(Board);
+
+    DelBit(Board, PositionOfMSB);
+}
+
+void ResetLSB(uint64_t *Board)
+{
+   int PositionOfLSB = BitScanLSB(Board);
+    
+   DelBit(Board, PositionOfLSB);
+}
 
 int NotSide(int side) 
 {

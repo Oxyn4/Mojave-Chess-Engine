@@ -56,6 +56,7 @@ enum Pieces {
     WhitePawn, WhiteBishop, WhiteKing, WhiteQueen, WhiteKnight, WhiteRook
 };
 
+void PrintPiecetype(int PieceType);
 
 // this struct contains a moves data
 typedef struct Move{

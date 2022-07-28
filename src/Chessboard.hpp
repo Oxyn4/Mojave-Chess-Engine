@@ -1,11 +1,14 @@
 #pragma once
 
+#include <cstdint>
 #include <string>
 #include <cstring>
 #include <iostream>
 #include <chrono>
+#include <sys/types.h>
 #include <vector>
 #include <thread>
+#include <random>
 
 #include "Bitboard.hpp"
 #include "BoardConcepts.hpp"
@@ -128,7 +131,14 @@ class Chessboard {
         int WhiteKingCastleRights = 1;
 
         int CastleRightsArray[2][2] = {{WhiteQueenCastleRights, WhiteKingCastleRights}, {BlackQueenCastleRights, BlackKingCastleRights}};
-        
+       
+        /*
+         * randomly generated numbers used for zobrist hashing 
+        */
+        int ZobristPieceSquareValues[64][12];
+        int ZobristBlackToMove;
+        int ZobristEnPassant[8];
+        int ZobristCastlingRights[4];
     public:
         uint64_t GetKingMoves(int square, int side);
         uint64_t GetKnightMoves(int square, int side);
@@ -139,9 +149,21 @@ class Chessboard {
         uint64_t ClassicalGenerateQueenMoves(int square, int side);        
 
         uint64_t (Chessboard::Chessboard::*MoveCalculatingFunctions[6]) (int square, int side) {&Chessboard::GetPawnMoves, &Chessboard::ClassicalGenerateBishopMoves, &Chessboard::GetKingMoves, &Chessboard::ClassicalGenerateQueenMoves, &Chessboard::GetKnightMoves, &Chessboard::ClassicalGenerateRookMoves};
+    
+        int GetPieceType(int Square);
+
+        void PutPiece(int Square, int PieceType);
+        void WipePiece(int Square);
+
+        void ClearBoard();
+
+        Move CreateMoveFromAlgerbraicNotation(std::string AlgerbraicNotation);
 
         int DoMove(Move MoveToDo);
-        int UndoLastMove(Move MoveForRemoval);
+        int UndoLastMove();
+
+        void ZobristInit();
+        int ZobristHash();
 
         std::vector<Move> GetAllSidesMoves(int Side);
         std::vector<Move> GetAllMoves();
@@ -163,4 +185,5 @@ class Chessboard {
         Move SearchRandom();
 
         void PrintChesssboard();
+        void ShowMove(Move MoveToShow);
 };
