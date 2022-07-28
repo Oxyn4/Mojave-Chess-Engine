@@ -20,7 +20,7 @@ else()
     set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Ofast")
 endif()
 
-add_executable(mojave src/main.cpp src/Bitboard.cpp src/Search.cpp src/BoardConcepts.cpp src/Moves.cpp src/Chessboard.cpp src/Evaluation.cpp src/Interface.cpp)
+add_executable(mojave src/main.cpp src/Bitboard.cpp src/ChessboardSearch.cpp src/BoardConcepts.cpp src/Moves.cpp src/Chessboard.cpp src/ChessboardEvaluation.cpp src/Interface.cpp src/ChessboardMoveGeneration.cpp)
 
 add_library(bitboard STATIC src/Bitboard.cpp)
 
@@ -28,7 +28,7 @@ add_library(boardconcepts STATIC src/BoardConcepts.cpp)
 
 add_library(moves STATIC src/Moves.cpp)
 
-add_library(chessboard STATIC src/Chessboard.cpp src/Search.cpp src/Evaluation.cpp)
+add_library(chessboard STATIC src/Chessboard.cpp src/ChessboardSearch.cpp src/ChessboardEvaluation.cpp src/ChessboardMoveGeneration.cpp)
 
 target_link_libraries(moves bitboard)
 target_link_libraries(moves boardconcepts)

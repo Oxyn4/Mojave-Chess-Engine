@@ -151,7 +151,6 @@ class Chessboard {
         uint64_t (Chessboard::Chessboard::*MoveCalculatingFunctions[6]) (int square, int side) {&Chessboard::GetPawnMoves, &Chessboard::ClassicalGenerateBishopMoves, &Chessboard::GetKingMoves, &Chessboard::ClassicalGenerateQueenMoves, &Chessboard::GetKnightMoves, &Chessboard::ClassicalGenerateRookMoves};
     
         int GetPieceType(int Square);
-
         void PutPiece(int Square, int PieceType);
         void WipePiece(int Square);
 
