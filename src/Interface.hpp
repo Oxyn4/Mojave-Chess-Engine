@@ -28,6 +28,7 @@ extern std::vector<std::string> CommandHistory;
 extern int InterfaceMethod;
 
 void ParseCommandLineArguments(int argc, char *argv[]);
+void CommandLineInterface(std::vector<std::string> TokenVector);
 void InterfaceLoop();
 void ParseUCICommand(std::vector<std::string> TokenVector);
 void ParseUCICommand(Chessboard Board, std::vector<std::string> TokenVector);

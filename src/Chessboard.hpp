@@ -148,6 +148,8 @@ class Chessboard {
         uint64_t ClassicalGenerateBishopMoves(int Square, int side);
         uint64_t ClassicalGenerateQueenMoves(int square, int side);        
 
+        uint64_t GetMovesForSquare(int Square);
+
         uint64_t (Chessboard::Chessboard::*MoveCalculatingFunctions[6]) (int square, int side) {&Chessboard::GetPawnMoves, &Chessboard::ClassicalGenerateBishopMoves, &Chessboard::GetKingMoves, &Chessboard::ClassicalGenerateQueenMoves, &Chessboard::GetKnightMoves, &Chessboard::ClassicalGenerateRookMoves};
     
         int GetPieceType(int Square);

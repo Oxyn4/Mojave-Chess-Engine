@@ -60,6 +60,7 @@ void PrintPiecetype(int PieceType);
 
 std::string ConvertMojavePieceRepresentationToText(int PieceType);
 std::string ConvertMojaveSideRepresentationToText(int Side);
+std::string ConvertMojaveIntegerToSquareMapping(int MojaveInteger); 
 int ConvertSquareMappingToMojaveInteger(std::string SquareMapping);
 int ConvertPieceTextToMojaveInteger(std::string PieceText); 
 

@@ -29,6 +29,19 @@ std::string ConvertMojaveSideRepresentationToText(int Side)
     return "";
 }
 
+std::string ConvertMojaveIntegerToSquareMapping(int MojaveInteger) 
+{
+    for (int SquareMappingArrayIterator=0; SquareMappingArrayIterator < 64; SquareMappingArrayIterator++) 
+    {
+        if (SquareMappingArrayIterator == MojaveInteger) 
+        {
+            return SqaureMappingArray[SquareMappingArrayIterator];
+        }
+
+    }
+    return "";
+}
+
 int ConvertSquareMappingToMojaveInteger(std::string SqaureNumber) 
 {
     for (int SquareMappingArrayIterator=0; SquareMappingArrayIterator < 64; SquareMappingArrayIterator++) 

@@ -1,10 +1,12 @@
 
+#include "BoardConcepts.hpp"
 #include "Chessboard.hpp"
+#include <cstdint>
 
 uint64_t Chessboard::ClassicalGenerateRookMoves(int square, int side) {
   
     #ifdef DEBUG
-      std::cout << "Getting all rook moves for square: " << square << "\n";
+      std::cout << "Getting all moves for a " << ConvertMojaveSideRepresentationToText(side) << " rook for square: " << ConvertMojaveIntegerToSquareMapping(square) << "\n";      
       auto FuncStartPoint = std::chrono::high_resolution_clock::now();
     #endif
 
@@ -72,7 +74,6 @@ uint64_t Chessboard::ClassicalGenerateRookMoves(int square, int side) {
         auto StoppingPoint = std::chrono::high_resolution_clock::now();
         auto Duration = std::chrono::duration_cast<std::chrono::microseconds>(StoppingPoint - FuncStartPoint);
         std::cout << "Finished getting moves for a Rook on square: " << square << " in: " << Duration.count()  << " microseconds"  << "\n\n";
-        PrintBitboard(FinalBitboard); 
     #endif
     
     return FinalBitboard;
@@ -81,7 +82,7 @@ uint64_t Chessboard::ClassicalGenerateRookMoves(int square, int side) {
 uint64_t Chessboard::ClassicalGenerateBishopMoves(int Square, int side) {
    
     #ifdef DEBUG
-       std::cout << "Getting all moves for a bishop on square: " << Square << "\n";
+        std::cout << "Getting moves for a " << ConvertMojaveSideRepresentationToText(side) << " bishop on Square " << ConvertMojaveIntegerToSquareMapping(Square) << "\n";
        auto FuncStartPoint = std::chrono::high_resolution_clock::now();
     #endif
 
@@ -145,7 +146,7 @@ uint64_t Chessboard::ClassicalGenerateBishopMoves(int Square, int side) {
 uint64_t Chessboard::ClassicalGenerateQueenMoves(int square, int side) {
     
     #ifdef DEBUG
-        std::cout << "Getting all moves for a queen on square: " << square << "\n\n";
+        std::cout << "Getting moves for a " << ConvertMojaveSideRepresentationToText(side) << " queen on Square " << ConvertMojaveIntegerToSquareMapping(square) << "\n";
         auto FuncStartPoint = std::chrono::high_resolution_clock::now();
     #endif
 
@@ -166,7 +167,7 @@ uint64_t Chessboard::ClassicalGenerateQueenMoves(int square, int side) {
 uint64_t Chessboard::GetKingMoves(int square, int side) {
     
     #ifdef DEBUG
-      std::cout << "Getting " << ConvertMojaveSideRepresentationToText(side) << " King moves on Square";
+      std::cout << "Getting moves for a " << ConvertMojaveSideRepresentationToText(side) << " King on Square " << ConvertMojaveIntegerToSquareMapping(square) << "\n";
     #endif
     
     uint64_t KingMask = KingMoves[square];
@@ -182,7 +183,7 @@ uint64_t Chessboard::GetKingMoves(int square, int side) {
 uint64_t Chessboard::GetKnightMoves(int square, int side) {
 
     #ifdef DEBUG
-      std::cout << "Getting Knight moves\n";
+      std::cout << "Getting moves for a " << ConvertMojaveSideRepresentationToText(side) << " Knight on Square " << ConvertMojaveIntegerToSquareMapping(square) << "\n";
     #endif
 
     uint64_t PotentialKnightMoves = KnightMoves[square];
@@ -194,6 +195,10 @@ uint64_t Chessboard::GetKnightMoves(int square, int side) {
 
 
 uint64_t Chessboard::GetPawnMoves(int square, int side) {
+    #ifdef DEBUG
+      std::cout << "Getting moves for a " << ConvertMojaveSideRepresentationToText(side) << " pawn on Square " << ConvertMojaveIntegerToSquareMapping(square) << "\n";
+    #endif
+    
     uint64_t PawnMoveMask = PawnMoves[side][square];
     //PrintBitboard(PawnMoveMask);
     uint64_t PawnAttackMask = PawnAttacks[side][square];
@@ -207,4 +212,27 @@ uint64_t Chessboard::GetPawnMoves(int square, int side) {
     //PrintBitboard(PawnBitboard);
     
     return PawnBitboard;
+}
+
+uint64_t Chessboard::GetMovesForSquare(int Square)
+{
+    int PieceType = GetPieceType(Square);
+    
+    int Side;
+    int FunctionIndex;
+
+    if (PieceType <= 5) 
+    {
+        Side = black;
+        FunctionIndex = PieceType;
+    }
+    else 
+    {
+        Side = white;
+        FunctionIndex = PieceType-6;
+    }
+
+    uint64_t Result = (this->*MoveCalculatingFunctions[FunctionIndex])(Square, Side);
+
+    return Result;
 }

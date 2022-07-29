@@ -423,10 +423,10 @@ std::vector<Move> Chessboard::GetAllMoves()
 
                 LegalMoveVector.push_back(NewMove);
 
-                MovesBitboard &= MovesBitboard - 1;   
+                ResetLSB(&MovesBitboard);
             }
-
-            *PieceTypeBitboardArray[BoardIterator] &= *PieceTypeBitboardArray[BoardIterator] - 1;    
+    
+            ResetLSB(PieceTypeBitboardArray[BoardIterator]);
         }        
     }
     

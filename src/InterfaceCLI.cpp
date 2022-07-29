@@ -1,4 +1,6 @@
 
+#include "Bitboard.hpp"
+#include "BoardConcepts.hpp"
 #include "Interface.hpp"
 
 void CommandLineInterface(std::vector<std::string> TokenVector) 
@@ -7,6 +9,13 @@ void CommandLineInterface(std::vector<std::string> TokenVector)
 
     for (int TokenVectorIterator=0; TokenVectorIterator < TokenVector.size(); TokenVectorIterator++) 
     {
+        if (TokenVector[TokenVectorIterator] == "info") 
+        {
+            std::cout << "\nMojave Engine\n\n";
+
+            std::cout << "The author of this engine is Jacob Evans\n\n";
+        }
+
         if (TokenVector[TokenVectorIterator] == "f") 
         {
             if (TokenVector[TokenVectorIterator+1] == "startpos") 
@@ -48,19 +57,26 @@ void CommandLineInterface(std::vector<std::string> TokenVector)
 
         if (TokenVector[TokenVectorIterator] == "z") 
         {
-            std::cout << "\n" << Board.ZobristHash() << "\n\n";
+            std::cout << "\nZobrist hash of current position: " << Board.ZobristHash() << "\n\n";
         }
 
         if (TokenVector[TokenVectorIterator] == "uci") 
         {
             std::vector<std::string> UCITokenVector;
 
-            for (int UCITokenVectorIterator=1; UCITokenVectorIterator < UCITokenVectorIterator; UCITokenVectorIterator++) 
+            for (int UCITokenVectorIterator=1; UCITokenVectorIterator < UCITokenVector.size(); UCITokenVectorIterator++) 
             {
                  UCITokenVector.push_back(TokenVector[UCITokenVectorIterator]);
             }
 
             ParseUCICommand(Board, UCITokenVector);
+        }
+
+        if (TokenVector[TokenVectorIterator] == "gm") 
+        {
+           int Square = ConvertSquareMappingToMojaveInteger(TokenVector[TokenVectorIterator+1]);
+
+           PrintBitboard(Board.GetMovesForSquare(Square));
         }
 
         if (TokenVector[TokenVectorIterator] == "exit") 
