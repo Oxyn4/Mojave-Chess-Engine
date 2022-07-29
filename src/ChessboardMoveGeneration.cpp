@@ -166,7 +166,7 @@ uint64_t Chessboard::ClassicalGenerateQueenMoves(int square, int side) {
 uint64_t Chessboard::GetKingMoves(int square, int side) {
     
     #ifdef DEBUG
-      std::cout << "Getting King moves\n";
+      std::cout << "Getting " << ConvertMojaveSideRepresentationToText(side) << " King moves on Square";
     #endif
     
     uint64_t KingMask = KingMoves[square];

@@ -18,6 +18,124 @@ int GetFileOfSquareNumber(int SqaureNumber)
     return SqaureNumber % 8 == 0 ? 8 : SqaureNumber % 8;
 }
 
+std::string ConvertMojaveSideRepresentationToText(int Side) 
+{
+    switch (Side) {
+        case black:
+            return "black";
+        case white:
+            return "white";
+    }
+    return "";
+}
+
+int ConvertSquareMappingToMojaveInteger(std::string SqaureNumber) 
+{
+    for (int SquareMappingArrayIterator=0; SquareMappingArrayIterator < 64; SquareMappingArrayIterator++) 
+    {
+        if (SqaureMappingArray[SquareMappingArrayIterator] == SqaureNumber) {return SquareMappingArrayIterator;}
+    }
+    return -1;
+} 
+
+int ConvertPieceTextToMojaveInteger(std::string PieceText) 
+{
+    
+    if (PieceText == "BlackPawn") 
+    {
+            return 0;
+    } 
+    else if (PieceText == "BlackBishop") 
+    {
+            return 1; 
+    }
+    else if (PieceText == "BlackKing") 
+    {
+            return 2;
+    }
+    else if (PieceText == "BlackQueen")
+    {
+            return 3; 
+    } 
+    else if (PieceText == "BlackKnight")
+    {
+            return 4; 
+    }
+    else if (PieceText == "BlackRook")
+    {
+            return 5;
+    }
+    else if (PieceText == "WhitePawn")
+    {
+            return 6;
+    } 
+    else if (PieceText == "WhiteBishop")
+    {
+            return 7;
+    }
+    else if (PieceText == "WhiteKing")
+    {
+            return 8;
+    }
+    else if (PieceText == "WhiteQueen") 
+    {
+            return 9; 
+    }
+    else if (PieceText == "WhiteKnight")
+    {
+            return 10;
+    }
+    else if (PieceText == "WhiteRook") 
+    {
+            return 11; 
+    }
+
+
+}
+
+std::string ConvertMojavePieceRepresentationToText(int PieceType) 
+{
+    switch (PieceType) {
+        case 0:
+            return "Black pawn";
+            break;
+        case 1:
+            return "Black Bishop"; 
+            break;
+        case 2:
+            return "Black King";
+            break;
+        case 3:
+            return "Black Queen"; 
+            break;
+        case 4:
+            return "Black Knight"; 
+            break;
+        case 5:
+            return "Black Rook";
+            break;
+        case 6:
+            return "white Pawn";
+            break;
+        case 7:
+            return "White Bishop";
+            break;
+        case 8:
+            return "White King";
+            break;
+        case 9:
+            return "White Queen"; 
+            break;
+        case 10:
+            return "White Knight";
+            break;
+        case 11:
+            return  "White Rook"; 
+            break;
+    }
+    return ""; 
+}
+
 void PrintPiecetype(int PieceType) 
 {
     switch (PieceType) {

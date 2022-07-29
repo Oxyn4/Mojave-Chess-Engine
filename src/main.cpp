@@ -13,13 +13,14 @@
 */
 
 
-int main() {
+int main(int argc, char *argv[]) 
+{
 
     MoveGenerationInit();
 
-    //InterfaceLoop();
+    ParseCommandLineArguments(argc, argv);
 
-    Chessboard Board;
+    InterfaceLoop();
 
     return EXIT_SUCCESS;    
 }

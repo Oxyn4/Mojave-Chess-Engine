@@ -159,6 +159,7 @@ class Chessboard {
         Move CreateMoveFromAlgerbraicNotation(std::string AlgerbraicNotation);
 
         int DoMove(Move MoveToDo);
+
         int UndoLastMove();
 
         void ZobristInit();

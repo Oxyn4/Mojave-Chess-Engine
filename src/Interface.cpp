@@ -5,81 +5,29 @@
     manages one or more chessboard objectes
 */
 
-#include <iostream>
-#include <memory>
-#include <sstream>
-#include <string>
-#include <vector>
-#include <bits/stdc++.h>
-
-#include "Bitboard.hpp"
-#include "BoardConcepts.hpp"
-#include "Chessboard.hpp"
 #include "Interface.hpp"
 
+
 int communicationstatus = 1;
+
+int InterfaceMethod = -1;
 
 // list of commands sent from GUI
 std::vector<std::string> CommandHistory;
 
-int IsPositionInited = 0;
-
-void ParseUCICommand(std::vector<std::string> TokenVector) 
+void ParseCommandLineArguments(int argc, char *argv[]) 
 {
-    static Chessboard Board;
 
-    for (int TokenVectorIterator=0; TokenVectorIterator < TokenVector.size(); TokenVectorIterator++) 
+    for (int ArgumentIterator = 1; ArgumentIterator < argc; ArgumentIterator++) 
     {
-        if (TokenVector[TokenVectorIterator] == "uci" || TokenVector[TokenVectorIterator] == "uci\n") 
+        if (strcmp(argv[ArgumentIterator], "--CLI")) 
         {
-            std::cout << "id name Mojave\n";
-            std::cout << "id author Jacob Evans\n";
-            std::cout << "uciok\n";   
-        }   
-        
-        if (TokenVector[TokenVectorIterator] == "isready\n" || TokenVector[TokenVectorIterator] == "isready")
-        {
-            std::cout << "readyok\n";
+            InterfaceMethod = CLI;
         }
 
-        if (TokenVector[TokenVectorIterator] == "position")
-        {
 
-            if (TokenVector[TokenVectorIterator+1] == "startpos") 
-            {
-                Board.ParseFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-            } 
-            else 
-            {
-                Board.ParseFEN(TokenVector[TokenVectorIterator+1]);
-            }       
-
-            if (TokenVector[TokenVectorIterator+2] == "moves") 
-            {
-                for (int MovesMadeIterator=(TokenVectorIterator+3); MovesMadeIterator < TokenVector.size(); MovesMadeIterator++) 
-                {
-                    Move NewMove = Board.CreateMoveFromAlgerbraicNotation(TokenVector[MovesMadeIterator]);
-
-                    Board.PrintChesssboard();
-
-                    Board.DoMove(NewMove);
-                
-                    Board.PrintChesssboard();
-                }
-            }
-        }
-
-        if (TokenVector[TokenVectorIterator] == "go") 
-        {
-            Move Bestmove = Board.SearchRandom();
-
-            Board.PrintChesssboard();
-
-            Board.DoMove(Bestmove);
-
-            Board.PrintChesssboard();
-        }
     }
+
 }
 
 
@@ -88,6 +36,9 @@ void InterfaceLoop()
     while (communicationstatus == 1) 
     {
         char UCI_Command[50];
+
+        // if cli add prompt to cli
+        if (InterfaceMethod == CLI) {std::cout << "Mojave -> ";}
 
         std::cin.getline(UCI_Command, 50);
 
@@ -104,6 +55,23 @@ void InterfaceLoop()
             TokenVector.push_back(Token);
         }
     
-        ParseUCICommand(TokenVector);
+        if (InterfaceMethod == -1) 
+        {
+            InterfaceMethod = UCI;
+        }
+
+        if (InterfaceMethod == UCI) 
+        {
+            ParseUCICommand(TokenVector);
+        }
+        else if (InterfaceMethod == CLI)
+        {
+            // TODO: Implement mojave CLI
+            CommandLineInterface(TokenVector);
+        }
+        else if (InterfaceMethod == GUI)
+        {
+            // implement GUI compatiblity 
+        }
     }
 }

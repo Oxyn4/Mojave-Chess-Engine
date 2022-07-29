@@ -58,6 +58,11 @@ enum Pieces {
 
 void PrintPiecetype(int PieceType);
 
+std::string ConvertMojavePieceRepresentationToText(int PieceType);
+std::string ConvertMojaveSideRepresentationToText(int Side);
+int ConvertSquareMappingToMojaveInteger(std::string SquareMapping);
+int ConvertPieceTextToMojaveInteger(std::string PieceText); 
+
 // this struct contains a moves data
 typedef struct Move{
     int Origin;
