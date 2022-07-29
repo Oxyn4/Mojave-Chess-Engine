@@ -79,6 +79,33 @@ void CommandLineInterface(std::vector<std::string> TokenVector)
            PrintBitboard(Board.GetMovesForSquare(Square));
         }
 
+        if (TokenVector[TokenVectorIterator] == "mm") 
+        {
+            int Origin = ConvertSquareMappingToMojaveInteger(TokenVector[TokenVectorIterator+1]);
+
+            int Destination = ConvertSquareMappingToMojaveInteger(TokenVector[TokenVectorIterator+2]);
+
+            int PieceType = Board.GetPieceType(Origin);
+
+            int Side;
+
+            if (Side < 6) 
+            {
+                Side = black;
+            }
+            else 
+            {
+                Side = white;
+            }
+
+            Move NewMove(Origin, Destination, Side, PieceType);
+
+            NewMove.PrintMove();
+
+            Board.DoMove(NewMove);
+
+        }
+        
         if (TokenVector[TokenVectorIterator] == "exit") 
         {
             exit(EXIT_SUCCESS);

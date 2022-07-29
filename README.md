@@ -211,6 +211,26 @@ Mojave -> gm e2
 
 Gets legal moves of piece on e2
 
+#### make move (mm command)
+
+This will make a move on the board.
+
+Usage is as followed:
+
+```
+Mojave -> mm <SM> <SM>
+```
+
+this will move piece on 1st SM to 2nd SM
+
+Example usage:
+
+```
+Mojave -> mm e2 e4
+```
+
+this will move piece on e2 to e4
+
 ## Features
 This engine uses many technique outlined on the [Chessprogramming](https://www.chessprogramming.org/Main_Page) wiki for efficency and effectiveness.
 
