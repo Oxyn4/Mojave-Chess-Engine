@@ -150,7 +150,7 @@ class Chessboard {
 
         uint64_t GetMovesForSquare(int Square);
 
-        uint64_t (Chessboard::Chessboard::*MoveCalculatingFunctions[6]) (int square, int side) {&Chessboard::GetPawnMoves, &Chessboard::ClassicalGenerateBishopMoves, &Chessboard::GetKingMoves, &Chessboard::ClassicalGenerateQueenMoves, &Chessboard::GetKnightMoves, &Chessboard::ClassicalGenerateRookMoves};
+        uint64_t (Chessboard::Chessboard::*MoveCalculatingFunctions[12]) (int square, int side) {&Chessboard::GetPawnMoves, &Chessboard::ClassicalGenerateBishopMoves, &Chessboard::GetKingMoves, &Chessboard::ClassicalGenerateQueenMoves, &Chessboard::GetKnightMoves, &Chessboard::ClassicalGenerateRookMoves, &Chessboard::GetPawnMoves, &Chessboard::ClassicalGenerateBishopMoves, &Chessboard::GetKingMoves, &Chessboard::ClassicalGenerateQueenMoves, &Chessboard::GetKnightMoves, &Chessboard::ClassicalGenerateRookMoves};
     
         int GetPieceType(int Square);
         void PutPiece(int Square, int PieceType);
@@ -187,5 +187,6 @@ class Chessboard {
         Move SearchRandom();
 
         void PrintChesssboard();
+        void PrintInternalBitboards();
         void ShowMove(Move MoveToShow);
 };

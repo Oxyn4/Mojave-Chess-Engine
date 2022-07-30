@@ -10,6 +10,7 @@
 #include <string>
 #include <vector>
 #include <bits/stdc++.h>
+#include <signal.h>
 
 #include "Bitboard.hpp"
 #include "BoardConcepts.hpp"

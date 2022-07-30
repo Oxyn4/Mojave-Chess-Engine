@@ -15,6 +15,8 @@
 #include "Chessboard.hpp"
 #include "Bitboard.hpp"
 #include "BoardConcepts.hpp"
+#include <cmath>
+#include <cstdint>
 #include <cstdlib>
 #include <ctime>
 
@@ -42,98 +44,62 @@ void Chessboard::ParseFEN(std::string FEN) {
                     #ifdef DEBUG
                         std::cout << "black rook found on square: " << CurrentSquare << "\n";
                     #endif
-    
                    PutPiece(CurrentSquare, BlackRook);
-
                    CurrentSquare++;
-
                    break;
                case 'n':
                    #ifdef DEBUG
                         std::cout << "Black Knight found on square: " << CurrentSquare << "\n";
                    #endif
-                   
                    PutPiece(CurrentSquare, BlackKnight);
-
                    CurrentSquare++;
-
                    break;
                case 'b':
                     #ifdef DEBUG
                         std::cout << "black Bishop found on square: " << CurrentSquare << "\n";
                     #endif
-
                     PutPiece(CurrentSquare, BlackBishop);
-
                    CurrentSquare++;
-
                    break;
                case 'q':
 
                     #ifdef DEBUG
                         std::cout << "Black Knight queen on square: " << CurrentSquare << "\n";
                     #endif
-
                    PutPiece(CurrentSquare, BlackQueen);
-
                    CurrentSquare++;
-
                    break;
                case 'k':
-
                     #ifdef DEBUG
                         std::cout << "black rook found on square: " << CurrentSquare << "\n";
                     #endif
-
                    PutPiece(CurrentSquare, BlackKing);
-
                    CurrentSquare++;
-
                    break;
                case 'p':
-
                    //std::cout << "Black pawn found on square: " << CurrentSquare << "\n";
-
                    PutPiece(CurrentSquare, BlackPawn);
-
                    CurrentSquare++;
-
                    break;
                case 'R':
-
                    //std::cout << "white rook found on square: " << CurrentSquare << "\n";
-
                    PutPiece(CurrentSquare, WhiteRook);
-
                    CurrentSquare++;
-
                    break;
                case 'N':
-
                    //std::cout << "White Knight found on square: " << CurrentSquare << "\n";
-
                    PutPiece(CurrentSquare, WhiteKnight);
-
                    CurrentSquare++;
-
                    break;
                case 'B':
-
                    //std::cout << "White Bishop found on square: " << CurrentSquare << "\n";
-
                    PutPiece(CurrentSquare, WhiteBishop);
-
                    CurrentSquare++;
-
                    break;
                case 'Q':
-
                    //std::cout << "White Queen on square: " << CurrentSquare << "\n";
-
                    PutPiece(CurrentSquare, WhiteQueen);
-
                    CurrentSquare++;
-
                    break;
                case 'K':
                    //std::cout << "White King found on square: " << CurrentSquare << "\n";
@@ -254,6 +220,8 @@ int Chessboard::DoMove(Move MoveToDo)
     Moves.push_back(MoveToDo);
 
     int OriginBitstatus = GetBit(&WhiteBlackBitBoard, MoveToDo.Origin);
+    
+    //std::cout << OriginBitstatus << "\n";
 
     if (OriginBitstatus == 1) {
         WipePiece(MoveToDo.Origin);    
@@ -261,10 +229,12 @@ int Chessboard::DoMove(Move MoveToDo)
 
     int DestinationBitstatus = GetBit(&WhiteBlackBitBoard, MoveToDo.Destination);
 
+    //std::cout << DestinationBitstatus << "\n";
+
     if (DestinationBitstatus == 1) {
         WipePiece(MoveToDo.Destination);
     }
-
+    
     PutPiece(MoveToDo.Destination, MoveToDo.PieceType);
 
     return 1;
@@ -292,155 +262,6 @@ int Chessboard::UndoLastMove() {
 
 }
 
-std::vector<Move> Chessboard::GetAllSidesMoves(int side)
-{
-    //timing 
-
-
-  //  std::cout << "\nGetting all legal moves for side: " << side << "\n";
-
-    //auto FuncStartPoint = std::chrono::high_resolution_clock::now();
-
-    //vector conatins Move Structs which represent legal moves
-
-    std::vector<Move> LegalMoveVector;
-
-    for (int BoardIterator = 0; BoardIterator < 12; BoardIterator++)
-    {        
-        // work out the index for the function 
- 
-        int FuncIndex = 0;
-        int PieceColor = 0;
-
-        if (BoardIterator <= 5)
-        {
-            
-            FuncIndex += BoardIterator;
-            PieceColor = black;
-
-        } 
-        else 
-        {
-
-            FuncIndex += (BoardIterator - 6);
-            PieceColor = white;
-
-        }
-
-        if (PieceColor == side) 
-        {
-            while (*PieceTypeBitboardArray[BoardIterator] != 0) 
-            {
-
-                int BoardLSB = BitScanLSB(PieceTypeBitboardArray[BoardIterator]);
-
-                //PrintBitboard(PieceTypeBitboardArray[BoardIterator]);
-
-                //std::cout << BoardLSB << "\n";
-
-                uint64_t MovesBitboard = (this->*MoveCalculatingFunctions[FuncIndex])(BoardLSB, PieceColor);
-
-                while (MovesBitboard != 0) {
-
-                    int MovesBitboardLSB = BitScanLSB(&MovesBitboard);
-
-                    Move NewMove(BoardLSB, MovesBitboardLSB, PieceColor, FuncIndex);
-
-                    LegalMoveVector.push_back(NewMove);
-
-                    MovesBitboard &= MovesBitboard - 1;   
-                }
-
-                *PieceTypeBitboardArray[BoardIterator] &= *PieceTypeBitboardArray[BoardIterator] - 1;    
-            }        
-        }
-    }
-    
-/*    std::cout << LegalMoveVector.size() << " Amount of moves available in this position for this side" << "\n";
-
-    auto StoppingPoint = std::chrono::high_resolution_clock::now();
-
-    auto Duration = std::chrono::duration_cast<std::chrono::microseconds>(StoppingPoint - FuncStartPoint);
-
-    std::cout << "Finished Calculating Legal moves in " << Duration.count()  << " microseconds"  << "\n\n";
-*/
-    
-
-    return LegalMoveVector;
-}
-
-std::vector<Move> Chessboard::GetAllMoves()
-{
-    //timing 
-
-
-    std::cout << "\nGetting all legal moves" << "\n";
-
-    auto FuncStartPoint = std::chrono::high_resolution_clock::now();
-
-    //vector conatins Move Structs which represent legal moves
-
-    std::vector<Move> LegalMoveVector;
-
-    for (int BoardIterator = 0; BoardIterator < 12; BoardIterator++)
-    {        
-        // work out the index for the function 
- 
-        int FuncIndex = 0;
-        int PieceColor = 0;
-
-        if (BoardIterator <= 5)
-        {
-            
-            FuncIndex += BoardIterator;
-            PieceColor = black;
-
-        } 
-        else 
-        {
-
-            FuncIndex += (BoardIterator - 6);
-            PieceColor = white;
-
-        }
-
-        
-        while (*PieceTypeBitboardArray[BoardIterator] != 0) {
-
-            int BoardLSB = BitScanLSB(PieceTypeBitboardArray[BoardIterator]);
-
-            //PrintBitboard(PieceTypeBitboardArray[BoardIterator]);
-
-            //std::cout << BoardLSB << "\n";
-
-            uint64_t MovesBitboard = (this->*MoveCalculatingFunctions[FuncIndex])(BoardLSB, PieceColor);
-
-            while (MovesBitboard != 0) {
-
-                int MovesBitboardLSB = BitScanLSB(&MovesBitboard);
-
-                Move NewMove(BoardLSB, MovesBitboardLSB, PieceColor, FuncIndex);
-
-                LegalMoveVector.push_back(NewMove);
-
-                ResetLSB(&MovesBitboard);
-            }
-    
-            ResetLSB(PieceTypeBitboardArray[BoardIterator]);
-        }        
-    }
-    
-    
-    
-   
-    auto StoppingPoint = std::chrono::high_resolution_clock::now();
-
-    auto Duration = std::chrono::duration_cast<std::chrono::microseconds>(StoppingPoint - FuncStartPoint);
-
-    std::cout << "Finished Calculating Legal moves in " << Duration.count()  << " microseconds"  << "\n\n";
-
-    return LegalMoveVector;
-}
 
 void Chessboard::PrintChesssboard()
 {
@@ -450,7 +271,7 @@ void Chessboard::PrintChesssboard()
         {
             int Sqaure = RankIterator * 8 + FileIterator;
 
-            int OneOrZero = ((WhiteBlackBitBoard & (1ULL << Sqaure)) ? 1 : 0);
+            int OneOrZero = GetBit(&WhiteBlackBitBoard, Sqaure); 
 
             if (FileIterator == 0) 
             {
@@ -459,16 +280,9 @@ void Chessboard::PrintChesssboard()
 
             if (OneOrZero == 1) 
             {
-                for (int PieceTypeBitboardArrayIterator=0; PieceTypeBitboardArrayIterator < 12; PieceTypeBitboardArrayIterator++) 
-                {
-  
-                    int IsPieceThisType = ((*PieceTypeBitboardArray[PieceTypeBitboardArrayIterator] & (1ULL << Sqaure)) ? 1 : 0);
-                
-                    if (IsPieceThisType == 1) 
-                    {
-                        std::cout << PieceAsciiSymbols[PieceTypeBitboardArrayIterator] << " ";
-                    } 
-                }
+                int PieceType = GetPieceType(Sqaure);
+
+                std::cout << PieceAsciiSymbols[PieceType] << " ";
             }
             else 
             {
@@ -481,51 +295,14 @@ void Chessboard::PrintChesssboard()
     std::cout << "    a b c d e f g h" << "\n";
 }
 
-void Chessboard::ShowMove(Move MoveToShow) 
+void Chessboard::PrintInternalBitboards() 
 {
-    // these two arrays are mapped;
-
-    // squares that will have arrows on them to show the move
-    int SquaresThatWillHaveArrows[8];
-    
-    // the unicode arrow that will be printed
-    int TypeOfArrowOnSquare[8];
-
-    if (MoveToShow.PieceType == BlackPawn) 
+    for (int BitboardIterator=0; BitboardIterator < 12; BitboardIterator++) 
     {
-        if (MoveToShow.Destination - MoveToShow.Origin) 
-        {
+        std::cout << "\nBitboard for " << ConvertMojavePieceRepresentationToText(BitboardIterator) << "\n\n";
 
-        }
+        PrintBitboard(*PieceTypeBitboardArray[BitboardIterator]);
     }
-
-    for (int RankIterator=0; RankIterator < 8; RankIterator++) 
-    {
-        for (int FileIterator=0; FileIterator < 8; FileIterator++) 
-        {
-            int Sqaure = RankIterator * 8 + FileIterator;
-
-            int OneOrZero = ((WhiteBlackBitBoard & (1ULL << Sqaure)) ? 1 : 0);
-
-            if (FileIterator == 0) 
-            {
-                std::cout << 8 - RankIterator << " | "; 
-            }
-
-            if (OneOrZero == 1) 
-            {
-                 std::cout << PieceAsciiSymbols[MoveToShow.PieceType] << " ";
-            }
-            else 
-            {
-                std::cout << ". ";
-            }
-        }
-        std::cout << "\n";
-    }
-    std::cout << "    ---------------" << "\n";
-    std::cout << "    a b c d e f g h" << "\n";
-
 }
 
 
@@ -542,4 +319,5 @@ Chessboard::Chessboard(std::string FEN)
 Chessboard::Chessboard() 
 {
     ZobristInit();
+
 }

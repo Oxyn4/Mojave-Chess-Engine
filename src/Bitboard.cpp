@@ -10,7 +10,8 @@
 
 void AddBit(uint64_t *Board, int Square) {
 
-    *Board |= (1ULL << Square) ? *Board ^= (1ULL << Square) : 0;            
+    //*Board |= (1ULL << Square) ? *Board ^= (1ULL << Square) : 0;            
+    *Board |= ((uint64_t)1 << Square);
 
 }
 

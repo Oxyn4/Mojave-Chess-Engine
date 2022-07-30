@@ -15,6 +15,14 @@ int InterfaceMethod = -1;
 // list of commands sent from GUI
 std::vector<std::string> CommandHistory;
 
+void InterfaceHandleSIGNINT(int SignalNumber) 
+{
+    std::cout << "\n\nPlease use the exit command to quit mojave\n\n";
+
+    InterfaceLoop();
+}
+
+
 void ParseCommandLineArguments(int argc, char *argv[]) 
 {
 
@@ -32,7 +40,9 @@ void ParseCommandLineArguments(int argc, char *argv[])
 
 
 void InterfaceLoop() 
-{   
+{  
+    if (InterfaceMethod == CLI) {signal(SIGINT, InterfaceHandleSIGNINT);}
+
     while (communicationstatus == 1) 
     {
         char UCI_Command[50];

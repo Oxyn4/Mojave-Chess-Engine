@@ -7,7 +7,7 @@ uint64_t Chessboard::ClassicalGenerateRookMoves(int square, int side) {
   
     #ifdef DEBUG
       std::cout << "Getting all moves for a " << ConvertMojaveSideRepresentationToText(side) << " rook for square: " << ConvertMojaveIntegerToSquareMapping(square) << "\n";      
-      auto FuncStartPoint = std::chrono::high_resolution_clock::now();
+      //auto FuncStartPoint = std::chrono::high_resolution_clock::now();
     #endif
 
     uint64_t NorthBitboard;
@@ -28,7 +28,7 @@ uint64_t Chessboard::ClassicalGenerateRookMoves(int square, int side) {
     // if there is no blockers then just use the ray
     if (NorthBlockers != 0) {
         // get the fist blockers index
-        int Northlsb = BitscanMSB(&NorthBlockers);
+        int Northlsb = BitScanLSB(&NorthBlockers);
         uint64_t NorthRayBitboard = NorthBlockerMask & ~RaysArray[Northlsb][North];
         
         NorthBitboard = NorthRayBitboard & ~*SideBitboardArray[side];
@@ -51,7 +51,7 @@ uint64_t Chessboard::ClassicalGenerateRookMoves(int square, int side) {
     uint64_t SouthBlockerMask = RaysArray[square][South];
     uint64_t SouthBlockers = SouthBlockerMask & WhiteBlackBitBoard;
     if (SouthBlockers != 0) {
-        int Southlsb = BitScanLSB(&SouthBlockers);
+        int Southlsb = BitscanMSB(&SouthBlockers);
         uint64_t SouthRayBitboard = SouthBlockerMask & ~RaysArray[Southlsb][South];
         SouthBitboard = SouthRayBitboard & ~*SideBitboardArray[side];
     } else {
@@ -71,9 +71,9 @@ uint64_t Chessboard::ClassicalGenerateRookMoves(int square, int side) {
     uint64_t FinalBitboard = SouthBitboard | WestBitboard | EastBitboard | NorthBitboard;
     
     #ifdef DEBUG
-        auto StoppingPoint = std::chrono::high_resolution_clock::now();
-        auto Duration = std::chrono::duration_cast<std::chrono::microseconds>(StoppingPoint - FuncStartPoint);
-        std::cout << "Finished getting moves for a Rook on square: " << square << " in: " << Duration.count()  << " microseconds"  << "\n\n";
+        //auto StoppingPoint = std::chrono::high_resolution_clock::now();
+        //auto Duration = std::chrono::duration_cast<std::chrono::microseconds>(StoppingPoint - FuncStartPoint);
+        //std::cout << "Finished getting moves for a Rook on square: " << square << " in: " << Duration.count()  << " microseconds"  << "\n\n";
     #endif
     
     return FinalBitboard;
@@ -83,7 +83,7 @@ uint64_t Chessboard::ClassicalGenerateBishopMoves(int Square, int side) {
    
     #ifdef DEBUG
         std::cout << "Getting moves for a " << ConvertMojaveSideRepresentationToText(side) << " bishop on Square " << ConvertMojaveIntegerToSquareMapping(Square) << "\n";
-       auto FuncStartPoint = std::chrono::high_resolution_clock::now();
+       //auto FuncStartPoint = std::chrono::high_resolution_clock::now();
     #endif
 
     uint64_t NorthwestBitboard;
@@ -135,9 +135,9 @@ uint64_t Chessboard::ClassicalGenerateBishopMoves(int Square, int side) {
     uint64_t FinalBitboard = SoutheastBitboard | SouthwestBitboard | NortheastBitboard | NorthwestBitboard;
     
     #ifdef DEBUG
-        auto StoppingPoint = std::chrono::high_resolution_clock::now();
-        auto Duration = std::chrono::duration_cast<std::chrono::microseconds>(StoppingPoint - FuncStartPoint);
-        std::cout << "Finished getting moves for a Bishop on square: " << Square << " in: " << Duration.count()  << " microseconds"  << "\n\n";
+        //auto StoppingPoint = std::chrono::high_resolution_clock::now();
+        //auto Duration = std::chrono::duration_cast<std::chrono::microseconds>(StoppingPoint - FuncStartPoint);
+        //std::cout << "Finished getting moves for a Bishop on square: " << Square << " in: " << Duration.count()  << " microseconds"  << "\n\n";
     #endif
 
     return FinalBitboard;
@@ -147,7 +147,7 @@ uint64_t Chessboard::ClassicalGenerateQueenMoves(int square, int side) {
     
     #ifdef DEBUG
         std::cout << "Getting moves for a " << ConvertMojaveSideRepresentationToText(side) << " queen on Square " << ConvertMojaveIntegerToSquareMapping(square) << "\n";
-        auto FuncStartPoint = std::chrono::high_resolution_clock::now();
+        //auto FuncStartPoint = std::chrono::high_resolution_clock::now();
     #endif
 
     uint64_t Rookpattern = ClassicalGenerateRookMoves(square, side);
@@ -155,9 +155,9 @@ uint64_t Chessboard::ClassicalGenerateQueenMoves(int square, int side) {
     uint64_t Queenpattern = Bishoppattern | Rookpattern;
     
     #ifdef DEBUG
-        auto StoppingPoint = std::chrono::high_resolution_clock::now();
-        auto Duration = std::chrono::duration_cast<std::chrono::microseconds>(StoppingPoint - FuncStartPoint);
-        std::cout << "Finished getting moves for a Queen on square: " << square << " in: " << Duration.count()  << " microseconds"  << "\n\n";
+        //auto StoppingPoint = std::chrono::high_resolution_clock::now();
+        //auto Duration = std::chrono::duration_cast<std::chrono::microseconds>(StoppingPoint - FuncStartPoint);
+        //std::cout << "Finished getting moves for a Queen on square: " << square << " in: " << Duration.count()  << " microseconds"  << "\n\n";
     #endif  
   
     return Queenpattern;
@@ -219,20 +219,172 @@ uint64_t Chessboard::GetMovesForSquare(int Square)
     int PieceType = GetPieceType(Square);
     
     int Side;
-    int FunctionIndex;
 
     if (PieceType <= 5) 
     {
         Side = black;
-        FunctionIndex = PieceType;
     }
     else 
     {
         Side = white;
-        FunctionIndex = PieceType-6;
     }
 
-    uint64_t Result = (this->*MoveCalculatingFunctions[FunctionIndex])(Square, Side);
+    uint64_t Result = (this->*MoveCalculatingFunctions[PieceType])(Square, Side);
 
     return Result;
+}
+
+
+std::vector<Move> Chessboard::GetAllSidesMoves(int side)
+{
+    //timing 
+
+
+  //  std::cout << "\nGetting all legal moves for side: " << side << "\n";
+
+    //auto FuncStartPoint = std::chrono::high_resolution_clock::now();
+
+    //vector conatins Move Structs which represent legal moves
+
+    std::vector<Move> LegalMoveVector;
+
+    for (int BoardIterator = 0; BoardIterator < 12; BoardIterator++)
+    {        
+        // work out the index for the function 
+ 
+        int PieceColor = 0;
+
+        if (BoardIterator <= 5)
+        {
+            
+            PieceColor = black;
+
+        } 
+        else 
+        {
+
+            PieceColor = white;
+
+        }
+        
+        // copy the board so we dont ruin actual boards
+        uint64_t BoardCopy = *PieceTypeBitboardArray[BoardIterator];
+
+        if (PieceColor == side) 
+        {
+            while (BoardCopy != 0) 
+            {
+
+                int BoardLSB = BitScanLSB(PieceTypeBitboardArray[BoardIterator]);
+
+                //PrintBitboard(PieceTypeBitboardArray[BoardIterator]);
+
+                //std::cout << BoardLSB << "\n";
+
+                //uint64_t MovesBitboard = (this->*MoveCalculatingFunctions[FuncIndex])(BoardLSB, side);
+
+                uint64_t MovesBitboard = GetMovesForSquare(BoardLSB);
+
+                while (MovesBitboard != 0) 
+                {
+
+                    int MovesBitboardLSB = BitScanLSB(&MovesBitboard);
+
+                    Move NewMove(BoardLSB, MovesBitboardLSB, PieceColor, BoardIterator);
+
+                    LegalMoveVector.push_back(NewMove);
+
+                    ResetLSB(&MovesBitboard);
+                }
+
+                ResetLSB(&BoardCopy);
+            }        
+        }
+    }
+    
+/*    std::cout << LegalMoveVector.size() << " Amount of moves available in this position for this side" << "\n";
+
+    auto StoppingPoint = std::chrono::high_resolution_clock::now();
+
+    auto Duration = std::chrono::duration_cast<std::chrono::microseconds>(StoppingPoint - FuncStartPoint);
+
+    std::cout << "Finished Calculating Legal moves in " << Duration.count()  << " microseconds"  << "\n\n";
+*/
+    
+
+    return LegalMoveVector;
+}
+
+std::vector<Move> Chessboard::GetAllMoves()
+{
+    //timing 
+
+
+    std::cout << "\nGetting all legal moves" << "\n";
+
+    auto FuncStartPoint = std::chrono::high_resolution_clock::now();
+
+    //vector conatins Move Structs which represent legal moves
+
+    std::vector<Move> LegalMoveVector;
+
+    for (int BoardIterator = 0; BoardIterator < 12; BoardIterator++)
+    {        
+        // work out the index for the function 
+ 
+        int FuncIndex = 0;
+        int PieceColor = 0;
+
+        if (BoardIterator <= 5)
+        {
+            
+            FuncIndex += BoardIterator;
+            PieceColor = black;
+
+        } 
+        else 
+        {
+
+            FuncIndex += (BoardIterator - 6);
+            PieceColor = white;
+
+        }
+        
+        uint64_t BoardCopy = *PieceTypeBitboardArray[BoardIterator];
+        
+        while (BoardCopy != 0) {
+
+            int BoardLSB = BitScanLSB(PieceTypeBitboardArray[BoardIterator]);
+
+            //PrintBitboard(PieceTypeBitboardArray[BoardIterator]);
+
+            //std::cout << BoardLSB << "\n";
+            
+            uint64_t MovesBitboard = GetMovesForSquare(BoardLSB);
+
+            while (MovesBitboard != 0) {
+
+                int MovesBitboardLSB = BitScanLSB(&MovesBitboard);
+
+                Move NewMove(BoardLSB, MovesBitboardLSB, PieceColor, BoardIterator);
+
+                LegalMoveVector.push_back(NewMove);
+
+                ResetLSB(&MovesBitboard);
+            }
+    
+            ResetLSB(&BoardCopy);
+        }        
+    }
+    
+    
+    
+   
+    auto StoppingPoint = std::chrono::high_resolution_clock::now();
+
+    auto Duration = std::chrono::duration_cast<std::chrono::microseconds>(StoppingPoint - FuncStartPoint);
+
+    std::cout << "Finished Calculating Legal moves in " << Duration.count()  << " microseconds"  << "\n\n";
+
+    return LegalMoveVector;
 }

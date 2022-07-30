@@ -6,6 +6,8 @@
 
 
 #include "BoardConcepts.hpp"
+#include "Bitboard.hpp"
+#include <cstdint>
 
 
 int GetRankOfSquareNumber(int SqaureNumber) 
@@ -350,5 +352,16 @@ void Move::PrintMove()
             
             break;
     }
+
+    std::cout << "\nBitboard:" << "\n\n";
+
+    uint64_t Board = 0x0;
+
+    AddBit(&Board, Origin);
+
+    AddBit(&Board, Destination);
+
+    PrintBitboard(Board);
+
     std::cout << "\n\n";    
 }

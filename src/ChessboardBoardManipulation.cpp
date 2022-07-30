@@ -1,3 +1,5 @@
+#include "Bitboard.hpp"
+#include "BoardConcepts.hpp"
 #include "Chessboard.hpp"
 
 /*
@@ -21,6 +23,7 @@ int Chessboard::GetPieceType(int Square)
 */
 void Chessboard::WipePiece(int Square) 
 {
+/* 
     DelBit(&WhiteBlackBitBoard, Square);  
 
     for (int WhiteBitboardIterator=0; WhiteBitboardIterator < 6; WhiteBitboardIterator++) 
@@ -37,6 +40,24 @@ void Chessboard::WipePiece(int Square)
     {
         DelBit(SideBitboardArray[SideBoardIterator], Square);
     }
+*/
+    int PieceType = GetPieceType(Square);
+
+    DelBit(&WhiteBlackBitBoard, Square);
+    DelBit(PieceTypeBitboardArray[PieceType], Square);
+
+    int Side;
+
+    if (PieceType <= 5) 
+    {
+        Side = black;
+    }
+    else 
+    {
+        Side = white;
+    }
+
+    DelBit(SideBitboardArray[Side], Square);
 }
 
 /*

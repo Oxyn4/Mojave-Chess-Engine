@@ -5,36 +5,6 @@
 #include <vector> 
 #include <random>
 
-Move* BestMove;
-
-int Chessboard::SearchNegaMax(int Depth) 
-{
-    if (Depth == 0) 
-    {
-        return Evaluate();
-    }
-
-    std::vector<Move> AllMoves = GetAllSidesMoves(SideToMove);
-
-    int MaxEval = -100000;
-
-    for (int AllMovesiterator = 0; AllMovesiterator < AllMoves.size(); AllMovesiterator++)
-    {
-        DoMove(AllMoves[AllMovesiterator]);
-
-        int Eval = -SearchNegaMax(Depth-1);
-
-        UndoLastMove();
-
-        if (Eval > MaxEval) 
-        {
-            MaxEval = Eval;
-        }
-    }
-    
-    return MaxEval;  
-}
-
 /*
 
     choose and make a random move for the currents sides turn 
