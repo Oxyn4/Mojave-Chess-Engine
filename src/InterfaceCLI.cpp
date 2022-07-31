@@ -60,7 +60,9 @@ void CommandLineInterface(std::vector<std::string> TokenVector)
             }
             else 
             {
-                Board.ParseFEN(TokenVector[TokenVectorIterator+1]);
+                std::string FEN = TokenVector[TokenVectorIterator+1] + " " + TokenVector[TokenVectorIterator+2] + " " + TokenVector[TokenVectorIterator+3] + " " + TokenVector[TokenVectorIterator+4] + " " + TokenVector[TokenVectorIterator+5] + " " + TokenVector[TokenVectorIterator+6];
+             
+                Board.ParseFEN(FEN);
             }
         }
 
@@ -141,6 +143,16 @@ void CommandLineInterface(std::vector<std::string> TokenVector)
            int Square = ConvertSquareMappingToMojaveInteger(TokenVector[TokenVectorIterator+1]);
 
            PrintBitboard(Board.GetMovesForSquare(Square));
+        }
+
+        if (TokenVector[TokenVectorIterator] == "isa") 
+        {
+            std::vector<Move> MovesThatAttackSquare = Board.IsSquareAttacked(ConvertSquareMappingToMojaveInteger(TokenVector[TokenVectorIterator+1]));
+        
+            for (int MovesThatAttackSquareIterator = 0; MovesThatAttackSquareIterator < MovesThatAttackSquare.size(); MovesThatAttackSquareIterator++)
+            {
+                MovesThatAttackSquare[MovesThatAttackSquareIterator].PrintMove();
+            }
         }
 
         if (TokenVector[TokenVectorIterator] == "gam")

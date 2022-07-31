@@ -1,7 +1,9 @@
 
+#include "Bitboard.hpp"
 #include "BoardConcepts.hpp"
 #include "Chessboard.hpp"
 #include <cstdint>
+#include <vector>
 
 uint64_t Chessboard::ClassicalGenerateRookMoves(int square, int side) {
   
@@ -235,73 +237,6 @@ uint64_t Chessboard::GetMovesForSquare(int Square)
 }
 
 
-std::vector<Move> Chessboard::GetAllSidesMoves(int side)
-{
-    //timing 
-
-
-  //  std::cout << "\nGetting all legal moves for side: " << side << "\n";
-
-    //auto FuncStartPoint = std::chrono::high_resolution_clock::now();
-
-    //vector conatins Move Structs which represent legal moves
-
-    std::vector<Move> LegalMoveVector;
-
-    for (int BoardIterator = 0; BoardIterator < 12; BoardIterator++)
-    {        
-        // work out the index for the function 
- 
-        int PieceColor = 0;
-
-        if (BoardIterator <= 5)
-        {
-            
-            PieceColor = black;
-
-        } 
-        else 
-        {
-
-            PieceColor = white;
-
-        }
-        
-        // copy the board so we dont ruin actual boards
-        uint64_t BoardCopy = *PieceTypeBitboardArray[BoardIterator];
-
-        if (PieceColor == side) 
-        {
-            while (BoardCopy != 0) 
-            {
-
-                int BoardLSB = BitScanLSB(PieceTypeBitboardArray[BoardIterator]);
-
-                //PrintBitboard(PieceTypeBitboardArray[BoardIterator]);
-
-                //std::cout << BoardLSB << "\n";
-
-                //uint64_t MovesBitboard = (this->*MoveCalculatingFunctions[FuncIndex])(BoardLSB, side);
-
-                uint64_t MovesBitboard = GetMovesForSquare(BoardLSB);
-
-                while (MovesBitboard != 0) 
-                {
-
-                    int MovesBitboardLSB = BitScanLSB(&MovesBitboard);
-
-                    Move NewMove(BoardLSB, MovesBitboardLSB, PieceColor, BoardIterator);
-
-                    LegalMoveVector.push_back(NewMove);
-
-                    ResetLSB(&MovesBitboard);
-                }
-
-                ResetLSB(&BoardCopy);
-            }        
-        }
-    }
-    
 /*    std::cout << LegalMoveVector.size() << " Amount of moves available in this position for this side" << "\n";
 
     auto StoppingPoint = std::chrono::high_resolution_clock::now();
@@ -312,79 +247,161 @@ std::vector<Move> Chessboard::GetAllSidesMoves(int side)
 */
     
 
+std::vector<Move> Chessboard::GetAllMoves()
+{
+    std::vector<Move> LegalMoveVector;
+    for (int SquareIterator=0; SquareIterator < 64; SquareIterator++)
+    {
+        if (GetBit(&WhiteBlackBitBoard, SquareIterator) == 1)
+        {
+            int PieceType = GetPieceType(SquareIterator);
+
+            uint64_t MovesForSquare = GetMovesForSquare(SquareIterator); 
+    
+            int side;
+
+            if (PieceType <= 5)
+            {
+                side = black;
+            }
+            else 
+            {
+                side = white;
+            }
+
+            while (MovesForSquare != 0) 
+            {
+                int SetBit = BitScanLSB(&MovesForSquare);
+
+                Move NewMove(SquareIterator, SetBit, side, PieceType);
+
+                LegalMoveVector.push_back(NewMove);
+                
+                ResetLSB(&MovesForSquare);
+            }
+        }
+    }
     return LegalMoveVector;
 }
 
-std::vector<Move> Chessboard::GetAllMoves()
+std::vector<Move> Chessboard::GetAllSidesMoves(int Side)
 {
-    //timing 
-
-
-    std::cout << "\nGetting all legal moves" << "\n";
-
-    auto FuncStartPoint = std::chrono::high_resolution_clock::now();
-
-    //vector conatins Move Structs which represent legal moves
-
     std::vector<Move> LegalMoveVector;
-
-    for (int BoardIterator = 0; BoardIterator < 12; BoardIterator++)
-    {        
-        // work out the index for the function 
- 
-        int FuncIndex = 0;
-        int PieceColor = 0;
-
-        if (BoardIterator <= 5)
+    for (int SquareIterator=0; SquareIterator < 64; SquareIterator++)
+    {
+        if (GetBit(&WhiteBlackBitBoard, SquareIterator) == 1)
         {
-            
-            FuncIndex += BoardIterator;
-            PieceColor = black;
+            int PieceType = GetPieceType(SquareIterator);
 
-        } 
-        else 
-        {
+            uint64_t MovesForSquare = GetMovesForSquare(SquareIterator); 
+    
+            int PieceSide;
 
-            FuncIndex += (BoardIterator - 6);
-            PieceColor = white;
+            if (PieceType <= 5)
+            {
+                PieceSide = black;
+            }
+            else 
+            {
+                PieceSide = white;
+            }
 
-        }
+            if (PieceSide == Side) 
+            {
+                while (MovesForSquare != 0) 
+                {
+                    int SetBit = BitScanLSB(&MovesForSquare);
+
+                    Move NewMove(SquareIterator, SetBit, PieceSide, PieceType);
+
+                    LegalMoveVector.push_back(NewMove);
+                
+                    ResetLSB(&MovesForSquare);
+                }
         
-        uint64_t BoardCopy = *PieceTypeBitboardArray[BoardIterator];
-        
-        while (BoardCopy != 0) {
-
-            int BoardLSB = BitScanLSB(PieceTypeBitboardArray[BoardIterator]);
-
-            //PrintBitboard(PieceTypeBitboardArray[BoardIterator]);
-
-            //std::cout << BoardLSB << "\n";
-            
-            uint64_t MovesBitboard = GetMovesForSquare(BoardLSB);
-
-            while (MovesBitboard != 0) {
-
-                int MovesBitboardLSB = BitScanLSB(&MovesBitboard);
-
-                Move NewMove(BoardLSB, MovesBitboardLSB, PieceColor, BoardIterator);
-
-                LegalMoveVector.push_back(NewMove);
-
-                ResetLSB(&MovesBitboard);
             }
     
-            ResetLSB(&BoardCopy);
-        }        
+        }
     }
-    
-    
-    
-   
-    auto StoppingPoint = std::chrono::high_resolution_clock::now();
-
-    auto Duration = std::chrono::duration_cast<std::chrono::microseconds>(StoppingPoint - FuncStartPoint);
-
-    std::cout << "Finished Calculating Legal moves in " << Duration.count()  << " microseconds"  << "\n\n";
-
     return LegalMoveVector;
+}
+
+/*
+    Create and return a move struct from an algerbrraic notation eg e2e4
+
+    To make this possible it MUST be done here with reference to a piece positions 
+*/
+Move Chessboard::CreateMoveFromAlgerbraicNotation(std::string AlgerbraicNotation) 
+{
+    std::string OriginAlgerbraicNotation = AlgerbraicNotation.substr(0, 2);
+    std::string DestinationAlgerbraicNotation = AlgerbraicNotation.substr(2, 4);
+
+    int Origin;
+    int Destination;
+    
+    int PieceType;
+    int Side;
+
+    for (int SquareMappingArrayIterator=0; SquareMappingArrayIterator < 64; SquareMappingArrayIterator++) 
+    {
+        if (SqaureMappingArray[SquareMappingArrayIterator] == OriginAlgerbraicNotation) 
+        {
+            Origin = SquareMappingArrayIterator;
+    
+            //std::cout << Origin << "\n";
+        }
+
+        if (SqaureMappingArray[SquareMappingArrayIterator] == DestinationAlgerbraicNotation)
+        {
+            Destination = SquareMappingArrayIterator;
+        
+            //std::cout << Destination << "\n";
+        }
+    }
+
+    for (int PieceTypeBitboardArrayIterator=0; PieceTypeBitboardArrayIterator < 12; PieceTypeBitboardArrayIterator++) 
+    {
+        int Bitstatus = GetBit(PieceTypeBitboardArray[PieceTypeBitboardArrayIterator], Origin);
+
+        if (Bitstatus == 1) 
+        {
+            PieceType = PieceTypeBitboardArrayIterator; 
+        }
+    }
+
+    if (PieceType < 5) 
+    {
+        Side = black;
+    } 
+    else 
+    {
+        Side = white;
+    }
+
+    Move FinalMove(Origin, Destination, Side, PieceType);
+
+    return FinalMove;
+}
+
+std::vector<Move> Chessboard::IsSquareAttacked(int Square) 
+{
+    std::vector<Move> AllMoves = GetAllMoves();
+
+    std::vector<Move> MovesThatAttackSquare;
+
+    //std::cout << ConvertMojaveIntegerToSquareMapping(Square) << "\n";
+
+    for (int AllMovesIterator=0; AllMovesIterator < AllMoves.size(); AllMovesIterator++)
+    {
+        AllMoves[AllMovesIterator].PrintMove();
+
+        if (AllMoves[AllMovesIterator].Destination == Square)
+        {
+            MovesThatAttackSquare.push_back(AllMoves[AllMovesIterator]);
+        }
+    }
+
+    std::cout << "\nTotal amount of moves that threaten this square: " << MovesThatAttackSquare.size() << "\n\n";
+
+    return MovesThatAttackSquare;
 }

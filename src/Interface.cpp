@@ -45,18 +45,20 @@ void InterfaceLoop()
 
     while (communicationstatus == 1) 
     {
-        char UCI_Command[50];
+        std::string UCI_Command;
 
         // if cli add prompt to cli
         if (InterfaceMethod == CLI) {std::cout << "Mojave -> ";}
 
-        std::cin.getline(UCI_Command, 50);
+        //std::cin.getline(UCI_Command, 100);
+
+        getline(std::cin, UCI_Command);
 
         std::string UCI_CommandString = UCI_Command;
 
         std::vector<std::string> TokenVector;
 
-        std::istringstream CommandStringStream(UCI_CommandString);
+        std::istringstream CommandStringStream(UCI_Command);
 
         std::string Token;
 

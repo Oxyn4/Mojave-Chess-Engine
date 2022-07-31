@@ -16,7 +16,13 @@ void AddBit(uint64_t *Board, int Square) {
 }
 
 void DelBit(uint64_t *Board, int Square) {
-    *Board ^= (1ULL << Square);
+    //*Board ^= (1ULL << Square);
+
+    uint64_t Mask;
+
+    AddBit(&Mask, Square);
+
+    *Board &= ~Mask;
 
     //*Board &= ~((1 << Square));
 }

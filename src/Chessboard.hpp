@@ -9,6 +9,7 @@
 #include <vector>
 #include <thread>
 #include <random>
+#include <sstream>
 
 #include "Bitboard.hpp"
 #include "BoardConcepts.hpp"
@@ -125,10 +126,10 @@ class Chessboard {
 
         // castling rights
         // these will be modified when the constructer calls the parse FEN function
-        int BlackQueenCastleRights = 1;
-        int BlackKingCastleRights = 1;
-        int WhiteQueenCastleRights = 1;
-        int WhiteKingCastleRights = 1;
+        int BlackQueenCastleRights = 0;
+        int BlackKingCastleRights = 0;
+        int WhiteQueenCastleRights = 0;
+        int WhiteKingCastleRights = 0;
 
         int CastleRightsArray[2][2] = {{WhiteQueenCastleRights, WhiteKingCastleRights}, {BlackQueenCastleRights, BlackKingCastleRights}};
        
@@ -151,7 +152,9 @@ class Chessboard {
         uint64_t GetMovesForSquare(int Square);
 
         uint64_t (Chessboard::Chessboard::*MoveCalculatingFunctions[12]) (int square, int side) {&Chessboard::GetPawnMoves, &Chessboard::ClassicalGenerateBishopMoves, &Chessboard::GetKingMoves, &Chessboard::ClassicalGenerateQueenMoves, &Chessboard::GetKnightMoves, &Chessboard::ClassicalGenerateRookMoves, &Chessboard::GetPawnMoves, &Chessboard::ClassicalGenerateBishopMoves, &Chessboard::GetKingMoves, &Chessboard::ClassicalGenerateQueenMoves, &Chessboard::GetKnightMoves, &Chessboard::ClassicalGenerateRookMoves};
-    
+   
+        std::vector<Move> IsSquareAttacked(int Square);
+
         int GetPieceType(int Square);
         void PutPiece(int Square, int PieceType);
         void WipePiece(int Square);

@@ -102,3 +102,56 @@ void Chessboard::ClearBoard()
     WhiteBitBoard = 0ULL;
 }
 
+int Chessboard::DoMove(Move MoveToDo) 
+{
+
+    //std::cout << " Side To Move: " << SideToMove << "\n";
+
+    SideToMove = !SideToMove;
+
+    //std::cout << "Side to move: " << SideToMove << "\n";
+
+    Moves.push_back(MoveToDo);
+
+    int OriginBitstatus = GetBit(&WhiteBlackBitBoard, MoveToDo.Origin);
+    
+    //std::cout << OriginBitstatus << "\n";
+
+    if (OriginBitstatus == 1) {
+        WipePiece(MoveToDo.Origin);    
+    }
+
+    int DestinationBitstatus = GetBit(&WhiteBlackBitBoard, MoveToDo.Destination);
+
+    //std::cout << DestinationBitstatus << "\n";
+
+    if (DestinationBitstatus == 1) {
+        WipePiece(MoveToDo.Destination);
+    }
+    
+    PutPiece(MoveToDo.Destination, MoveToDo.PieceType);
+
+    return 1;
+}
+
+int Chessboard::UndoLastMove() {
+
+    SideToMove = !SideToMove;
+
+    Move MoveForRemoval = Moves[Moves.size()-1];
+
+    if (GetBit(&WhiteBlackBitBoard, MoveForRemoval.Origin)) {
+        WipePiece(MoveForRemoval.Origin);
+    }
+
+    if (GetBit(&WhiteBlackBitBoard, MoveForRemoval.Destination) == 1) {
+        WipePiece(MoveForRemoval.Destination);
+    }
+
+    PutPiece(MoveForRemoval.Origin, MoveForRemoval.PieceType);
+
+    Moves.pop_back();
+
+    return 1;
+
+}

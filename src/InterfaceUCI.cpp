@@ -28,7 +28,9 @@ void ParseUCICommand(std::vector<std::string> TokenVector)
             } 
             else 
             {
-                Board.ParseFEN(TokenVector[TokenVectorIterator+1]);
+                std::string FEN = TokenVector[TokenVectorIterator+1] + " " + TokenVector[TokenVectorIterator+2] + " " + TokenVector[TokenVectorIterator+3] + " " + TokenVector[TokenVectorIterator+4] + " " + TokenVector[TokenVectorIterator+5] + " " + TokenVector[TokenVectorIterator+6];
+                
+                Board.ParseFEN(FEN);
             }       
 
             
@@ -40,11 +42,7 @@ void ParseUCICommand(std::vector<std::string> TokenVector)
                     {
                         Move NewMove = Board.CreateMoveFromAlgerbraicNotation(TokenVector[MovesMadeIterator]);
 
-                        Board.PrintChesssboard();
-
                         Board.DoMove(NewMove);
-                
-                        Board.PrintChesssboard();
                     }
                 }
             }
@@ -54,11 +52,9 @@ void ParseUCICommand(std::vector<std::string> TokenVector)
         {
             Move Bestmove = Board.SearchRandom();
 
-            Board.PrintChesssboard();
-
             Board.DoMove(Bestmove);
-
-            Board.PrintChesssboard();
+            
+            std::cout << "bestmove " << Bestmove.AlgerbraicNotation << "\n";
         }
     }
 }
