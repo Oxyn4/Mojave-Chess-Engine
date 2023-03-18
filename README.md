@@ -22,7 +22,9 @@ The main binary has no dependancies other than the c++ standard library.
 
 However, Mojave does have tests which are dependant on [googletest](https://github.com/google/googletest) a unit testing framework
 
-and a benchmark dependant on [hayai](https://github.com/nickbruun/hayai) a benchmarking library
+as well as benchmark dependant on [hayai](https://github.com/nickbruun/hayai) a benchmarking library
+
+and finally for logging mojave uses boost log.
 
 These are optional and **do not** need to be compilied unless desired.
 
@@ -31,7 +33,7 @@ To compile the Mojave binary:
 ```sh
     mkdir build
     cd build 
-    cmake .. -DDEBUG=<OFF | ON> -DBUILD_TESTS=<OFF | ON> -BUILD_BENCHMARK=<OFF | ON>
+    cmake .. -DLOGGING=<OFF | ON> -DBUILD_TESTS=<OFF | ON> -BUILD_BENCHMARK=<OFF | ON>
     make
 ```
 

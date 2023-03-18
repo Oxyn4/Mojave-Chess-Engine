@@ -8,13 +8,13 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 option(BUILD_TESTS "Build the Mojave tests" OFF)
 option(BUILD_BENCHMARK "Build the Mojave benchmarks" OFF)
-option(DEBUG "The engine provides debugging info" OFF)
+option(LOGGING "The engine provides debugging info" OFF)
 
 enable_testing()
 
 project(Mojave VERSION 1.0)
 
-if (DEBUG)
+if (LOGGING)
     set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wall -DDEBUG -g")
 else()
     set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Ofast")
@@ -38,6 +38,15 @@ target_link_libraries(chessboard boardconcepts)
 target_link_libraries(chessboard moves)
 
 
+if (LOGGING) 
+    find_library(SPDLOG spdlog)
+
+    if (SPDLOG) 
+        target_link_libraries(mojave spdlog)
+        target_link_libraries(mojave fmt)
+    endif()
+
+endif()
 
 if (BUILD_BENCHMARK)
     add_executable(benchmark tests/benchmark/main.cpp tests/benchmark/moves_benchmark.cpp)

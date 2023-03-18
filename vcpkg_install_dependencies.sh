@@ -2,8 +2,7 @@
 
 git clone https://github.com/Microsoft/vcpkg.git
 
-./vcpkg/bootstrap-vcpkg.sh
+./vcpkg/bootstrap-vcpkg.sh -disableMetrics
 
-cmake -B build/ -S . -DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/buildsystems/vcpkg.cmake
 
 

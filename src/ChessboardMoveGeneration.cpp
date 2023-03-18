@@ -7,7 +7,7 @@
 
 uint64_t Chessboard::ClassicalGenerateRookMoves(int square, int side) {
   
-    #ifdef DEBUG
+    #ifdef LOGGING
       std::cout << "Getting all moves for a " << ConvertMojaveSideRepresentationToText(side) << " rook for square: " << ConvertMojaveIntegerToSquareMapping(square) << "\n";      
       //auto FuncStartPoint = std::chrono::high_resolution_clock::now();
     #endif
@@ -72,7 +72,7 @@ uint64_t Chessboard::ClassicalGenerateRookMoves(int square, int side) {
     }
     uint64_t FinalBitboard = SouthBitboard | WestBitboard | EastBitboard | NorthBitboard;
     
-    #ifdef DEBUG
+    #ifdef LOGGING 
         //auto StoppingPoint = std::chrono::high_resolution_clock::now();
         //auto Duration = std::chrono::duration_cast<std::chrono::microseconds>(StoppingPoint - FuncStartPoint);
         //std::cout << "Finished getting moves for a Rook on square: " << square << " in: " << Duration.count()  << " microseconds"  << "\n\n";
@@ -83,7 +83,7 @@ uint64_t Chessboard::ClassicalGenerateRookMoves(int square, int side) {
 
 uint64_t Chessboard::ClassicalGenerateBishopMoves(int Square, int side) {
    
-    #ifdef DEBUG
+    #ifdef LOGGING 
         std::cout << "Getting moves for a " << ConvertMojaveSideRepresentationToText(side) << " bishop on Square " << ConvertMojaveIntegerToSquareMapping(Square) << "\n";
        //auto FuncStartPoint = std::chrono::high_resolution_clock::now();
     #endif
@@ -136,7 +136,7 @@ uint64_t Chessboard::ClassicalGenerateBishopMoves(int Square, int side) {
     }
     uint64_t FinalBitboard = SoutheastBitboard | SouthwestBitboard | NortheastBitboard | NorthwestBitboard;
     
-    #ifdef DEBUG
+    #ifdef LOGGING 
         //auto StoppingPoint = std::chrono::high_resolution_clock::now();
         //auto Duration = std::chrono::duration_cast<std::chrono::microseconds>(StoppingPoint - FuncStartPoint);
         //std::cout << "Finished getting moves for a Bishop on square: " << Square << " in: " << Duration.count()  << " microseconds"  << "\n\n";
@@ -147,7 +147,7 @@ uint64_t Chessboard::ClassicalGenerateBishopMoves(int Square, int side) {
 
 uint64_t Chessboard::ClassicalGenerateQueenMoves(int square, int side) {
     
-    #ifdef DEBUG
+    #ifdef LOGGING 
         std::cout << "Getting moves for a " << ConvertMojaveSideRepresentationToText(side) << " queen on Square " << ConvertMojaveIntegerToSquareMapping(square) << "\n";
         //auto FuncStartPoint = std::chrono::high_resolution_clock::now();
     #endif
@@ -156,7 +156,7 @@ uint64_t Chessboard::ClassicalGenerateQueenMoves(int square, int side) {
     uint64_t Bishoppattern = ClassicalGenerateBishopMoves(square, side);
     uint64_t Queenpattern = Bishoppattern | Rookpattern;
     
-    #ifdef DEBUG
+    #ifdef LOGGING 
         //auto StoppingPoint = std::chrono::high_resolution_clock::now();
         //auto Duration = std::chrono::duration_cast<std::chrono::microseconds>(StoppingPoint - FuncStartPoint);
         //std::cout << "Finished getting moves for a Queen on square: " << square << " in: " << Duration.count()  << " microseconds"  << "\n\n";
@@ -168,7 +168,7 @@ uint64_t Chessboard::ClassicalGenerateQueenMoves(int square, int side) {
 
 uint64_t Chessboard::GetKingMoves(int square, int side) {
     
-    #ifdef DEBUG
+    #ifdef LOGGING 
       std::cout << "Getting moves for a " << ConvertMojaveSideRepresentationToText(side) << " King on Square " << ConvertMojaveIntegerToSquareMapping(square) << "\n";
     #endif
     
@@ -184,7 +184,7 @@ uint64_t Chessboard::GetKingMoves(int square, int side) {
 
 uint64_t Chessboard::GetKnightMoves(int square, int side) {
 
-    #ifdef DEBUG
+    #ifdef LOGGING 
       std::cout << "Getting moves for a " << ConvertMojaveSideRepresentationToText(side) << " Knight on Square " << ConvertMojaveIntegerToSquareMapping(square) << "\n";
     #endif
 
@@ -197,7 +197,7 @@ uint64_t Chessboard::GetKnightMoves(int square, int side) {
 
 
 uint64_t Chessboard::GetPawnMoves(int square, int side) {
-    #ifdef DEBUG
+    #ifdef LOGGING 
       std::cout << "Getting moves for a " << ConvertMojaveSideRepresentationToText(side) << " pawn on Square " << ConvertMojaveIntegerToSquareMapping(square) << "\n";
     #endif
     
@@ -391,7 +391,7 @@ std::vector<Move> Chessboard::IsSquareAttacked(int Square)
 
     //std::cout << ConvertMojaveIntegerToSquareMapping(Square) << "\n";
 
-    for (int AllMovesIterator=0; AllMovesIterator < AllMoves.size(); AllMovesIterator++)
+    for (size_t AllMovesIterator=0; AllMovesIterator < AllMoves.size(); AllMovesIterator++)
     {
         AllMoves[AllMovesIterator].PrintMove();
 
