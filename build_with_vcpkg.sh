@@ -4,7 +4,7 @@ cmake -B build/ -DLOGGING=ON -DBUILD_TESTS=ON -S . -DCMAKE_TOOLCHAIN_FILE=./vcpk
 
 cd build/ 
 
-make
+make 
 
 cd ..
 

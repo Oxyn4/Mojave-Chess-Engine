@@ -43,7 +43,7 @@ void CommandLineInterface(std::vector<std::string> TokenVector)
     // TokenVector[TokenVectorIterator+2] = seg fault  
     //
     // hence why we handle segfault signal
-    for (int TokenVectorIterator=0; TokenVectorIterator < TokenVector.size(); TokenVectorIterator++) 
+    for (size_t TokenVectorIterator=0; TokenVectorIterator < TokenVector.size(); TokenVectorIterator++) 
     {
         if (TokenVector[TokenVectorIterator] == "info") 
         {
@@ -109,7 +109,7 @@ void CommandLineInterface(std::vector<std::string> TokenVector)
             
             if (TokenVector.size() > 1) 
             {
-                for (int UCITokenVectorIterator=1; UCITokenVectorIterator < TokenVector.size(); UCITokenVectorIterator++) 
+                for (size_t UCITokenVectorIterator=1; UCITokenVectorIterator < TokenVector.size(); UCITokenVectorIterator++) 
                 {
                      UCITokenVector.push_back(TokenVector[UCITokenVectorIterator]);
                 }
@@ -149,7 +149,7 @@ void CommandLineInterface(std::vector<std::string> TokenVector)
         {
             std::vector<Move> MovesThatAttackSquare = Board.IsSquareAttacked(ConvertSquareMappingToMojaveInteger(TokenVector[TokenVectorIterator+1]));
         
-            for (int MovesThatAttackSquareIterator = 0; MovesThatAttackSquareIterator < MovesThatAttackSquare.size(); MovesThatAttackSquareIterator++)
+            for (size_t MovesThatAttackSquareIterator = 0; MovesThatAttackSquareIterator < MovesThatAttackSquare.size(); MovesThatAttackSquareIterator++)
             {
                 MovesThatAttackSquare[MovesThatAttackSquareIterator].PrintMove();
             }
@@ -159,7 +159,7 @@ void CommandLineInterface(std::vector<std::string> TokenVector)
         {
             std::vector<Move> AllMoves = Board.GetAllMoves();
 
-            for (int AllMovesiterator=0; AllMovesiterator < AllMoves.size(); AllMovesiterator++) 
+            for (size_t AllMovesiterator=0; AllMovesiterator < AllMoves.size(); AllMovesiterator++) 
             {
                 AllMoves[AllMovesiterator].PrintMove();
             
@@ -175,9 +175,9 @@ void CommandLineInterface(std::vector<std::string> TokenVector)
 
             int PieceType = Board.GetPieceType(Origin);
 
-            int Side;
+            int Side=0;
 
-            if (Side < 6) 
+            if (PieceType < 6) 
             {
                 Side = black;
             }

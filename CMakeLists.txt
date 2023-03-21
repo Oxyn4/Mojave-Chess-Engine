@@ -20,7 +20,23 @@ else()
     set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Ofast")
 endif()
 
-add_executable(mojave src/main.cpp src/Bitboard.cpp src/ChessboardSearch.cpp src/BoardConcepts.cpp src/Moves.cpp src/Chessboard.cpp src/ChessboardEvaluation.cpp src/Interface.cpp src/ChessboardMoveGeneration.cpp src/ChessboardZobrist.cpp src/ChessboardBoardManipulation.cpp src/ChessboardDisplay.cpp src/ChessboardFen.cpp src/InterfaceCLI.cpp src/InterfaceUCI.cpp)
+add_executable(
+    mojave 
+    src/main.cpp 
+    src/Bitboard.cpp 
+    src/ChessboardSearch.cpp 
+    src/BoardConcepts.cpp 
+    src/Moves.cpp src/Chessboard.cpp 
+    src/ChessboardEvaluation.cpp 
+    src/Interface.cpp 
+    src/ChessboardMoveGeneration.cpp 
+    src/ChessboardZobrist.cpp 
+    src/ChessboardBoardManipulation.cpp 
+    src/ChessboardDisplay.cpp 
+    src/ChessboardFen.cpp 
+    src/InterfaceCLI.cpp 
+    src/InterfaceUCI.cpp
+)
 
 add_library(bitboard STATIC src/Bitboard.cpp)
 
@@ -31,25 +47,34 @@ add_library(moves STATIC src/Moves.cpp)
 target_link_libraries(moves bitboard)
 target_link_libraries(moves boardconcepts)
 
-add_library(chessboard STATIC src/Chessboard.cpp src/ChessboardSearch.cpp src/ChessboardEvaluation.cpp src/ChessboardMoveGeneration.cpp src/ChessboardZobrist.cpp src/ChessboardBoardManipulation.cpp src/ChessboardDisplay.cpp src/ChessboardFen.cpp)
+add_library(chessboard STATIC 
+    src/Chessboard.cpp 
+    src/ChessboardSearch.cpp 
+    src/ChessboardEvaluation.cpp 
+    src/ChessboardMoveGeneration.cpp 
+    src/ChessboardZobrist.cpp 
+    src/ChessboardBoardManipulation.cpp 
+    src/ChessboardDisplay.cpp 
+    src/ChessboardFen.cpp
+)
 
 target_link_libraries(chessboard bitboard)
 target_link_libraries(chessboard boardconcepts)
 target_link_libraries(chessboard moves)
 
 
-if (LOGGING) 
-    find_library(SPDLOG spdlog)
+if (LOGGING)
+    find_package(glog REQUIRED)
 
-    if (SPDLOG) 
-        target_link_libraries(mojave spdlog)
-        target_link_libraries(mojave fmt)
-    endif()
-
+    
+    target_link_libraries(mojave glog)
 endif()
 
 if (BUILD_BENCHMARK)
-    add_executable(benchmark tests/benchmark/main.cpp tests/benchmark/moves_benchmark.cpp)
+    add_executable(benchmark 
+        tests/benchmark/main.cpp 
+        tests/benchmark/moves_benchmark.cpp
+    )
 
     target_link_libraries(benchmark bitboard)
     target_link_libraries(benchmark boardconcepts)
@@ -59,12 +84,19 @@ endif()
 
 if (BUILD_TESTS)
     find_library(GTEST gtest)
+    find_path(GLOG_PATH [HINTS ["vcpkg_installed"]])
 
     if (GTEST)
 
         include(GoogleTest)
 
-        add_executable(tests tests/unit_tests/main.cpp tests/unit_tests/bitboard_test.cpp tests/unit_tests/boardconcepts_test.cpp tests/unit_tests/moves_test.cpp tests/unit_tests/chessboard_test.cpp)
+        add_executable(tests 
+            tests/unit_tests/main.cpp 
+            tests/unit_tests/bitboard_test.cpp 
+            tests/unit_tests/boardconcepts_test.cpp 
+            tests/unit_tests/moves_test.cpp 
+            tests/unit_tests/chessboard_test.cpp
+        )
         
         target_link_libraries(tests gtest)
         

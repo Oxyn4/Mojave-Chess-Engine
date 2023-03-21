@@ -5,6 +5,9 @@
 #include "Interface.hpp"
 #include "Moves.hpp"
 #include <vector>
+
+#include <glog/logging.h>
+
 /*
 welcome to the entry point for mojave chess engine
 
@@ -14,6 +17,10 @@ welcome to the entry point for mojave chess engine
 
 int main(int argc, char *argv[]) 
 {
+
+    google::InitGoogleLogging(argv[0]);
+
+
     MoveGenerationInit();
 
     ParseCommandLineArguments(argc, argv);
