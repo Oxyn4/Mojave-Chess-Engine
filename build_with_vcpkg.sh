@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cmake -B build/ -DLOGGING=ON -DBUILD_TESTS=ON -S . -DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/buildsystems/vcpkg.cmake
+cmake -B build/ -DDEBUG=on -S . -DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/buildsystems/vcpkg.cmake
 
 cd build/ 
 
