@@ -20,22 +20,20 @@ Mojave uses cmake to generate a makefile which can then be used to build Mojave.
 
 The main binary has no dependancies other than the c++ standard library.
 
-However, Mojave does have tests which are dependant on [googletest](https://github.com/google/googletest) a unit testing framework
+However, Mojave has several dependencies for the devolopment version.
 
-as well as benchmark dependant on [hayai](https://github.com/nickbruun/hayai) a benchmarking library
+including: 
 
-and finally for logging mojave uses boost log.
+- googletest: googles c++ testing library 
+- glog: googles c++ logging library 
 
-These are optional and **do not** need to be compilied unless desired.
+These can be installed on your machine in several ways, see their READMES
 
-To compile the Mojave binary:
+however, I recomend using VCPKG, a c++ package manage to install these libraries.
 
-```sh
-    mkdir build
-    cd build 
-    cmake .. -DLOGGING=<OFF | ON> -DBUILD_TESTS=<OFF | ON> -BUILD_BENCHMARK=<OFF | ON>
-    make
-```
+Two scripts are provided to do just this, install vcpkg to mojaves directory and install 
+
+mojaves dependencies.
 
 This will build the binaries under /build/bin
 
