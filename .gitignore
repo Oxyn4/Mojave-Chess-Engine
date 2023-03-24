@@ -47,3 +47,14 @@ _deps
 *.exe
 *.out
 *.app
+
+### vcpkg ###
+# Vcpkg
+
+vcpkg-manifest-install.log
+
+## Manifest Mode
+vcpkg_installed/
+
+vcpkg/
+
